@@ -209,6 +209,12 @@ main.fl { max-width: 1720px; }
 #dock-body p b, #dock-body li b { color: var(--ink); }
 #dock-body ul { padding-left: 1.1rem; }
 @media (max-width: 640px) { .dock { right: 0; left: 0; bottom: 0; width: 100%; border-radius: 14px 14px 0 0; max-height: 62vh; } }
+.totop { position: fixed; right: 18px; bottom: 18px; z-index: 55; width: 48px; height: 48px; display: grid; place-items: center; font-size: 1.3rem;
+    color: var(--ink); background: var(--sun); border: var(--line); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
+    opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .25s, transform .25s, box-shadow .12s; }
+.totop.show { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { box-shadow: 6px 6px 0 var(--ink); transform: translate(-2px, -2px); }
+.dock.open ~ .totop { opacity: 0; pointer-events: none; }
 </style>
 <link href="../assets/css/sketch.css" rel="stylesheet">
 </head>
@@ -1029,5 +1035,14 @@ requestAnimationFrame(frame);
 <script src="../assets/js/homestay-diagrams.js"></script>
 <script src="../assets/js/flows.js"></script>
 <script src="../assets/js/flow-page.js"></script>
+<button class="totop" type="button" aria-label="Lên đầu trang" title="Lên đầu trang"><i class="bi bi-arrow-up"></i></button>
+<script>
+(() => {
+    const b = document.querySelector('.totop');
+    b.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+    const f = () => b.classList.toggle('show', scrollY > innerHeight * .8);
+    addEventListener('scroll', f, { passive: true }); f();
+})();
+</script>
 </body>
 </html>

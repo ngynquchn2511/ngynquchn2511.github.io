@@ -83,6 +83,20 @@ if (toc) {
     links.forEach(a => { const sec = document.querySelector(a.getAttribute('href')); if (sec) spy.observe(sec); });
 }
 
+
+// Nut len dau trang: hien khi da cuon xuong
+const top = document.createElement('button');
+top.className = 'totop';
+top.type = 'button';
+top.setAttribute('aria-label', 'Lên đầu trang');
+top.title = 'Lên đầu trang';
+top.innerHTML = '<i class="bi bi-arrow-up"></i>';
+document.body.appendChild(top);
+top.addEventListener('click', () => scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }));
+const onScroll = () => top.classList.toggle('show', scrollY > innerHeight * .8);
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
 // Dong menu sau khi chon (man hinh nho)
 document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', () => document.querySelector('.nav').classList.remove('open')));
 })();

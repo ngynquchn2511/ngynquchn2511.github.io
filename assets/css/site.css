@@ -158,3 +158,12 @@ footer.foot b { font-family: var(--display); font-size: 1.15rem; }
 #dock-body p b, #dock-body li b { color: var(--ink); }
 #dock-body ul { margin: 0 0 .7rem; padding-left: 1.1rem; color: var(--ink-soft); font-size: .9rem; }
 @media (max-width: 640px) { .dock { right: 0; left: 0; bottom: 0; width: 100%; border-radius: 14px 14px 0 0; max-height: 62vh; } }
+
+/* ---------- Nut len dau trang ---------- */
+.totop { position: fixed; right: 18px; bottom: 18px; z-index: 55; width: 48px; height: 48px; display: grid; place-items: center;
+    font-size: 1.3rem; color: var(--ink); background: var(--sun); border: var(--line); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink);
+    cursor: pointer; opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .25s, transform .25s, box-shadow .12s; }
+.totop.show { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { box-shadow: 6px 6px 0 var(--ink); transform: translate(-2px, -2px); }
+.totop:active { box-shadow: 0 0 0 transparent; transform: translate(3px, 3px); }
+.dock.open ~ .totop { opacity: 0; pointer-events: none; }
