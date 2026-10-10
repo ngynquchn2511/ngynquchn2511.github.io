@@ -118,6 +118,8 @@ function Sketch(svg, opt) {
             const n = Object.assign({ id, shape: 'rect', w: 160, h: 50 }, o);
             if (n.shape === 'start') n.w = n.h = 24;
             if (n.shape === 'end') n.w = n.h = 30;
+            if (['evStart', 'evEnd', 'evTimer'].includes(n.shape)) n.w = n.h = 34;
+            if (n.shape === 'gw') n.w = n.h = 54;
             N[id] = n;
             n.lines = n.t ? String(n.t).split('\n').length : 1;
             items.push({ kind: 'node', n });
@@ -151,6 +153,14 @@ function Sketch(svg, opt) {
                 const c = cylinder(x0, y0, n.w, n.h); body = c.body; extras.push(c.extra); sh = cylinder(x0 + 4, y0 + 4, n.w, n.h).body; break;
             }
             case 'start': body = ellipse(n.x, n.y, 12, 12); break;
+            // Ky hieu BPMN
+            case 'evStart': case 'evEnd': body = ellipse(n.x, n.y, 16, 16); break;
+            case 'evTimer':
+                body = ellipse(n.x, n.y, 16, 16);
+                extras.push(ellipse(n.x, n.y, 12, 12), `M${n.x},${n.y - 8} L${n.x},${n.y} L${n.x + 6},${n.y + 3}`); break;
+            case 'gw':
+                body = roughDiamond(j, n.x, n.y, n.w, n.h, .8); sh = roughDiamond(() => 0, n.x + 4, n.y + 4, n.w, n.h);
+                extras.push(`M${n.x - 9},${n.y - 9} L${n.x + 9},${n.y + 9} M${n.x + 9},${n.y - 9} L${n.x - 9},${n.y + 9}`); break;
             case 'end': body = ellipse(n.x, n.y, 15, 15); break;
             case 'ellipse': body = ellipse(n.x, n.y, n.w / 2, n.h / 2); sh = ellipse(n.x + 4, n.y + 4, n.w / 2, n.h / 2); break;
             case 'actor': {
@@ -187,6 +197,10 @@ function Sketch(svg, opt) {
             });
         } else if (n.shape === 'box') {
             textBlock(tg, n.t, x0 + 16, y0 + 20, 'sk-box-t', 'start');
+        } else if (['evStart', 'evEnd', 'evTimer', 'gw'].includes(n.shape)) {
+            const ln = String(n.t || '').split('\n').length;
+            if (n.t && n.shape === 'gw') textBlock(tg, n.t, n.x + n.w / 2 + 4, n.y - n.h / 2 - 2 - (ln - 1) * 7, 'sk-evl', 'start', 14);
+            else if (n.t) textBlock(tg, n.t, n.x, n.y + n.h / 2 + 10 + (ln - 1) * 7, 'sk-evl', 'middle', 14);
         } else if (n.shape === 'actor') {
             textBlock(tg, n.t, n.x, n.y + 52 + (n.lines - 1) * 7.5, 'sk-actor-t', 'middle', 15);
         } else if (n.t) {

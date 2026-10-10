@@ -163,6 +163,7 @@
             <a href="#cach-lam">Cách làm việc</a>
             <a href="#du-an">Dự án</a>
             <a href="#ky-nang">Kỹ năng</a>
+            <a href="tai-lieu-phan-tich.html">Tài liệu BA</a>
             <a href="so-do/luong-dat-phong.html">Sơ đồ nghiệp vụ</a>
             <a class="gh" href="https://github.com/ngynquchn2511" target="_blank" rel="noopener"><i class="bi bi-github"></i> GitHub</a>
         </nav>
@@ -176,7 +177,7 @@
         <div>
             <span class="hello">Hồ sơ năng lực</span>
             <h1>Nguyễn <span class="hl">Quốc Hoàn</span></h1>
-            <div class="role">Sinh viên CNTT · <span class="typing" id="typing">Business Analyst</span></div>
+            <div class="role">Sinh viên CNTT · <span class="typing" id="typing">Thu thập yêu cầu</span></div>
             <div class="divider"></div>
             <p class="lead">
                 Tôi phân tích yêu cầu nghiệp vụ, đặc tả quy tắc, mô hình hóa quy trình và xây dựng tiêu chí
@@ -185,15 +186,14 @@
             </p>
             <div class="ctas">
                 <a class="btn primary" href="homestay-may.html"><i class="bi bi-journal-richtext"></i>Case study Homestay Mây</a>
-                <a class="btn" href="so-do/luong-dat-phong.html"><i class="bi bi-diagram-3"></i>Sơ đồ nghiệp vụ</a>
+                <a class="btn" href="tai-lieu-phan-tich.html"><i class="bi bi-folder2-open"></i>Tài liệu phân tích</a>
                 <a class="btn" href="sweet-cake.html"><i class="bi bi-cake2"></i>Case study Sweet Cake</a>
             </div>
         </div>
         <div class="card idcard reveal">
             <span class="strap"></span>
-            <div class="hd">Thẻ sinh viên · Khoa CNTT</div>
-            <!-- Doi chu "QH" thanh anh that: dat file anh vao assets/img/avatar.jpg roi bo comment dong <img> -->
-            <div class="avatar">QH<!-- <img src="assets/img/avatar.jpg" alt="Ảnh Nguyễn Quốc Hoàn"> --></div>
+            <div class="hd">About me</div>
+            <div class="avatar"><img src="assets/img/avatar.jpg" alt="Ảnh đại diện Nguyễn Quốc Hoàn"></div>
             <h3>Nguyễn Quốc Hoàn</h3>
             <dl>
                 <dt>2023 - nay</dt><dd>ĐH Công nghệ Đông Á</dd>
@@ -219,7 +219,7 @@
         <div class="sec-head reveal">
             <span class="eyebrow">Phương pháp</span>
             <h2>Từ yêu cầu tới <span class="hl">tiêu chí nghiệm thu</span></h2>
-            <p>Quy trình phân tích áp dụng cho dự án Homestay Mây. Mỗi bước có tài liệu đầu ra đi kèm.</p>
+            <p>Quy trình phân tích áp dụng cho dự án Homestay Mây. Mỗi bước có tài liệu đầu ra đi kèm; xem toàn bộ tại <a href="tai-lieu-phan-tich.html">bộ tài liệu phân tích</a>.</p>
         </div>
         <ol class="steps">
             <li class="card step reveal">
@@ -349,7 +349,7 @@ const ME = {
 
     // Chu chay o dong vai tro
     const el = document.getElementById('typing');
-    const words = ['Business Analyst', 'Phân tích yêu cầu', 'Mô hình hóa quy trình', 'Đặc tả và kiểm thử'];
+    const words = ['Thu thập yêu cầu', 'Phân tích nghiệp vụ', 'Viết User Story', 'Vẽ Use Case', 'Mô hình hóa quy trình (BPMN)', 'Thiết kế dữ liệu (ERD)', 'Viết tài liệu SRS', 'Thiết kế wireframe', 'Viết test case và UAT'];
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let w = 0, i = words[0].length, del = true;
     setInterval(() => {
@@ -377,7 +377,7 @@ const PROJECTS = [
       ],
       stack: ['Java 17', 'Spring Boot 3.3', 'Spring Security', 'JPA / Hibernate', 'Thymeleaf', 'MySQL 8', 'JUnit 5', 'Docker · Caddy'],
       shots: [['assets/img/hm/chi-tiet-phong.png', 'Chi tiết phòng'], ['assets/img/hm/kpi.png', 'Thống kê cho quản trị']],
-      links: [['Đọc case study', 'homestay-may.html', 'bi-journal-richtext', 1], ['Sơ đồ nghiệp vụ', 'so-do/luong-dat-phong.html#dat-phong', 'bi-diagram-2'], ['Mã nguồn', 'https://github.com/ngynquchn2511/hotel-booking-with-java', 'bi-github']],
+      links: [['Đọc case study', 'homestay-may.html', 'bi-journal-richtext', 1], ['Tài liệu phân tích', 'tai-lieu-phan-tich.html', 'bi-folder2-open'], ['Sơ đồ nghiệp vụ', 'so-do/luong-dat-phong.html#dat-phong', 'bi-diagram-2'], ['Mã nguồn', 'https://github.com/ngynquchn2511/hotel-booking-with-java', 'bi-github']],
       flows: [['Đặt phòng', 'dat-phong'], ['Hai khách cùng đặt', 'hai-khach'], ['Mã giảm giá', 'ma-giam-gia'], ['Đổi giờ · hủy', 'sua-huy'], ['Quầy lễ tân', 'quay-le-tan'], ['Tự hủy đơn', 'tu-huy'], ['Đăng nhập 2 cổng', 'dang-nhap'], ['Vòng đời đơn', 'vong-doi-don'], ['Trạng thái phòng', 'trang-thai-phong']] },
     { id: 'sweet-cake', name: 'Sweet Cake', icon: 'bi-cake2', kind: 'Laravel 12 · React', star: 'Nổi bật',
       title: 'Sweet Bakery: website bán bánh',

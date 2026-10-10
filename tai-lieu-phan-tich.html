@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tài liệu phân tích · Homestay Mây</title>
+<meta name="description" content="Bộ tài liệu phân tích nghiệp vụ Homestay Mây: user story, use case, BPMN, đặc tả yêu cầu, wireframe, kịch bản UAT và ma trận truy vết.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600;1,9..144,700&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="assets/css/site.css" rel="stylesheet">
+<link href="assets/css/sketch.css" rel="stylesheet">
+<style>
+    /* ---------- Hero: tam buu thiep ---------- */
+    .hero { padding: 3rem 0 1rem; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 3rem; align-items: center; }
+    @media (max-width: 920px) { .hero { grid-template-columns: 1fr; gap: 2rem; } }
+    .hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.6rem); margin: 1rem 0 .2rem; }
+    .hero .sub { font-family: var(--display); font-style: italic; font-size: 1.25rem; color: var(--ink-soft); }
+    .hero p.lead { font-size: 1.06rem; color: var(--ink-soft); margin: 1.1rem 0 1.4rem; max-width: 560px; }
+    .hero p.lead b { color: var(--ink); }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin-bottom: 1.4rem; }
+    .collage { position: relative; height: 470px; }
+    .collage .polaroid { position: absolute; width: 64%; }
+    .collage .p1 { left: 0; top: 10px; transform: rotate(-4deg); z-index: 1; }
+    .collage .p2 { right: 0; top: 120px; transform: rotate(3deg); z-index: 2; }
+    .collage .p3 { left: 14%; bottom: 0; transform: rotate(-1deg); z-index: 3; width: 58%; }
+    .stamp { position: absolute; right: 6px; top: -10px; z-index: 4; width: 116px; height: 116px; border-radius: 50%; display: grid; place-items: center;
+        text-align: center; padding: 16px; font-size: .64rem; font-weight: 800; letter-spacing: .14em; color: var(--baby-deep);
+        border: 2.5px dashed var(--baby-deep); background: rgba(255,255,255,.85); transform: rotate(14deg); }
+    @media (max-width: 560px) { .collage { height: 330px; } .stamp { width: 92px; height: 92px; font-size: .55rem; } }
+
+    /* ---------- Diem ky thuat ---------- */
+    .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.2rem; }
+    .feat { padding: 1.3rem 1.25rem 1.2rem; text-decoration: none; display: block; transition: transform .2s, box-shadow .2s; }
+    .feat:hover { color: var(--ink); transform: translate(-3px, -3px); box-shadow: var(--pop-hover); }
+    .feat .ic { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 11px; font-size: 1.25rem; background: var(--baby); border: var(--line); margin-bottom: .8rem; }
+    .feat:nth-child(3n+2) .ic { background: var(--sun); }
+    .feat:nth-child(3n) .ic { background: var(--mint); }
+    .feat h3 { font-size: 1.18rem; margin-bottom: .35rem; }
+    .feat p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+    .feat .more { display: inline-block; margin-top: .7rem; font-size: .8rem; font-weight: 700; color: var(--baby-deep); }
+
+    /* ---------- Khung so do ---------- */
+    .dg-card { padding: .7rem .7rem .9rem; }
+    .dg-card .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; padding: .2rem .4rem .7rem; }
+    .dg-card .bar .t { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+    .dg-card .bar .t small { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: .8rem; color: var(--ink-soft); margin-left: .35rem; }
+    .scroll-x { overflow-x: auto; }
+    .scroll-x svg { display: block; width: 100%; min-width: 780px; height: auto; margin: 0 auto; }
+    .scroll-x svg.narrow { max-width: 920px; }
+    .scroll-x svg.mid { max-width: 1000px; }
+    .click-hint { font-size: .82rem; color: var(--ink-soft); display: inline-flex; align-items: center; gap: .35rem; }
+
+    /* The noi bat luong dat phong */
+    .flow-cta { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.4rem; align-items: center; padding: 1.5rem 1.6rem; margin-bottom: 1.6rem;
+        background: linear-gradient(135deg, var(--baby-soft), #fff 60%); }
+    @media (max-width: 760px) { .flow-cta { grid-template-columns: 1fr; } }
+    .flow-cta h3 { font-size: 1.45rem; margin-bottom: .45rem; }
+    .flow-cta p { margin: 0 0 .8rem; color: var(--ink-soft); }
+    .flow-cta ol { margin: 0; padding-left: 1.2rem; color: var(--ink-soft); font-size: .92rem; }
+    .flow-cta ol b { color: var(--ink); }
+
+    /* ---------- Thu vien giao dien ---------- */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.6rem 1.3rem; }
+    .gallery .polaroid:nth-child(4n+1) { transform: rotate(-1.3deg); }
+    .gallery .polaroid:nth-child(4n+3) { transform: rotate(1.2deg); }
+
+    /* ---------- Kiem thu ---------- */
+    .tests { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 1.5rem; align-items: start; }
+    @media (max-width: 900px) { .tests { grid-template-columns: 1fr; } }
+    .meter { padding: 1.4rem 1.4rem 1.2rem; }
+    .meter .big { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+    .meter .big b { font-family: var(--display); font-size: 3.2rem; line-height: 1; }
+    .meter .big span { color: var(--ink-soft); }
+    .ok-badge { display: inline-flex; align-items: center; gap: .35rem; font-weight: 800; font-size: .82rem; padding: .25rem .65rem; border: var(--line); border-radius: 8px; background: var(--mint); }
+    .stack { display: flex; height: 26px; margin: 1.2rem 0 .8rem; border: var(--line); border-radius: 8px; overflow: hidden; }
+    .stack i { display: block; height: 100%; width: 0; transition: width 1.1s cubic-bezier(.2, .8, .2, 1); }
+    .stack i + i { border-left: 1.5px solid var(--ink); }
+    .legend-row { display: flex; flex-wrap: wrap; gap: .5rem 1.3rem; font-size: .86rem; }
+    .legend-row span { display: inline-flex; align-items: center; gap: .4rem; }
+    .legend-row em { width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 4px; display: inline-block; }
+    .test-list { padding: 1.2rem 1.3rem; }
+    .test-list h3 { font-size: 1.15rem; margin-bottom: .6rem; }
+    .test-list ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .65rem; font-size: .9rem; }
+    .test-list li { display: grid; grid-template-columns: auto 1fr; gap: .6rem; color: var(--ink-soft); }
+    .test-list li b { color: var(--ink); }
+    .test-list li i { color: var(--green); font-size: 1.05rem; }
+
+    /* ---------- Trien khai: ve tau ---------- */
+    .tickets { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; }
+    .ticket { position: relative; padding: 1.2rem 1.25rem 1.15rem 1.4rem; }
+    .ticket::before, .ticket::after { content: ''; position: absolute; left: -9px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: var(--line); }
+    .ticket::before { top: 22px; } .ticket::after { bottom: 22px; }
+    .ticket .no { font-family: var(--display); font-style: italic; color: var(--ink-soft); font-size: .9rem; }
+    .ticket h3 { font-size: 1.15rem; margin: .2rem 0 .4rem; }
+    .ticket p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+
+    /* ---------- Muc luc bam theo ---------- */
+    .toc { position: sticky; top: 62px; z-index: 40; display: flex; gap: .4rem; overflow-x: auto; padding: .55rem 0; margin-top: 2.5rem;
+        background: var(--paper); border-bottom: 1.5px dashed var(--baby-deep); scrollbar-width: thin; }
+    .toc a { flex: none; font-size: .82rem; font-weight: 700; text-decoration: none; padding: .32rem .7rem; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--paper); }
+    .toc a:hover { background: var(--baby-soft); }
+    .toc a.on { background: var(--sun); box-shadow: 2px 2px 0 var(--ink); }
+    html { scroll-padding-top: 120px; }
+    /* ---------- Bang vai tro / quy tac ---------- */
+    .tbl-wrap { padding: .4rem; overflow-x: auto; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 760px; }
+    .tbl th { text-align: left; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; padding: .8rem .9rem; background: var(--baby-soft); border-bottom: var(--line); }
+    .tbl th:first-child { border-top-left-radius: 10px; } .tbl th:last-child { border-top-right-radius: 10px; }
+    .tbl td { padding: .8rem .9rem; vertical-align: top; border-bottom: 1.5px dashed var(--baby-soft); color: var(--ink-soft); }
+    .tbl td b { color: var(--ink); }
+    .tbl tr:last-child td { border-bottom: 0; }
+    .tbl tbody tr:hover td { background: #fbfdff; }
+    .tbl td:first-child { white-space: nowrap; color: var(--ink); }
+    .tbl.rules td:nth-child(2) { color: var(--ink); }
+    .tbl.rules td:last-child a { font-weight: 700; white-space: nowrap; }
+    .br { display: inline-block; font: 800 .72rem var(--mono); padding: .2rem .45rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--sun); }
+    .br.alt { background: var(--baby-soft); }
+    .see { font-size: .9rem; color: var(--ink-soft); margin: 1rem .2rem 0; display: flex; gap: .45rem; align-items: center; flex-wrap: wrap; }
+    .see a { font-weight: 700; }
+
+    /* ---------- Gioi thieu du an ---------- */
+    .goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.4rem; }
+    .goal { padding: 1.1rem 1.1rem 1rem; display: grid; gap: .25rem; }
+    .goal i { font-size: 1.4rem; color: var(--baby-deep); }
+    .goal b { font-family: var(--display); font-size: 1.12rem; }
+    .goal span { font-size: .88rem; color: var(--ink-soft); }
+    .scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .scope-col { padding: 1.2rem 1.25rem 1.1rem; }
+    .scope-col h3 { font-size: 1.15rem; display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .scope-col h3 i { width: 34px; height: 34px; display: grid; place-items: center; border: var(--line); border-radius: 9px; background: var(--baby); font-size: 1rem; }
+    .scope-col:nth-child(2) h3 i { background: var(--sun); }
+    .scope-col:nth-child(3) h3 i { background: var(--mint); }
+    .scope-col ul { margin: 0; padding-left: 1.1rem; color: var(--ink-soft); font-size: .9rem; display: grid; gap: .35rem; }
+    /* ---------- The quy trinh ---------- */
+    .flowcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .fc { padding: 1rem 1.1rem; text-decoration: none; display: grid; gap: .3rem; transition: transform .15s, box-shadow .15s; }
+    .fc:hover { color: var(--ink); transform: translate(-3px, -3px); box-shadow: var(--pop-hover); }
+    .fc .k { justify-self: start; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: .12rem .45rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--sun-soft); }
+    .fc b { font-family: var(--display); font-size: 1.08rem; }
+    .fc small { color: var(--ink-soft); }
+
+    /* ---------- Trang tai lieu BA ---------- */
+    .hero.ba { grid-template-columns: 1fr; padding-bottom: 0; }
+    .deliv { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem; margin-top: 1.6rem; }
+    .deliv a { display: grid; gap: .2rem; padding: .85rem .9rem; text-decoration: none; }
+    .deliv a:hover { color: var(--ink); transform: translate(-2px, -2px); box-shadow: var(--pop-hover); }
+    .deliv i { font-size: 1.3rem; color: var(--baby-deep); }
+    .deliv b { font-family: var(--display); font-size: 1.02rem; }
+    .deliv small { color: var(--ink-soft); font-size: .78rem; }
+    /* User story */
+    .stories { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; }
+    .story { padding: 1rem 1.1rem .9rem; display: flex; flex-direction: column; gap: .5rem; }
+    .story .top { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+    .story .id { font: 800 .74rem var(--mono); padding: .15rem .45rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--sun); }
+    .story .pri { font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: .12rem .45rem; border-radius: 6px; border: 1.5px solid var(--ink); }
+    .pri.must { background: var(--rose-soft); } .pri.should { background: var(--baby-soft); } .pri.could { background: var(--mint-soft); }
+    .story .epic { font-size: .74rem; color: var(--ink-soft); margin-left: auto; }
+    .story .as { margin: 0; font-size: .95rem; line-height: 1.55; }
+    .story .as b { color: var(--ink); }
+    .story details { border-top: 1.5px dashed var(--baby-soft); padding-top: .45rem; }
+    .story summary { cursor: pointer; font-size: .82rem; font-weight: 700; color: var(--baby-deep); list-style: none; }
+    .story summary::-webkit-details-marker { display: none; }
+    .story summary::before { content: '+ '; } .story details[open] summary::before { content: '− '; }
+    .story ol { margin: .5rem 0 0; padding-left: 1.1rem; font-size: .84rem; color: var(--ink-soft); display: grid; gap: .35rem; }
+    .story ol b { color: var(--ink); }
+    /* Dac ta use case */
+    .spec td:first-child { width: 170px; font-weight: 700; white-space: normal !important; }
+    .spec ol, .spec ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .25rem; }
+    /* Wireframe */
+    .wfs { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 1.4rem; }
+    @media (max-width: 560px) { .wfs { grid-template-columns: 1fr; } }
+    .wf-card { padding: 1rem; }
+    .wf-card h3 { font-size: 1.12rem; margin: 0 0 .7rem; }
+    .wf { position: relative; border: 2px solid #8a9bb0; border-radius: 10px; background: #fff; overflow: hidden; font-size: .72rem; color: #6b7a8c; }
+    .wf-bar { display: flex; gap: 5px; align-items: center; padding: 6px 8px; border-bottom: 2px solid #c9d3de; background: #f3f6f9; }
+    .wf-bar i { width: 8px; height: 8px; border-radius: 50%; background: #c9d3de; display: block; }
+    .wf-bar span { flex: 1; height: 10px; border-radius: 5px; background: #e2e8ef; margin-left: 8px; }
+    .wf-in { padding: 12px; display: grid; gap: 8px; }
+    .wf .row { display: flex; gap: 8px; align-items: stretch; }
+    .wf .col { display: grid; gap: 6px; flex: 1; align-content: start; }
+    .wf .ph { background: repeating-linear-gradient(45deg, #eef2f6, #eef2f6 6px, #e3e9ef 6px, #e3e9ef 12px); border: 1.5px solid #c9d3de; border-radius: 6px; display: grid; place-items: center; color: #8a9bb0; font-weight: 700; }
+    .wf .box { border: 1.5px solid #c9d3de; border-radius: 6px; padding: 7px; display: grid; gap: 5px; }
+    .wf .t { height: 9px; border-radius: 4px; background: #b8c4d1; }
+    .wf .l { height: 6px; border-radius: 3px; background: #dde4eb; }
+    .wf .lab { font-weight: 700; color: #5a6a7d; }
+    .wf .inp { height: 18px; border: 1.5px solid #c9d3de; border-radius: 5px; background: #fff; }
+    .wf .bt { height: 20px; border-radius: 5px; border: 1.5px solid #8a9bb0; background: #dfe7ef; display: grid; place-items: center; font-weight: 700; color: #5a6a7d; }
+    .wf .bt.pri { background: #9fd8f5; border-color: #14365a; color: #14365a; }
+    .wf .bt.off { opacity: .45; border-style: dashed; }
+    .wf .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .wf .cal span { height: 13px; border-radius: 3px; background: #eef2f6; }
+    .wf .cal .b { background: #c9d3de; } .wf .cal .p { background: #ffe9a6; } .wf .cal .s { background: #14365a; } .wf .cal .r { background: #9fd8f5; }
+    .wf .tr { display: flex; justify-content: space-between; gap: 6px; border-bottom: 1px dashed #dde4eb; padding-bottom: 3px; }
+    .wf .tr .l { flex: 1; } .wf .tr .l.s { flex: .4; }
+    .wf .alert { border: 1.5px solid #e5b400; background: #fff8e0; border-radius: 6px; padding: 6px; display: grid; gap: 4px; }
+    .wf .badge { align-self: start; padding: 1px 6px; border-radius: 5px; border: 1.5px solid #e5b400; background: #fff3c4; font-weight: 700; color: #8a6d00; }
+    .wf .qr { width: 70px; height: 70px; flex: none; }
+    .wf .call { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: #c2334d; color: #fff; font: 800 .7rem 'Be Vietnam Pro', sans-serif;
+        display: grid; place-items: center; border: 2px solid #fff; box-shadow: 0 0 0 1.5px #c2334d; z-index: 2; }
+    .wf-notes { margin: .8rem 0 0; padding: 0; list-style: none; display: grid; gap: .35rem; font-size: .86rem; color: var(--ink-soft); counter-reset: n; }
+    .wf-notes li { display: grid; grid-template-columns: 22px 1fr; gap: .5rem; counter-increment: n; }
+    .wf-notes li::before { content: counter(n); width: 20px; height: 20px; border-radius: 50%; background: #c2334d; color: #fff; font: 800 .7rem 'Be Vietnam Pro', sans-serif; display: grid; place-items: center; }
+    .wf-notes b { color: var(--ink); }
+    /* UAT + truy vet */
+    .ok { display: inline-flex; align-items: center; gap: .3rem; font-weight: 800; font-size: .76rem; padding: .15rem .5rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--mint); white-space: nowrap; }
+    .tm td, .tm th { text-align: center; white-space: nowrap; }
+    .tm td:first-child, .tm th:first-child { text-align: left; }
+    .tm .y { font-weight: 800; color: var(--green); }
+    .muted-note { font-size: .84rem; color: var(--ink-soft); margin: .8rem .2rem 0; }
+</style>
+</head>
+<body>
+
+<header class="top">
+    <div class="wrap">
+        <a class="brand" href="index.html">Nguyễn Quốc Hoàn</a>
+        <button class="btn sm menu-btn" aria-label="Mở menu" onclick="document.querySelector('.nav').classList.toggle('open')"><i class="bi bi-list"></i></button>
+        <nav class="nav">
+            <a href="index.html">Giới thiệu</a>
+            <a href="homestay-may.html">Homestay Mây</a>
+            <a href="tai-lieu-phan-tich.html" class="on">Tài liệu BA</a>
+            <a href="sweet-cake.html">Sweet Cake</a>
+            <a href="so-do/luong-dat-phong.html">Sơ đồ nghiệp vụ</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+<div class="wrap">
+    <section class="hero ba">
+        <div>
+            <span class="eyebrow">Tài liệu phân tích · Homestay Mây</span>
+            <h1>Bộ tài liệu <span class="hl">phân tích nghiệp vụ</span></h1>
+            <div class="divider"></div>
+            <p class="lead">
+                Tài liệu phân tích cho hệ thống đặt phòng Homestay Mây: từ nhu cầu người dùng (user story), mô hình hóa
+                (use case, BPMN), đặc tả yêu cầu, phác thảo giao diện đến kịch bản nghiệm thu và ma trận truy vết.
+            </p>
+            <div class="deliv">
+                <a class="card" href="#user-story"><i class="bi bi-person-lines-fill"></i><b>User Story</b><small>12 story, 32 tiêu chí</small></a>
+                <a class="card" href="#use-case"><i class="bi bi-diagram-2"></i><b>Use Case</b><small>Sơ đồ và đặc tả</small></a>
+                <a class="card" href="#bpmn"><i class="bi bi-bezier"></i><b>BPMN</b><small>Quy trình đặt cọc</small></a>
+                <a class="card" href="#srs"><i class="bi bi-file-text"></i><b>SRS</b><small>14 FR, 6 NFR</small></a>
+                <a class="card" href="#wireframe"><i class="bi bi-layout-wtf"></i><b>Wireframe</b><small>4 màn hình</small></a>
+                <a class="card" href="#uat"><i class="bi bi-clipboard-check"></i><b>UAT</b><small>12 kịch bản</small></a>
+                <a class="card" href="#truy-vet"><i class="bi bi-grid-3x3"></i><b>Truy vết</b><small>Yêu cầu đến kiểm thử</small></a>
+            </div>
+        </div>
+    </section>
+
+    <nav class="toc" aria-label="Mục lục tài liệu">
+        <a href="#user-story">User Story</a><a href="#use-case">Use Case</a><a href="#bpmn">BPMN</a><a href="#srs">SRS</a>
+        <a href="#wireframe">Wireframe</a><a href="#uat">UAT</a><a href="#truy-vet">Truy vết</a>
+    </nav>
+
+    <!-- ================= 01. USER STORY ================= -->
+    <section class="block" id="user-story">
+        <div class="sec-head reveal">
+            <span class="eyebrow">01 · User Story</span>
+            <h2>Nhu cầu người dùng, <span class="hl">có tiêu chí chấp nhận</span></h2>
+            <p>12 user story chia theo 5 nhóm tính năng, ưu tiên theo MoSCoW. Mỗi story có tiêu chí chấp nhận dạng Cho - Khi - Thì; bấm để mở.</p>
+        </div>
+        <div class="stories">
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-01</span><span class="pri must">Must</span><span class="epic">Tìm và đặt phòng</span></div>
+                <p class="as">Là <b>khách hàng</b>, tôi muốn <b>tìm phòng còn trống theo ngày và số khách</b> để không phải nhắn tin hỏi từng phòng.</p>
+                <details><summary>Tiêu chí chấp nhận (3)</summary><ol><li><b>Cho</b> một phòng đang bảo trì, <b>khi</b> tôi tìm phòng, <b>thì</b> phòng đó không xuất hiện trong kết quả.</li><li><b>Cho</b> một phòng đã có đơn chờ xác nhận, đã xác nhận hoặc đang ở trùng khoảng ngày, <b>khi</b> tôi tìm phòng, <b>thì</b> phòng đó không xuất hiện.</li><li><b>Cho</b> ngày trả không sau ngày nhận, hoặc ngày nhận đã qua, <b>khi</b> tôi tìm phòng, <b>thì</b> hệ thống báo lỗi ngày không hợp lệ.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-02</span><span class="pri must">Must</span><span class="epic">Tìm và đặt phòng</span></div>
+                <p class="as">Là <b>khách hàng</b>, tôi muốn <b>thấy giá của từng đêm trước khi đặt</b> để biết chính xác số tiền phải trả.</p>
+                <details><summary>Tiêu chí chấp nhận (3)</summary><ol><li><b>Cho</b> kỳ nghỉ có đêm thứ Sáu hoặc thứ Bảy, <b>khi</b> tôi xem tóm tắt đơn, <b>thì</b> các đêm đó được cộng phụ thu cuối tuần.</li><li><b>Cho</b> một đêm nằm trong giai đoạn lễ, <b>khi</b> tôi xem tóm tắt đơn, <b>thì</b> đêm đó áp phụ thu lễ thay cho phụ thu cuối tuần.</li><li><b>Cho</b> quản trị viên đổi bảng giá sau khi tôi đã đặt, <b>khi</b> tôi xem lại đơn, <b>thì</b> tiền phòng của đơn không thay đổi.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-03</span><span class="pri must">Must</span><span class="epic">Tìm và đặt phòng</span></div>
+                <p class="as">Là <b>khách vãng lai</b>, tôi muốn <b>đặt phòng mà không cần tạo tài khoản</b> để đặt nhanh trên điện thoại.</p>
+                <details><summary>Tiêu chí chấp nhận (3)</summary><ol><li><b>Cho</b> tôi chưa đăng nhập, <b>khi</b> tôi xác nhận đặt phòng với họ tên, số điện thoại và email hợp lệ, <b>thì</b> đơn được tạo ở trạng thái Chờ xác nhận.</li><li><b>Cho</b> đơn vừa được tạo, <b>khi</b> trang chuyển tiếp, <b>thì</b> tôi nhận đường dẫn xem đơn có mã bảo mật và email xác nhận.</li><li><b>Cho</b> thiếu họ tên, số điện thoại hoặc email sai định dạng, <b>khi</b> tôi bấm xác nhận, <b>thì</b> form hiện lỗi và không tạo đơn.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-04</span><span class="pri should">Should</span><span class="epic">Tìm và đặt phòng</span></div>
+                <p class="as">Là <b>khách hàng</b>, tôi muốn <b>kiểm tra mã giảm giá trước khi đặt</b> để biết số tiền được giảm.</p>
+                <details><summary>Tiêu chí chấp nhận (4)</summary><ol><li><b>Cho</b> mã hợp lệ, <b>khi</b> tôi bấm Kiểm tra mã, <b>thì</b> hệ thống hiện số tiền giảm mà không tải lại trang và chưa tạo đơn.</li><li><b>Cho</b> mã chỉ dành cho khách thân thiết mà tôi là khách mới, <b>khi</b> tôi kiểm tra mã, <b>thì</b> mã bị từ chối.</li><li><b>Cho</b> tôi đã dùng mã này cho một đơn chưa hủy, <b>khi</b> tôi đặt phòng với mã đó, <b>thì</b> mã bị từ chối.</li><li><b>Cho</b> mã giảm số tiền lớn hơn tạm tính, <b>khi</b> tôi đặt phòng, <b>thì</b> tổng tiền bằng 0, không âm.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-05</span><span class="pri must">Must</span><span class="epic">Tìm và đặt phòng</span></div>
+                <p class="as">Là <b>chủ homestay</b>, tôi muốn <b>không bao giờ có hai khách cùng giữ một phòng</b> để tránh mất uy tín với khách.</p>
+                <details><summary>Tiêu chí chấp nhận (2)</summary><ol><li><b>Cho</b> hai khách cùng bấm đặt một phòng cho cùng ngày, <b>khi</b> hệ thống xử lý hai yêu cầu, <b>thì</b> chỉ một đơn được tạo.</li><li><b>Cho</b> tôi là khách đặt sau, <b>khi</b> yêu cầu của tôi bị từ chối, <b>thì</b> tôi thấy khoảng ngày đã có khách và thời điểm phòng trống trở lại.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-06</span><span class="pri must">Must</span><span class="epic">Đặt cọc</span></div>
+                <p class="as">Là <b>chủ homestay</b>, tôi muốn <b>khách chuyển cọc để giữ phòng</b> để hạn chế khách giữ chỗ rồi không đến.</p>
+                <details><summary>Tiêu chí chấp nhận (3)</summary><ol><li><b>Cho</b> chính sách yêu cầu đặt cọc, <b>khi</b> đơn được tạo, <b>thì</b> đơn có số tiền cọc và hạn chuyển cọc không muộn hơn 6 giờ trước giờ nhận phòng.</li><li><b>Cho</b> trang đơn đang chờ cọc, <b>khi</b> khách mở trang, <b>thì</b> mã VietQR hiển thị sẵn số tiền và nội dung chuyển khoản.</li><li><b>Cho</b> quá hạn cọc mà đơn chưa được ghi nhận cọc, <b>khi</b> bộ hẹn giờ chạy, <b>thì</b> đơn bị hủy và khách nhận email thông báo.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-07</span><span class="pri should">Should</span><span class="epic">Quản lý đơn của khách</span></div>
+                <p class="as">Là <b>khách hàng</b>, tôi muốn <b>tự đổi giờ, đổi combo hoặc hủy đơn</b> để không cần gọi điện cho homestay.</p>
+                <details><summary>Tiêu chí chấp nhận (3)</summary><ol><li><b>Cho</b> còn ít nhất 6 giờ tới giờ nhận phòng, <b>khi</b> tôi đổi giờ hoặc combo, <b>thì</b> thay đổi được lưu.</li><li><b>Cho</b> giờ mới lấn vào giờ của khách trước hoặc sau trong cùng ngày, <b>khi</b> tôi lưu, <b>thì</b> hệ thống từ chối và báo mốc giờ cho phép.</li><li><b>Cho</b> đơn đang chờ xác nhận hoặc đã xác nhận, <b>khi</b> tôi hủy đơn, <b>thì</b> đơn chuyển sang Đã hủy và tôi nhận email.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-08</span><span class="pri must">Must</span><span class="epic">Vận hành lễ tân</span></div>
+                <p class="as">Là <b>lễ tân</b>, tôi muốn <b>xác nhận đơn và ghi nhận tiền cọc</b> để giữ phòng chắc chắn cho khách.</p>
+                <details><summary>Tiêu chí chấp nhận (2)</summary><ol><li><b>Cho</b> đơn ở trạng thái Chờ xác nhận, <b>khi</b> tôi bấm Xác nhận hoặc Đã nhận cọc, <b>thì</b> đơn chuyển sang Đã xác nhận và khách nhận email.</li><li><b>Cho</b> đã có đơn khác được xác nhận trùng ngày, <b>khi</b> tôi xác nhận đơn này, <b>thì</b> hệ thống từ chối.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-09</span><span class="pri must">Must</span><span class="epic">Vận hành lễ tân</span></div>
+                <p class="as">Là <b>lễ tân</b>, tôi muốn <b>làm thủ tục nhận phòng sau khi khai báo lưu trú</b> để tuân thủ quy định khai báo tạm trú.</p>
+                <details><summary>Tiêu chí chấp nhận (2)</summary><ol><li><b>Cho</b> đơn chưa có khách nào được khai báo, <b>khi</b> tôi bấm Check-in, <b>thì</b> hệ thống yêu cầu khai báo trước.</li><li><b>Cho</b> đơn đã xác nhận và có ít nhất một khách được khai báo, <b>khi</b> tôi check-in, <b>thì</b> đơn chuyển sang Đã nhận phòng, phòng chuyển sang Đang sử dụng.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-10</span><span class="pri must">Must</span><span class="epic">Vận hành lễ tân</span></div>
+                <p class="as">Là <b>lễ tân</b>, tôi muốn <b>trả phòng kèm phụ phí và hóa đơn</b> để thu đúng số tiền còn lại.</p>
+                <details><summary>Tiêu chí chấp nhận (3)</summary><ol><li><b>Cho</b> khách dùng minibar hoặc trả phòng muộn, <b>khi</b> tôi thêm phụ phí, <b>thì</b> số phải thu bằng tổng đơn cộng phụ phí trừ tiền cọc.</li><li><b>Cho</b> khách trả bằng chuyển khoản nhưng tiền chưa về, <b>khi</b> tôi bấm Check-out, <b>thì</b> hệ thống từ chối cho tới khi ghi nhận đã nhận tiền.</li><li><b>Cho</b> thanh toán hoàn tất, <b>khi</b> tôi check-out, <b>thì</b> phòng chuyển sang Chờ dọn và khách nhận hóa đơn qua email.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-11</span><span class="pri should">Should</span><span class="epic">Quản trị</span></div>
+                <p class="as">Là <b>quản trị viên</b>, tôi muốn <b>cấu hình phụ thu cuối tuần, ngày lễ và tỷ lệ cọc</b> để điều chỉnh giá theo mùa.</p>
+                <details><summary>Tiêu chí chấp nhận (2)</summary><ol><li><b>Cho</b> tài khoản lễ tân, <b>khi</b> tôi mở trang Giá và đặt cọc, <b>thì</b> tôi không có quyền truy cập.</li><li><b>Cho</b> tôi lưu bảng giá mới, <b>khi</b> khách đặt phòng sau đó, <b>thì</b> đơn mới áp dụng bảng giá mới, đơn cũ giữ nguyên.</li></ol></details>
+            </article>
+            <article class="card story reveal">
+                <div class="top"><span class="id">US-12</span><span class="pri could">Could</span><span class="epic">Quản trị</span></div>
+                <p class="as">Là <b>quản trị viên</b>, tôi muốn <b>xem doanh thu và công suất phòng theo khoảng ngày</b> để ra quyết định kinh doanh.</p>
+                <details><summary>Tiêu chí chấp nhận (2)</summary><ol><li><b>Cho</b> khoảng ngày được chọn, <b>khi</b> tôi mở trang tổng quan, <b>thì</b> tôi thấy doanh thu, công suất phòng, ADR và RevPAR.</li><li><b>Cho</b> có đơn đã hủy trong khoảng ngày, <b>khi</b> hệ thống tính doanh thu, <b>thì</b> đơn đã hủy không được tính.</li></ol></details>
+            </article>
+        </div>
+    </section>
+
+    <!-- ================= 02. USE CASE ================= -->
+    <section class="block" id="use-case">
+        <div class="sec-head reveal">
+            <span class="eyebrow">02 · Use Case</span>
+            <h2>Sơ đồ use case <span class="hl">và đặc tả</span></h2>
+            <p>5 tác nhân, 18 use case. Khách hàng kế thừa khách vãng lai; quản trị viên kế thừa lễ tân.</p>
+        </div>
+        <div class="card dg-card">
+            <div class="bar"><span class="t">Sơ đồ use case tổng quát<small>bấm vào tác nhân</small></span><button class="btn sm" data-replay="ba-uc"><i class="bi bi-arrow-counterclockwise"></i>Vẽ lại</button></div>
+            <div class="scroll-x"><svg id="ba-uc" role="img" aria-label="Sơ đồ use case"></svg></div>
+        </div>
+        <div class="card tbl-wrap reveal" style="margin-top:1.4rem">
+            <table class="tbl spec">
+                <thead><tr><th colspan="2">Đặc tả use case UC-03 · Đặt phòng trực tuyến</th></tr></thead>
+                <tbody>
+                    <tr><td>Tác nhân chính</td><td>Khách vãng lai, khách hàng</td></tr>
+                    <tr><td>Mục tiêu</td><td>Giữ một phòng cho khoảng ngày mong muốn với số tiền xác định trước</td></tr>
+                    <tr><td>Tiền điều kiện</td><td>Khách đã chọn phòng, ngày nhận và ngày trả trên trang chi tiết phòng</td></tr>
+                    <tr><td>Luồng chính</td><td><ol>
+                        <li>Hệ thống hiển thị tóm tắt: giá từng đêm, combo, tiền cọc dự kiến; điền sẵn thông tin nếu khách đã đăng nhập.</li>
+                        <li>Khách nhập họ tên, email, số điện thoại, chọn giờ nhận và trả, nhập mã giảm giá (nếu có).</li>
+                        <li>Khách bấm Xác nhận đặt phòng.</li>
+                        <li>Hệ thống kiểm tra dữ liệu, giữ phòng và kiểm tra lại lịch trống.</li>
+                        <li>Hệ thống tính tiền phòng, combo, giảm giá, tiền cọc và hạn cọc.</li>
+                        <li>Hệ thống lưu đơn ở trạng thái Chờ xác nhận và gửi email xác nhận.</li>
+                        <li>Hệ thống hiển thị trang đơn kèm mã VietQR chuyển cọc.</li>
+                    </ol></td></tr>
+                    <tr><td>Luồng thay thế</td><td><ul>
+                        <li><b>2a.</b> Khách chưa đăng nhập: hệ thống tìm hoặc tạo tài khoản theo email ở bước 6.</li>
+                        <li><b>5a.</b> Chính sách không yêu cầu cọc: đơn không có tiền cọc, bỏ qua mã VietQR ở bước 7.</li>
+                    </ul></td></tr>
+                    <tr><td>Ngoại lệ</td><td><ul>
+                        <li><b>4a.</b> Dữ liệu không hợp lệ (thiếu thông tin, email sai, ngày sai): hiện lại form kèm lỗi.</li>
+                        <li><b>4b.</b> Phòng vừa có khách đặt trùng ngày: báo khoảng ngày đã có khách và thời điểm phòng trống trở lại.</li>
+                        <li><b>4c.</b> Phòng đang bảo trì hoặc giờ nhận, trả lấn giờ khách khác: báo lỗi tương ứng.</li>
+                        <li><b>5b.</b> Mã giảm giá không hợp lệ, sai loại khách hoặc đã dùng: báo lỗi, không tạo đơn.</li>
+                    </ul></td></tr>
+                    <tr><td>Hậu điều kiện</td><td>Đơn ở trạng thái Chờ xác nhận; phòng không nhận thêm đơn trùng ngày; khách nhận email</td></tr>
+                    <tr><td>Quy tắc liên quan</td><td>BR-01, BR-02, BR-03, GIÁ, MÃ GIẢM, 6 GIỜ (xem <a href="homestay-may.html#quy-tac">bảng quy tắc</a>)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ================= 03. BPMN ================= -->
+    <section class="block" id="bpmn">
+        <div class="sec-head reveal">
+            <span class="eyebrow">03 · BPMN</span>
+            <h2>Quy trình đặt phòng <span class="hl">và giữ chỗ bằng tiền cọc</span></h2>
+            <p>Ký hiệu BPMN 2.0: sự kiện bắt đầu, kết thúc, sự kiện hẹn giờ và cổng rẽ nhánh. Ba làn thể hiện trách nhiệm của khách hàng, lễ tân và hệ thống.</p>
+        </div>
+        <div class="card dg-card">
+            <div class="bar"><span class="t">BPMN · Đặt phòng và đặt cọc<small>bấm vào các bước</small></span><button class="btn sm" data-replay="ba-bpmn"><i class="bi bi-arrow-counterclockwise"></i>Vẽ lại</button></div>
+            <div class="scroll-x"><svg id="ba-bpmn" class="narrow" role="img" aria-label="Sơ đồ BPMN quy trình đặt phòng và đặt cọc"></svg></div>
+        </div>
+    </section>
+
+    <!-- ================= 04. SRS ================= -->
+    <section class="block" id="srs">
+        <div class="sec-head reveal">
+            <span class="eyebrow">04 · SRS</span>
+            <h2>Đặc tả <span class="hl">yêu cầu phần mềm</span></h2>
+            <p>Trích đoạn tài liệu đặc tả: yêu cầu chức năng có độ ưu tiên và liên kết user story, yêu cầu phi chức năng, ràng buộc và giả định.</p>
+        </div>
+        <div class="card tbl-wrap reveal">
+            <table class="tbl">
+                <thead><tr><th>Mã</th><th>Yêu cầu chức năng</th><th>Ưu tiên</th><th>Story</th></tr></thead>
+                <tbody><tr><td><span class="br alt">FR-01</span></td><td>Tìm phòng trống theo ngày nhận, ngày trả, số khách, loại phòng</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-01</td></tr><tr><td><span class="br alt">FR-02</span></td><td>Hiển thị lịch trống của phòng và giá từng đêm</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-02</td></tr><tr><td><span class="br alt">FR-03</span></td><td>Đặt phòng không cần tài khoản; tự tạo tài khoản theo email</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-03</td></tr><tr><td><span class="br alt">FR-04</span></td><td>Chọn combo dịch vụ đi kèm</td><td><span class="pri should" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Should</span></td><td>US-03</td></tr><tr><td><span class="br alt">FR-05</span></td><td>Kiểm tra và áp dụng mã giảm giá theo loại khách</td><td><span class="pri should" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Should</span></td><td>US-04</td></tr><tr><td><span class="br alt">FR-06</span></td><td>Ngăn đặt trùng phòng khi nhiều khách đặt đồng thời</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-05</td></tr><tr><td><span class="br alt">FR-07</span></td><td>Tính tiền cọc, hạn cọc, hiển thị mã VietQR</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-06</td></tr><tr><td><span class="br alt">FR-08</span></td><td>Tự hủy đơn quá hạn cọc hoặc sát giờ nhận phòng chưa xác nhận</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-06</td></tr><tr><td><span class="br alt">FR-09</span></td><td>Khách đổi giờ, đổi combo, hủy đơn theo điều kiện</td><td><span class="pri should" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Should</span></td><td>US-07</td></tr><tr><td><span class="br alt">FR-10</span></td><td>Lễ tân xác nhận đơn, ghi nhận cọc, đặt phòng tại quầy</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-08</td></tr><tr><td><span class="br alt">FR-11</span></td><td>Khai báo lưu trú, xuất danh sách Excel</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-09</td></tr><tr><td><span class="br alt">FR-12</span></td><td>Check-in, check-out, phụ phí, thanh toán, hóa đơn</td><td><span class="pri must" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Must</span></td><td>US-10</td></tr><tr><td><span class="br alt">FR-13</span></td><td>Cấu hình phụ thu cuối tuần, ngày lễ, tỷ lệ và hạn cọc</td><td><span class="pri should" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Should</span></td><td>US-11</td></tr><tr><td><span class="br alt">FR-14</span></td><td>Báo cáo doanh thu, công suất phòng, ADR, RevPAR, xuất Excel</td><td><span class="pri could" style="font-size:.7rem;font-weight:800;padding:.1rem .45rem;border:1.5px solid var(--ink);border-radius:6px">Could</span></td><td>US-12</td></tr></tbody>
+            </table>
+        </div>
+        <div class="card tbl-wrap reveal" style="margin-top:1.2rem">
+            <table class="tbl">
+                <thead><tr><th>Mã</th><th>Nhóm</th><th>Yêu cầu phi chức năng</th></tr></thead>
+                <tbody><tr><td><span class="br alt">NFR-01</span></td><td><b>Bảo mật</b></td><td>Mật khẩu được băm; hai cổng đăng nhập; phân quyền đến từng chức năng; chống giả mạo yêu cầu (CSRF); khóa được tài khoản khách</td></tr><tr><td><span class="br alt">NFR-02</span></td><td><b>Toàn vẹn dữ liệu</b></td><td>Kiểm tra và lưu đơn trong cùng một giao dịch; không có hai đơn giữ chỗ trùng phòng, trùng ngày</td></tr><tr><td><span class="br alt">NFR-03</span></td><td><b>Tin cậy</b></td><td>Lỗi gửi email không làm hỏng việc đặt phòng; email chỉ gửi sau khi đơn được lưu thành công</td></tr><tr><td><span class="br alt">NFR-04</span></td><td><b>Khả dụng</b></td><td>Giao diện khách hàng song ngữ Việt - Anh; khách vãng lai xem lại đơn qua đường dẫn mà không cần đăng nhập</td></tr><tr><td><span class="br alt">NFR-05</span></td><td><b>Truy vết</b></td><td>Mọi thao tác thêm, sửa, xóa của nhân viên được ghi nhật ký gồm người thực hiện, thời gian, địa chỉ IP</td></tr><tr><td><span class="br alt">NFR-06</span></td><td><b>Triển khai</b></td><td>Chạy liên tục trên máy chủ đám mây, có HTTPS; dữ liệu không mất khi khởi động lại</td></tr></tbody>
+            </table>
+        </div>
+        <div class="scope" style="margin-top:1.2rem">
+            <div class="card scope-col reveal">
+                <h3><i class="bi bi-sign-stop"></i>Ràng buộc</h3>
+                <ul>
+                    <li>Tiền cọc thu bằng chuyển khoản ngân hàng qua mã VietQR</li>
+                    <li>Lễ tân xác nhận đã nhận cọc thủ công sau khi kiểm tra tài khoản</li>
+                    <li>Thanh toán thẻ chưa được hỗ trợ khi trả phòng</li>
+                </ul>
+            </div>
+            <div class="card scope-col reveal">
+                <h3><i class="bi bi-lightbulb"></i>Giả định</h3>
+                <ul>
+                    <li>Hệ thống phục vụ một homestay</li>
+                    <li>Giờ nhận phòng mặc định 14:00, trả phòng 12:00, khách được chọn lại</li>
+                    <li>Mỗi đơn đặt một phòng</li>
+                </ul>
+            </div>
+            <div class="card scope-col reveal">
+                <h3><i class="bi bi-book"></i>Thuật ngữ</h3>
+                <ul>
+                    <li><b>Đơn giữ chỗ:</b> đơn chờ xác nhận, đã xác nhận hoặc đang ở</li>
+                    <li><b>ADR:</b> doanh thu phòng trung bình mỗi đêm đã bán</li>
+                    <li><b>RevPAR:</b> doanh thu phòng trên mỗi đêm có thể bán</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 05. WIREFRAME ================= -->
+    <section class="block" id="wireframe">
+        <div class="sec-head reveal">
+            <span class="eyebrow">05 · Wireframe</span>
+            <h2>Phác thảo <span class="hl">màn hình chính</span></h2>
+            <p>Wireframe mức thấp cho bốn màn hình trong luồng đặt phòng. Số đánh dấu tương ứng với ghi chú yêu cầu bên dưới mỗi màn hình.</p>
+        </div>
+        <div class="wfs">
+            <div class="card wf-card reveal">
+                <h3>WF-01 · Chi tiết phòng và chọn ngày</h3>
+                <div class="wf"><div class="wf-bar"><i></i><i></i><i></i><span></span></div>
+                    <div class="wf-in"><div class="row">
+                        <div class="col" style="flex:1.2"><div class="ph" style="height:120px">Ảnh phòng</div><div class="row"><div class="ph" style="height:28px;flex:1"></div><div class="ph" style="height:28px;flex:1"></div><div class="ph" style="height:28px;flex:1"></div></div><div class="box"><div class="t" style="width:50%"></div><div class="l"></div><div class="l" style="width:80%"></div></div></div>
+                        <div class="col"><div class="t" style="width:60%;height:12px"></div><div class="l" style="width:40%"></div><div class="t" style="width:55%"></div>
+                            <div class="box" style="position:relative"><span class="call" style="right:-8px;top:-8px">1</span><div class="lab">Chọn ngày lưu trú</div><div class="cal"><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class="b"></span><span class="b"></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class="p"></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class="s"></span><span class="r"></span><span class="s"></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span></div></div>
+                            <div class="lab">Combo dịch vụ <span class="call" style="position:static;display:inline-grid;width:16px;height:16px">2</span></div><div class="inp"></div>
+                            <div class="bt pri" style="position:relative">Đặt phòng<span class="call" style="right:-8px;top:-8px">3</span></div></div>
+                    </div></div></div>
+                <ol class="wf-notes">
+                    <li><span>Lịch phân biệt <b>ngày trống, đã có khách, có đơn chờ xác nhận</b>; chọn ngày nhận rồi ngày trả.</span></li>
+                    <li><span>Combo là tùy chọn, giá combo được cộng vào tạm tính.</span></li>
+                    <li><span>Bấm Đặt phòng chuyển sang trang xác nhận với phòng, ngày và combo đã chọn.</span></li>
+                </ol>
+            </div>
+            <div class="card wf-card reveal">
+                <h3>WF-02 · Xác nhận đặt phòng</h3>
+                <div class="wf"><div class="wf-bar"><i></i><i></i><i></i><span></span></div>
+                    <div class="wf-in">
+                        <div class="box" style="position:relative"><span class="call" style="right:-8px;top:-8px">1</span><div class="t" style="width:45%"></div>
+                            <div class="tr"><div class="l s"></div><div class="l s"></div><div class="l s"></div></div><div class="tr"><div class="l s"></div><div class="l s"></div><div class="l s"></div></div>
+                            <div class="t" style="width:35%"></div>
+                            <div class="alert" style="position:relative"><span class="call" style="right:-8px;top:-8px">2</span><div class="l"></div><div class="l" style="width:70%"></div></div></div>
+                        <div class="box" style="position:relative"><span class="call" style="right:-8px;top:-8px">3</span><div class="row"><div class="col"><div class="lab">Họ tên</div><div class="inp"></div></div><div class="col"><div class="lab">Email</div><div class="inp"></div></div><div class="col"><div class="lab">SĐT</div><div class="inp"></div></div></div>
+                            <div class="row"><div class="col"><div class="lab">Giờ nhận</div><div class="inp"></div></div><div class="col"><div class="lab">Giờ trả</div><div class="inp"></div></div></div>
+                            <div class="row" style="position:relative"><div class="inp" style="flex:1"></div><div class="bt" style="width:90px">Kiểm tra mã</div><span class="call" style="right:-8px;top:-8px">4</span></div>
+                            <div class="bt pri">Xác nhận đặt phòng</div></div>
+                    </div></div>
+                <ol class="wf-notes">
+                    <li><span>Bảng <b>giá từng đêm</b> ghi rõ ngày thường, cuối tuần hoặc ngày lễ.</span></li>
+                    <li><span>Thông báo số tiền cọc dự kiến và hạn chuyển cọc.</span></li>
+                    <li><span>Điền sẵn thông tin nếu đã đăng nhập; giờ mặc định 14:00 và 12:00.</span></li>
+                    <li><span>Kiểm tra mã không tải lại trang, chưa tạo đơn.</span></li>
+                </ol>
+            </div>
+            <div class="card wf-card reveal">
+                <h3>WF-03 · Trang đơn và chuyển cọc</h3>
+                <div class="wf"><div class="wf-bar"><i></i><i></i><i></i><span></span></div>
+                    <div class="wf-in">
+                        <div class="alert" style="position:relative"><span class="call" style="right:-8px;top:-8px">1</span><div class="t" style="width:40%;background:#e5b400"></div><div class="l"></div>
+                            <div class="row"><div class="ph qr">QR</div><div class="col"><div class="l"></div><div class="l" style="width:70%"></div><div class="l" style="width:80%"></div><div class="l" style="width:60%"></div></div></div></div>
+                        <div class="box" style="position:relative"><span class="call" style="right:-8px;top:-8px">2</span><div class="row"><div class="t" style="flex:1"></div><span class="badge">Chờ xác nhận</span></div><div class="l"></div><div class="l" style="width:75%"></div></div>
+                        <div class="row" style="position:relative"><div class="bt" style="flex:1">Đổi giờ</div><div class="bt" style="flex:1">Đổi combo</div><div class="bt" style="flex:1">Hủy đơn</div><span class="call" style="right:-8px;top:-8px">3</span></div>
+                    </div></div>
+                <ol class="wf-notes">
+                    <li><span>Mã VietQR có sẵn <b>số tiền và nội dung</b> chuyển khoản, kèm hạn cọc; quá hạn đơn tự hủy.</span></li>
+                    <li><span>Trạng thái đơn luôn hiển thị; khách vãng lai mở trang qua đường dẫn có mã bảo mật.</span></li>
+                    <li><span>Đổi giờ, đổi combo chỉ dùng được khi còn ít nhất 6 giờ tới giờ nhận phòng.</span></li>
+                </ol>
+            </div>
+            <div class="card wf-card reveal">
+                <h3>WF-04 · Lễ tân: chi tiết đơn</h3>
+                <div class="wf"><div class="wf-bar"><i></i><i></i><i></i><span></span></div>
+                    <div class="wf-in"><div class="row">
+                        <div class="col" style="flex:.35"><div class="box"><div class="l"></div><div class="l"></div><div class="l"></div><div class="l"></div><div class="l"></div><div class="l"></div></div></div>
+                        <div class="col">
+                            <div class="row" style="position:relative"><div class="t" style="flex:1"></div><span class="badge">Chờ xác nhận</span><span class="call" style="right:-8px;top:-8px">1</span></div>
+                            <div class="row"><div class="bt pri" style="flex:1">Xác nhận</div><div class="bt pri" style="flex:1">Đã nhận cọc</div><div class="bt" style="flex:.6">Hủy</div></div>
+                            <div class="box" style="position:relative"><span class="call" style="right:-8px;top:-8px">2</span><div class="lab">Khai báo lưu trú</div><div class="tr"><div class="l s"></div><div class="l s"></div><div class="l s"></div></div><div class="row"><div class="inp" style="flex:1"></div><div class="inp" style="flex:1"></div><div class="bt" style="width:50px">Thêm</div></div></div>
+                            <div style="position:relative"><div class="bt off">Check-in</div><span class="call" style="right:-8px;top:-8px">3</span></div>
+                        </div>
+                    </div></div></div>
+                <ol class="wf-notes">
+                    <li><span>Nút thao tác chỉ hiện theo đúng trạng thái đơn.</span></li>
+                    <li><span>Khai báo họ tên, ngày sinh, giấy tờ, quốc tịch từng khách.</span></li>
+                    <li><span>Check-in <b>bị khóa</b> cho tới khi đơn đã xác nhận và có ít nhất một khách được khai báo.</span></li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 06. UAT ================= -->
+    <section class="block" id="uat">
+        <div class="sec-head reveal">
+            <span class="eyebrow">06 · UAT</span>
+            <h2>Kịch bản <span class="hl">nghiệm thu</span></h2>
+            <p>Mỗi user story có ít nhất một kịch bản nghiệm thu với kết quả mong đợi đo được.</p>
+        </div>
+        <div class="card tbl-wrap reveal">
+            <table class="tbl">
+                <thead><tr><th>Mã</th><th>Story</th><th>Kịch bản</th><th>Kết quả mong đợi</th><th>Kết quả</th></tr></thead>
+                <tbody><tr><td><span class="br">UAT-01</span></td><td>US-01</td><td>Tìm phòng khi có một phòng đang bảo trì và một phòng đã có đơn</td><td>Phòng bảo trì và phòng đã có đơn không xuất hiện trong kết quả</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-02</span></td><td>US-02</td><td>Đặt phòng hai đêm gồm thứ Năm và thứ Sáu</td><td>Đêm thứ Sáu có phụ thu cuối tuần, tổng tiền phòng khớp bảng giá</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-03</span></td><td>US-03</td><td>Khách chưa đăng nhập đặt phòng với thông tin hợp lệ</td><td>Đơn Chờ xác nhận, có đường dẫn xem đơn và email xác nhận</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-04</span></td><td>US-04</td><td>Kiểm tra mã giảm giá dành cho khách thân thiết bằng tài khoản khách mới</td><td>Mã bị từ chối, không tạo đơn</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-05</span></td><td>US-05</td><td>Hai tài khoản cùng đặt một phòng cho cùng ngày</td><td>Chỉ một đơn được tạo, người còn lại nhận thông báo phòng đã có khách</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-06</span></td><td>US-06</td><td>Đặt phòng khi có yêu cầu cọc và không chuyển cọc tới hạn</td><td>Trang đơn có mã QR; quá hạn đơn bị hủy và khách nhận email</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-07</span></td><td>US-07</td><td>Đổi giờ nhận phòng khi chỉ còn 355 phút tới giờ nhận</td><td>Hệ thống từ chối; với 365 phút thì cho phép</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-08</span></td><td>US-08</td><td>Lễ tân bấm Đã nhận cọc cho đơn chờ xác nhận</td><td>Đơn chuyển Đã xác nhận, khách nhận email</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-09</span></td><td>US-09</td><td>Check-in đơn chưa khai báo lưu trú, sau đó khai báo một khách và check-in lại</td><td>Lần đầu bị từ chối, lần sau thành công, phòng chuyển Đang sử dụng</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-10</span></td><td>US-10</td><td>Check-out có phụ phí, trả bằng tiền mặt</td><td>Số phải thu đúng, phòng chuyển Chờ dọn, khách nhận hóa đơn</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-11</span></td><td>US-11</td><td>Tài khoản lễ tân mở trang cấu hình giá</td><td>Bị từ chối truy cập</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr><tr><td><span class="br">UAT-12</span></td><td>US-12</td><td>Xem doanh thu trong khoảng có đơn đã hủy</td><td>Doanh thu không gồm đơn đã hủy</td><td><span class="ok"><i class="bi bi-check2"></i>Đạt</span></td></tr></tbody>
+            </table>
+        </div>
+        <p class="muted-note"><i class="bi bi-info-circle"></i> Kết quả được kiểm chứng bằng bộ kiểm thử hệ thống tự động (system test) mô phỏng thao tác của khách hàng và lễ tân.</p>
+    </section>
+
+    <!-- ================= 07. TRUY VET ================= -->
+    <section class="block" id="truy-vet">
+        <div class="sec-head reveal">
+            <span class="eyebrow">07 · Truy vết</span>
+            <h2>Ma trận <span class="hl">truy vết yêu cầu</span></h2>
+            <p>Mỗi user story được nối với quy tắc nghiệp vụ, use case, sơ đồ quy trình và kịch bản nghiệm thu, nên không có yêu cầu nào bị bỏ sót khi kiểm thử.</p>
+        </div>
+        <div class="card tbl-wrap reveal">
+            <table class="tbl tm">
+                <thead><tr><th>Story</th><th>Quy tắc</th><th>Use case</th><th>Sơ đồ quy trình</th><th>UAT</th></tr></thead>
+                <tbody><tr><td><b>US-01</b></td><td>BR-02, BR-03</td><td>UC-01</td><td>Đặt phòng</td><td>UAT-01</td></tr><tr><td><b>US-02</b></td><td>GIÁ</td><td>UC-02</td><td>Đặt phòng</td><td>UAT-02</td></tr><tr><td><b>US-03</b></td><td>BR-02</td><td>UC-03</td><td>Đặt phòng</td><td>UAT-03</td></tr><tr><td><b>US-04</b></td><td>MÃ GIẢM</td><td>UC-04</td><td>Mã giảm giá</td><td>UAT-04</td></tr><tr><td><b>US-05</b></td><td>BR-01</td><td>UC-03</td><td>Hai khách cùng đặt</td><td>UAT-05</td></tr><tr><td><b>US-06</b></td><td>6 GIỜ</td><td>UC-05, UC-18</td><td>Tự hủy đơn</td><td>UAT-06</td></tr><tr><td><b>US-07</b></td><td>6 GIỜ, GIỜ, HỦY</td><td>UC-08</td><td>Đổi giờ · hủy</td><td>UAT-07</td></tr><tr><td><b>US-08</b></td><td>BR-01</td><td>UC-10</td><td>Quầy lễ tân</td><td>UAT-08</td></tr><tr><td><b>US-09</b></td><td>BR-04</td><td>UC-11, UC-12</td><td>Quầy lễ tân</td><td>UAT-09</td></tr><tr><td><b>US-10</b></td><td>BR-05</td><td>UC-12</td><td>Quầy lễ tân</td><td>UAT-10</td></tr><tr><td><b>US-11</b></td><td>GIÁ</td><td>UC-16</td><td>Đăng nhập hai cổng</td><td>UAT-11</td></tr><tr><td><b>US-12</b></td><td>HỦY</td><td>UC-15</td><td>Vòng đời đơn</td><td>UAT-12</td></tr></tbody>
+            </table>
+        </div>
+    </section>
+</div>
+</main>
+
+
+<footer class="foot">
+    <div class="wrap">
+        <div><b>Tài liệu phân tích</b><div style="color:var(--ink)">Homestay Mây · Nguyễn Quốc Hoàn</div></div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+            <a href="index.html">← Về trang chủ</a>
+            <a href="homestay-may.html">Case study Homestay Mây</a>
+            <a href="so-do/luong-dat-phong.html">Sơ đồ nghiệp vụ</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Bang chi tiet noi khi bam vao so do -->
+<aside class="dock" id="dock" aria-live="polite">
+    <div class="dock-top"><span><i class="bi bi-info-square"></i> Diễn giải</span><button class="x" aria-label="Đóng" onclick="document.getElementById('dock').classList.remove('open')">×</button></div>
+    <div id="dock-body"></div>
+</aside>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Ảnh phóng to"><figure><img alt=""><figcaption></figcaption></figure></div>
+
+<script src="assets/js/sketch.js"></script>
+<script src="assets/js/ba-diagrams.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

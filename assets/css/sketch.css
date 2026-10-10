@@ -67,3 +67,12 @@
 .sk .sk-msg { font: 500 12.2px 'Be Vietnam Pro', sans-serif; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
 .sk .sk-card { font: 800 12px 'Be Vietnam Pro', sans-serif; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
 .sk .sk-pencil { pointer-events: none; }
+
+/* Ky hieu BPMN */
+.sk .s-evStart .sk-body { fill: var(--mint-soft, #e9f8ef); stroke-width: 2; }
+.sk .s-evEnd .sk-body { fill: var(--rose-soft, #ffe6ec); stroke-width: 4.5; }
+.sk .s-evTimer .sk-body { fill: #fff8e0; stroke-width: 2; }
+.sk .s-gw .sk-body { fill: #fff8e0; }
+.sk .s-gw .sk-sh { fill: var(--sun, #ffd76a); }
+.sk .s-gw .sk-extra { stroke-width: 2.6; }
+.sk .sk-evl { font: 600 11.5px 'Be Vietnam Pro', sans-serif; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
