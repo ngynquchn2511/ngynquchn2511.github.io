@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sweet Cake · Case study</title>
+<meta name="description" content="Case study Sweet Cake: phân tích người dùng, quy tắc nghiệp vụ, quy trình đặt hàng và thanh toán, mô hình dữ liệu và kiểm thử cho website bán bánh trực tuyến.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600;1,9..144,700&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="assets/css/site.css" rel="stylesheet">
+<link href="assets/css/sketch.css" rel="stylesheet">
+<style>
+    /* ---------- Hero: tam buu thiep ---------- */
+    .hero { padding: 3rem 0 1rem; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 3rem; align-items: center; }
+    @media (max-width: 920px) { .hero { grid-template-columns: 1fr; gap: 2rem; } }
+    .hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.6rem); margin: 1rem 0 .2rem; }
+    .hero .sub { font-family: var(--display); font-style: italic; font-size: 1.25rem; color: var(--ink-soft); }
+    .hero p.lead { font-size: 1.06rem; color: var(--ink-soft); margin: 1.1rem 0 1.4rem; max-width: 560px; }
+    .hero p.lead b { color: var(--ink); }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin-bottom: 1.4rem; }
+    .collage { position: relative; height: 470px; }
+    .collage .polaroid { position: absolute; width: 64%; }
+    .collage .p1 { left: 0; top: 10px; transform: rotate(-4deg); z-index: 1; }
+    .collage .p2 { right: 0; top: 120px; transform: rotate(3deg); z-index: 2; }
+    .collage .p3 { left: 14%; bottom: 0; transform: rotate(-1deg); z-index: 3; width: 58%; }
+    .stamp { position: absolute; right: 6px; top: -10px; z-index: 4; width: 116px; height: 116px; border-radius: 50%; display: grid; place-items: center;
+        text-align: center; padding: 16px; font-size: .64rem; font-weight: 800; letter-spacing: .14em; color: var(--baby-deep);
+        border: 2.5px dashed var(--baby-deep); background: rgba(255,255,255,.85); transform: rotate(14deg); }
+    @media (max-width: 560px) { .collage { height: 330px; } .stamp { width: 92px; height: 92px; font-size: .55rem; } }
+
+    /* ---------- Diem ky thuat ---------- */
+    .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.2rem; }
+    .feat { padding: 1.3rem 1.25rem 1.2rem; text-decoration: none; display: block; transition: transform .2s, box-shadow .2s; }
+    .feat:hover { color: var(--ink); transform: translate(-3px, -3px); box-shadow: var(--pop-hover); }
+    .feat .ic { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 11px; font-size: 1.25rem; background: var(--baby); border: var(--line); margin-bottom: .8rem; }
+    .feat:nth-child(3n+2) .ic { background: var(--sun); }
+    .feat:nth-child(3n) .ic { background: var(--mint); }
+    .feat h3 { font-size: 1.18rem; margin-bottom: .35rem; }
+    .feat p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+    .feat .more { display: inline-block; margin-top: .7rem; font-size: .8rem; font-weight: 700; color: var(--baby-deep); }
+
+    /* ---------- Khung so do ---------- */
+    .dg-card { padding: .7rem .7rem .9rem; }
+    .dg-card .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; padding: .2rem .4rem .7rem; }
+    .dg-card .bar .t { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+    .dg-card .bar .t small { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: .8rem; color: var(--ink-soft); margin-left: .35rem; }
+    .scroll-x { overflow-x: auto; }
+    .scroll-x svg { display: block; width: 100%; min-width: 780px; height: auto; margin: 0 auto; }
+    .scroll-x svg.narrow { max-width: 920px; }
+    .scroll-x svg.mid { max-width: 1000px; }
+    .click-hint { font-size: .82rem; color: var(--ink-soft); display: inline-flex; align-items: center; gap: .35rem; }
+
+    /* The noi bat luong dat phong */
+    .flow-cta { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.4rem; align-items: center; padding: 1.5rem 1.6rem; margin-bottom: 1.6rem;
+        background: linear-gradient(135deg, var(--baby-soft), #fff 60%); }
+    @media (max-width: 760px) { .flow-cta { grid-template-columns: 1fr; } }
+    .flow-cta h3 { font-size: 1.45rem; margin-bottom: .45rem; }
+    .flow-cta p { margin: 0 0 .8rem; color: var(--ink-soft); }
+    .flow-cta ol { margin: 0; padding-left: 1.2rem; color: var(--ink-soft); font-size: .92rem; }
+    .flow-cta ol b { color: var(--ink); }
+
+    /* ---------- Thu vien giao dien ---------- */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.6rem 1.3rem; }
+    .gallery .polaroid:nth-child(4n+1) { transform: rotate(-1.3deg); }
+    .gallery .polaroid:nth-child(4n+3) { transform: rotate(1.2deg); }
+
+    /* ---------- Kiem thu ---------- */
+    .tests { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 1.5rem; align-items: start; }
+    @media (max-width: 900px) { .tests { grid-template-columns: 1fr; } }
+    .meter { padding: 1.4rem 1.4rem 1.2rem; }
+    .meter .big { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+    .meter .big b { font-family: var(--display); font-size: 3.2rem; line-height: 1; }
+    .meter .big span { color: var(--ink-soft); }
+    .ok-badge { display: inline-flex; align-items: center; gap: .35rem; font-weight: 800; font-size: .82rem; padding: .25rem .65rem; border: var(--line); border-radius: 8px; background: var(--mint); }
+    .stack { display: flex; height: 26px; margin: 1.2rem 0 .8rem; border: var(--line); border-radius: 8px; overflow: hidden; }
+    .stack i { display: block; height: 100%; width: 0; transition: width 1.1s cubic-bezier(.2, .8, .2, 1); }
+    .stack i + i { border-left: 1.5px solid var(--ink); }
+    .legend-row { display: flex; flex-wrap: wrap; gap: .5rem 1.3rem; font-size: .86rem; }
+    .legend-row span { display: inline-flex; align-items: center; gap: .4rem; }
+    .legend-row em { width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 4px; display: inline-block; }
+    .test-list { padding: 1.2rem 1.3rem; }
+    .test-list h3 { font-size: 1.15rem; margin-bottom: .6rem; }
+    .test-list ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .65rem; font-size: .9rem; }
+    .test-list li { display: grid; grid-template-columns: auto 1fr; gap: .6rem; color: var(--ink-soft); }
+    .test-list li b { color: var(--ink); }
+    .test-list li i { color: var(--green); font-size: 1.05rem; }
+
+    /* ---------- Trien khai: ve tau ---------- */
+    .tickets { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; }
+    .ticket { position: relative; padding: 1.2rem 1.25rem 1.15rem 1.4rem; }
+    .ticket::before, .ticket::after { content: ''; position: absolute; left: -9px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: var(--line); }
+    .ticket::before { top: 22px; } .ticket::after { bottom: 22px; }
+    .ticket .no { font-family: var(--display); font-style: italic; color: var(--ink-soft); font-size: .9rem; }
+    .ticket h3 { font-size: 1.15rem; margin: .2rem 0 .4rem; }
+    .ticket p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+
+    /* ---------- Muc luc bam theo ---------- */
+    .toc { position: sticky; top: 62px; z-index: 40; display: flex; gap: .4rem; overflow-x: auto; padding: .55rem 0; margin-top: 2.5rem;
+        background: var(--paper); border-bottom: 1.5px dashed var(--baby-deep); scrollbar-width: thin; }
+    .toc a { flex: none; font-size: .82rem; font-weight: 700; text-decoration: none; padding: .32rem .7rem; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--paper); }
+    .toc a:hover { background: var(--baby-soft); }
+    .toc a.on { background: var(--sun); box-shadow: 2px 2px 0 var(--ink); }
+    html { scroll-padding-top: 120px; }
+    /* ---------- Bang vai tro / quy tac ---------- */
+    .tbl-wrap { padding: .4rem; overflow-x: auto; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 760px; }
+    .tbl th { text-align: left; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; padding: .8rem .9rem; background: var(--baby-soft); border-bottom: var(--line); }
+    .tbl th:first-child { border-top-left-radius: 10px; } .tbl th:last-child { border-top-right-radius: 10px; }
+    .tbl td { padding: .8rem .9rem; vertical-align: top; border-bottom: 1.5px dashed var(--baby-soft); color: var(--ink-soft); }
+    .tbl td b { color: var(--ink); }
+    .tbl tr:last-child td { border-bottom: 0; }
+    .tbl tbody tr:hover td { background: #fbfdff; }
+    .tbl td:first-child { white-space: nowrap; color: var(--ink); }
+    .tbl.rules td:nth-child(2) { color: var(--ink); }
+    .tbl.rules td:last-child a { font-weight: 700; white-space: nowrap; }
+    .br { display: inline-block; font: 800 .72rem var(--mono); padding: .2rem .45rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--sun); }
+    .br.alt { background: var(--baby-soft); }
+    .see { font-size: .9rem; color: var(--ink-soft); margin: 1rem .2rem 0; display: flex; gap: .45rem; align-items: center; flex-wrap: wrap; }
+    .see a { font-weight: 700; }
+
+    /* ---------- Gioi thieu du an ---------- */
+    .goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.4rem; }
+    .goal { padding: 1.1rem 1.1rem 1rem; display: grid; gap: .25rem; }
+    .goal i { font-size: 1.4rem; color: var(--baby-deep); }
+    .goal b { font-family: var(--display); font-size: 1.12rem; }
+    .goal span { font-size: .88rem; color: var(--ink-soft); }
+    .scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .scope-col { padding: 1.2rem 1.25rem 1.1rem; }
+    .scope-col h3 { font-size: 1.15rem; display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .scope-col h3 i { width: 34px; height: 34px; display: grid; place-items: center; border: var(--line); border-radius: 9px; background: var(--baby); font-size: 1rem; }
+    .scope-col:nth-child(2) h3 i { background: var(--sun); }
+    .scope-col:nth-child(3) h3 i { background: var(--mint); }
+    .scope-col ul { margin: 0; padding-left: 1.1rem; color: var(--ink-soft); font-size: .9rem; display: grid; gap: .35rem; }
+    /* ---------- The quy trinh ---------- */
+    .flowcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .fc { padding: 1rem 1.1rem; text-decoration: none; display: grid; gap: .3rem; transition: transform .15s, box-shadow .15s; }
+    .fc:hover { color: var(--ink); transform: translate(-3px, -3px); box-shadow: var(--pop-hover); }
+    .fc .k { justify-self: start; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: .12rem .45rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--sun-soft); }
+    .fc b { font-family: var(--display); font-size: 1.08rem; }
+    .fc small { color: var(--ink-soft); }
+
+    /* ---------- Rieng Sweet Cake ---------- */
+    .hl.rose { background: linear-gradient(transparent 58%, var(--rose) 58%, var(--rose) 92%, transparent 92%); }
+    .mods { display: grid; gap: .55rem; }
+    .mod { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr) 64px; gap: .8rem; align-items: center; font-size: .88rem; }
+    .mod .bar { height: 14px; border: 1.5px solid var(--ink); border-radius: 7px; background: var(--mint-soft); overflow: hidden; position: relative; }
+    .mod .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--baby); border-right: 1.5px solid var(--ink); }
+    .mod b { text-align: right; font-variant-numeric: tabular-nums; }
+    .mod-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .8rem; color: var(--ink-soft); margin: .2rem 0 .9rem; }
+    .mod-legend em { display: inline-block; width: 12px; height: 12px; border: 1.5px solid var(--ink); border-radius: 3px; vertical-align: -1px; margin-right: .35rem; }
+    .screens { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
+    @media (max-width: 900px) { .screens { grid-template-columns: 1fr; } }
+    .screen-list { padding: 1.2rem 1.25rem; }
+    .screen-list h3 { font-size: 1.12rem; margin-bottom: .7rem; }
+    .screen-list .chips { gap: .35rem; }
+</style>
+</head>
+<body>
+
+<header class="top">
+    <div class="wrap">
+        <a class="brand" href="index.html">Nguyễn Quốc Hoàn</a>
+        <button class="btn sm menu-btn" aria-label="Mở menu" onclick="document.querySelector('.nav').classList.toggle('open')"><i class="bi bi-list"></i></button>
+        <nav class="nav">
+            <a href="index.html">Giới thiệu</a>
+            <a href="index.html#du-an">Dự án</a>
+            <a href="homestay-may.html">Homestay Mây</a>
+            <a href="sweet-cake.html" class="on">Sweet Cake</a>
+            <a href="so-do/luong-dat-phong.html">Sơ đồ nghiệp vụ</a>
+            <a class="gh" href="https://github.com/ngynquchn2511/Sweet_Cake" target="_blank" rel="noopener"><i class="bi bi-github"></i> Mã nguồn</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+<div class="wrap">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+        <div>
+            <span class="eyebrow">Case study · Dự án Sweet Cake</span>
+            <h1>Sweet <span class="hl rose">Cake</span></h1>
+            <div class="sub">Website bán bánh trực tuyến Sweet Bakery</div>
+            <div class="divider"></div>
+            <p class="lead">
+                Cửa hàng bánh trực tuyến: khách hàng <b>chọn bánh, đặt hàng và thanh toán</b> khi nhận hàng hoặc qua ví <b>MoMo</b>.
+                Quản trị viên quản lý sản phẩm, đơn hàng, khuyến mãi, kiểm duyệt đánh giá và theo dõi báo cáo kinh doanh.
+            </p>
+            <div class="ctas">
+                <a class="btn primary" href="#gioi-thieu"><i class="bi bi-journal-text"></i>Đọc giới thiệu</a>
+                <a class="btn" href="so-do/luong-dat-phong.html#sc-dat-hang"><i class="bi bi-diagram-3"></i>Sơ đồ nghiệp vụ</a>
+                <a class="btn" href="https://github.com/ngynquchn2511/Sweet_Cake" target="_blank" rel="noopener"><i class="bi bi-github"></i>GitHub</a>
+            </div>
+            <div class="chips">
+                <span class="chip b">PHP 8.2</span><span class="chip b">Laravel 12</span><span class="chip b">Inertia.js</span>
+                <span class="chip y">React · Vite</span><span class="chip y">Tailwind CSS</span><span class="chip y">MySQL</span>
+                <span class="chip g">PHPUnit</span><span class="chip g">Vitest</span><span class="chip g">Playwright</span><span class="chip r">MoMo</span>
+            </div>
+        </div>
+        <div>
+            <a class="polaroid" href="assets/img/sc/dang-nhap.png" data-lb style="transform:rotate(1.5deg)"><img src="assets/img/sc/dang-nhap.png" alt="Trang đăng nhập Sweet Bakery" style="aspect-ratio:16/10.7"><div class="cap">Trang đăng nhập Sweet Bakery</div></a>
+        </div>
+    </section>
+
+    <section style="padding-top:2.5rem">
+        <div class="keys reveal">
+            <div class="key"><b>3</b><span>nhóm người dùng</span></div>
+            <div class="key"><b>11</b><span>quy tắc nghiệp vụ</span></div>
+            <div class="key"><b>9</b><span>sơ đồ quy trình</span></div>
+            <div class="key"><b>16</b><span>thực thể dữ liệu</span></div>
+            <div class="key"><b>1.265</b><span>test case, đạt 100% sau khắc phục</span></div>
+        </div>
+    </section>
+
+    <nav class="toc" aria-label="Mục lục case study">
+        <a href="#gioi-thieu">Giới thiệu</a><a href="#nguoi-dung">Người dùng</a><a href="#quy-tac">Quy tắc</a><a href="#quy-trinh">Quy trình</a>
+        <a href="#du-lieu">Dữ liệu</a><a href="#giao-dien">Giao diện</a><a href="#kiem-thu">Kiểm thử</a><a href="#kien-truc">Kiến trúc</a>
+    </nav>
+
+    <!-- ================= 01. GIOI THIEU ================= -->
+    <section class="block" id="gioi-thieu">
+        <div class="sec-head reveal">
+            <span class="eyebrow">01 · Giới thiệu</span>
+            <h2>Bài toán và <span class="hl rose">phạm vi</span></h2>
+            <p>Bán bánh trực tuyến cần quản lý chặt tồn kho vì mỗi sản phẩm chỉ có số lượng giới hạn. Hệ thống phải tránh bán vượt số bánh còn lại, áp dụng khuyến mãi có kiểm soát và ghi nhận thanh toán trực tuyến chính xác.</p>
+        </div>
+        <div class="goals reveal">
+            <div class="card goal"><i class="bi bi-box-seam"></i><b>Không bán vượt tồn kho</b><span>Kiểm tra khi thêm giỏ và khi chốt đơn.</span></div>
+            <div class="card goal"><i class="bi bi-shield-check"></i><b>Thanh toán đáng tin cậy</b><span>Chỉ ghi nhận khi kết quả MoMo được xác thực.</span></div>
+            <div class="card goal"><i class="bi bi-percent"></i><b>Khuyến mãi có kiểm soát</b><span>Thời hạn, số lượt, giá trị đơn tối thiểu, mức giảm tối đa.</span></div>
+            <div class="card goal"><i class="bi bi-graph-up"></i><b>Quản lý dựa trên số liệu</b><span>Báo cáo doanh thu, tồn kho, giỏ hàng bị bỏ dở.</span></div>
+        </div>
+        <div class="scope">
+            <div class="card scope-col reveal">
+                <h3><i class="bi bi-person"></i>Khách hàng</h3>
+                <ul>
+                    <li>Xem sản phẩm theo danh mục, danh sách yêu thích</li>
+                    <li>Giỏ hàng tự cập nhật giá và tồn kho</li>
+                    <li>Đặt hàng, thanh toán khi nhận hàng hoặc qua MoMo</li>
+                    <li>Mã khuyến mãi, sổ địa chỉ giao hàng</li>
+                    <li>Theo dõi đơn, hủy đơn khi chưa xử lý</li>
+                    <li>Đánh giá sản phẩm, gửi câu hỏi cho cửa hàng</li>
+                </ul>
+            </div>
+            <div class="card scope-col reveal">
+                <h3><i class="bi bi-shop"></i>Bán hàng</h3>
+                <ul>
+                    <li>Sản phẩm, danh mục và thứ tự hiển thị</li>
+                    <li>Banner trang chủ theo vị trí và thời gian</li>
+                    <li>Cập nhật trạng thái đơn và trạng thái thanh toán</li>
+                    <li>Tạo mã khuyến mãi, thống kê lượt sử dụng</li>
+                    <li>Kiểm duyệt đánh giá trước khi hiển thị</li>
+                    <li>Trả lời câu hỏi và liên hệ qua email</li>
+                </ul>
+            </div>
+            <div class="card scope-col reveal">
+                <h3><i class="bi bi-bar-chart"></i>Quản lý</h3>
+                <ul>
+                    <li>Tổng quan doanh thu và đơn hàng mới</li>
+                    <li>Báo cáo doanh thu, tồn kho, sản phẩm, khách hàng</li>
+                    <li>Phân tích giỏ hàng bị bỏ dở, gợi ý giảm giá</li>
+                    <li>Khóa tài khoản, đặt lại mật khẩu khách hàng</li>
+                    <li>Xuất báo cáo và danh sách người dùng</li>
+                    <li>Nhật ký thao tác của quản trị viên</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 02. NGUOI DUNG ================= -->
+    <section class="block" id="nguoi-dung">
+        <div class="sec-head reveal">
+            <span class="eyebrow">02 · Người dùng</span>
+            <h2>Ai dùng hệ thống, <span class="hl rose">được làm gì</span></h2>
+            <p>Khách hàng phải xác minh email trước khi mua hàng. Trang quản trị có cổng đăng nhập riêng và kiểm tra quyền ở mọi thao tác.</p>
+        </div>
+        <div class="card tbl-wrap reveal">
+            <table class="tbl">
+                <thead><tr><th>Vai trò</th><th>Vào bằng</th><th>Được làm</th><th>Giới hạn</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Khách vãng lai</b></td><td>Không cần tài khoản</td><td>Xem trang chủ, sản phẩm, giới thiệu; gửi câu hỏi và form liên hệ</td><td>Không thêm giỏ hàng, không đặt hàng</td></tr>
+                    <tr><td><b>Khách hàng</b><br><code>customer</code></td><td>Đăng ký, xác minh email</td><td>Giỏ hàng, yêu thích, đặt hàng, thanh toán MoMo, sổ địa chỉ, đơn của tôi, hủy đơn, đánh giá, xem phản hồi của cửa hàng</td><td>Chỉ hủy đơn chờ xử lý hoặc đã xác nhận; chỉ đánh giá đơn đã hoàn tất</td></tr>
+                    <tr><td><b>Quản trị viên</b><br><code>admin</code></td><td>Cổng <code>/admin/login</code></td><td>Toàn bộ chức năng bán hàng và quản lý</td><td>Tài khoản bị khóa sẽ bị đăng xuất ngay ở thao tác kế tiếp</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="see"><i class="bi bi-diagram-3"></i>Sơ đồ: <a href="so-do/luong-dat-phong.html#sc-admin">Đăng nhập quản trị</a></p>
+    </section>
+
+    <!-- ================= 03. QUY TAC ================= -->
+    <section class="block" id="quy-tac">
+        <div class="sec-head reveal">
+            <span class="eyebrow">03 · Quy tắc nghiệp vụ</span>
+            <h2>Mỗi rủi ro thành <span class="hl rose">một quy tắc</span> kiểm chứng được</h2>
+            <p>Mỗi quy tắc gắn với một rủi ro vận hành cụ thể và được thể hiện trên sơ đồ tương ứng.</p>
+        </div>
+        <div class="card tbl-wrap reveal">
+            <table class="tbl rules">
+                <thead><tr><th>Mã</th><th>Quy tắc</th><th>Rủi ro nếu thiếu</th><th>Sơ đồ</th></tr></thead>
+                <tbody>
+                    <tr><td><span class="br">KHO</span></td><td>Số lượng trong giỏ (cộng dồn) không vượt tồn kho; kiểm tra lại và khóa sản phẩm khi chốt đơn</td><td>Bán vượt số bánh còn lại</td><td><a href="so-do/luong-dat-phong.html#sc-gio-hang">Thêm vào giỏ</a> · <a href="so-do/luong-dat-phong.html#sc-dat-hang">Đặt hàng</a></td></tr>
+                    <tr><td><span class="br">BÁN</span></td><td>Sản phẩm ngừng bán không thêm vào giỏ, không đặt được; giỏ tự loại bỏ khi mở</td><td>Nhận đơn sản phẩm không còn bán</td><td><a href="so-do/luong-dat-phong.html#sc-dong-bo">Đồng bộ giỏ</a></td></tr>
+                    <tr><td><span class="br">GIÁ</span></td><td>Giá áp dụng là giá khuyến mãi nếu có; giỏ cập nhật giá mới trước khi hiển thị; đơn lưu giá tại thời điểm mua</td><td>Khách trả theo giá cũ</td><td><a href="so-do/luong-dat-phong.html#sc-dong-bo">Đồng bộ giỏ</a></td></tr>
+                    <tr><td><span class="br">PHÍ</span></td><td>Phí giao hàng 30.000đ; tổng = tạm tính + phí giao hàng − giảm giá</td><td>Tính tổng tiền không thống nhất</td><td><a href="so-do/luong-dat-phong.html#sc-dat-hang">Đặt hàng</a></td></tr>
+                    <tr><td><span class="br">MÃ</span></td><td>Mã phải tồn tại, đang bật, trong thời hạn, còn lượt, đạt đơn tối thiểu; giảm phần trăm có mức tối đa, không vượt tạm tính</td><td>Lạm dụng khuyến mãi</td><td><a href="so-do/luong-dat-phong.html#sc-khuyen-mai">Mã khuyến mãi</a></td></tr>
+                    <tr><td><span class="br">MOMO</span></td><td>Chỉ ghi nhận đã thanh toán khi chữ ký trả về từ MoMo hợp lệ; ghi nhận một lần</td><td>Giả mạo kết quả thanh toán</td><td><a href="so-do/luong-dat-phong.html#sc-momo">Thanh toán MoMo</a></td></tr>
+                    <tr><td><span class="br">TIỀN</span></td><td>Trạng thái thanh toán tách khỏi trạng thái đơn; đơn hoàn tất không tự chuyển sang đã thanh toán</td><td>Sai lệch báo cáo doanh thu</td><td><a href="so-do/luong-dat-phong.html#sc-vong-doi">Vòng đời đơn</a></td></tr>
+                    <tr><td><span class="br">HỦY</span></td><td>Khách chỉ hủy đơn của mình khi chờ xử lý hoặc đã xác nhận, phải nêu lý do; tồn kho được hoàn lại</td><td>Hủy đơn đã làm bánh, lệch tồn kho</td><td><a href="so-do/luong-dat-phong.html#sc-huy-don">Hủy đơn</a></td></tr>
+                    <tr><td><span class="br">ĐÁNH GIÁ</span></td><td>Chỉ đánh giá sản phẩm thuộc đơn đã hoàn tất của chính mình; đánh giá chờ duyệt trước khi hiển thị</td><td>Đánh giá giả, nội dung xấu</td><td>Kiểm duyệt đánh giá</td></tr>
+                    <tr><td><span class="br">SPAM</span></td><td>Gửi câu hỏi tối đa 10 lần/phút/IP; khách vãng lai bắt buộc để lại tên và email</td><td>Spam form liên hệ</td><td><a href="so-do/luong-dat-phong.html#sc-tin-nhan">Hỏi đáp</a></td></tr>
+                    <tr><td><span class="br">GIỎ</span></td><td>Sản phẩm nằm trong giỏ quá 30 ngày được đánh dấu bỏ dở để phân tích và gợi ý giảm giá</td><td>Bỏ lỡ cơ hội bán hàng</td><td>Phân tích giỏ hàng</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ================= 04. QUY TRINH ================= -->
+    <section class="block" id="quy-trinh">
+        <div class="sec-head reveal">
+            <span class="eyebrow">04 · Quy trình</span>
+            <h2>Chín sơ đồ <span class="hl rose">quy trình nghiệp vụ</span></h2>
+            <p>Sơ đồ hoạt động, tuần tự và trạng thái được tập trung tại trang Sơ đồ nghiệp vụ. Chọn một quy trình để mở.</p>
+        </div>
+        <div class="flowcards">
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-gio-hang"><span class="k">Hoạt động</span><b>Thêm vào giỏ hàng</b><small>Kiểm tra tồn kho cộng dồn</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-dong-bo"><span class="k">Hoạt động</span><b>Mở giỏ: đồng bộ giá và kho</b><small>Loại bỏ, giảm số lượng, cập nhật giá</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-dat-hang"><span class="k">Hoạt động</span><b>Đặt hàng</b><small>Một giao dịch từ giỏ đến đơn</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-momo"><span class="k">Tuần tự</span><b>Thanh toán MoMo</b><small>Xác thực chữ ký kết quả</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-khuyen-mai"><span class="k">Hoạt động</span><b>Kiểm tra mã khuyến mãi</b><small>Năm điều kiện áp dụng</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-huy-don"><span class="k">Hoạt động</span><b>Hủy đơn và hoàn kho</b><small>Chỉ khi chưa xử lý</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-vong-doi"><span class="k">Trạng thái</span><b>Vòng đời đơn hàng</b><small>Bảy trạng thái đơn</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-admin"><span class="k">Hoạt động</span><b>Đăng nhập quản trị</b><small>Vai trò và tài khoản bị khóa</small></a>
+            <a class="card fc reveal" href="so-do/luong-dat-phong.html#sc-tin-nhan"><span class="k">Hoạt động</span><b>Hỏi đáp và trả lời</b><small>Giới hạn chống spam</small></a>
+        </div>
+    </section>
+
+    <!-- ================= 05. DU LIEU ================= -->
+    <section class="block" id="du-lieu">
+        <div class="sec-head reveal">
+            <span class="eyebrow">05 · Dữ liệu</span>
+            <h2>16 thực thể, <span class="hl rose">orders</span> ở trung tâm</h2>
+            <p>Đơn hàng và chi tiết đơn lưu lại tên, giá tại thời điểm mua. Giỏ hàng tách riêng để theo dõi sản phẩm bị bỏ dở.</p>
+        </div>
+        <div class="card dg-card">
+            <div class="bar"><span class="t">Mô hình dữ liệu (ERD)<small>bấm vào từng bảng</small></span><button class="btn sm" data-replay="sc-erd"><i class="bi bi-arrow-counterclockwise"></i>Vẽ lại</button></div>
+            <div class="scroll-x"><svg id="sc-erd" role="img" aria-label="Mô hình dữ liệu Sweet Cake"></svg></div>
+        </div>
+    </section>
+
+    <!-- ================= 06. GIAO DIEN ================= -->
+    <section class="block" id="giao-dien">
+        <div class="sec-head reveal">
+            <span class="eyebrow">06 · Giao diện</span>
+            <h2>Hai khu vực, <span class="hl rose">một hệ thống</span></h2>
+            <p>Cửa hàng dành cho khách và trang quản trị dùng chung dữ liệu, giao diện xây dựng bằng React và Tailwind CSS.</p>
+        </div>
+        <div class="screens">
+            <a class="polaroid reveal" href="assets/img/sc/dang-nhap.png" data-lb><img loading="lazy" src="assets/img/sc/dang-nhap.png" alt="Trang đăng nhập"><div class="cap">Đăng nhập</div></a>
+            <div class="card screen-list reveal">
+                <h3><i class="bi bi-shop-window"></i> Cửa hàng</h3>
+                <div class="chips"><span class="chip">Trang chủ</span><span class="chip">Giới thiệu</span><span class="chip">Sản phẩm</span><span class="chip">Giỏ hàng</span><span class="chip">Thanh toán</span><span class="chip">Kết quả thanh toán</span><span class="chip">Đơn của tôi</span><span class="chip">Sổ địa chỉ</span><span class="chip">Yêu thích</span><span class="chip">Tin nhắn</span><span class="chip">Hồ sơ</span><span class="chip">Liên hệ</span></div>
+            </div>
+            <div class="card screen-list reveal">
+                <h3><i class="bi bi-speedometer2"></i> Quản trị</h3>
+                <div class="chips"><span class="chip b">Tổng quan</span><span class="chip b">Sản phẩm</span><span class="chip b">Danh mục</span><span class="chip b">Đơn hàng</span><span class="chip b">Khuyến mãi</span><span class="chip b">Người dùng</span><span class="chip b">Đánh giá</span><span class="chip b">Tin nhắn</span><span class="chip b">Liên hệ</span><span class="chip b">Báo cáo</span><span class="chip b">Phân tích giỏ hàng</span><span class="chip b">Nhật ký</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 07. KIEM THU ================= -->
+    <section class="block" id="kiem-thu">
+        <div class="sec-head reveal">
+            <span class="eyebrow">07 · Kiểm thử</span>
+            <h2>1.265 test case, <span class="hl rose">đạt 100%</span> sau khắc phục</h2>
+            <p>Kiểm thử ba cấp trên 9 module. Lần chạy đầu đạt 77,2%, toàn bộ lỗi được khắc phục và kiểm thử lại ngày 29/09/2026.</p>
+        </div>
+        <div class="tests">
+            <div class="card meter reveal">
+                <div class="big"><b>1.265</b><span>test case</span><span class="ok-badge"><i class="bi bi-check2-circle"></i>100% sau khắc phục</span></div>
+                <div class="stack" id="stack">
+                    <i style="background:var(--baby)" data-w="32.4" title="Unit test: 410"></i>
+                    <i style="background:var(--sun)" data-w="40.0" title="Integration test: 506"></i>
+                    <i style="background:var(--mint)" data-w="27.6" title="System test: 349"></i>
+                </div>
+                <div class="legend-row">
+                    <span><em style="background:var(--baby)"></em><b>410</b>&nbsp;Unit test</span>
+                    <span><em style="background:var(--sun)"></em><b>506</b>&nbsp;Integration test</span>
+                    <span><em style="background:var(--mint)"></em><b>349</b>&nbsp;System test</span>
+                </div>
+                <div class="test-list" style="padding:1.2rem 0 0">
+                    <ul>
+                        <li><i class="bi bi-bug"></i><span><b>289 lỗi</b> phát hiện ở lần chạy đầu, tập trung ở giỏ hàng, đặt hàng và các trang quản trị.</span></li>
+                        <li><i class="bi bi-plus-square"></i><span><b>19 test case bổ sung</b> cho lỗi phát hiện thêm trong quá trình khắc phục.</span></li>
+                        <li><i class="bi bi-tools"></i><span>Công cụ: PHPUnit, Vitest, Playwright.</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card test-list reveal">
+                <h3>Tỷ lệ đạt lần đầu theo module</h3>
+                <div class="mod-legend"><span><em style="background:var(--baby)"></em>đạt lần đầu</span><span><em style="background:var(--mint-soft)"></em>khắc phục sau</span></div>
+                <div class="mods" id="mods"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 08. KIEN TRUC ================= -->
+    <section class="block" id="kien-truc">
+        <div class="sec-head reveal">
+            <span class="eyebrow">08 · Kiến trúc</span>
+            <h2>Laravel kết hợp <span class="hl rose">React</span></h2>
+            <p>Giao diện React chạy qua Inertia.js, nghiệp vụ đặt hàng gom vào một service dùng chung, quyền truy cập kiểm soát bằng middleware.</p>
+        </div>
+        <div class="card dg-card">
+            <div class="bar"><span class="t">Kiến trúc tổng thể<small>bấm vào một khối</small></span><button class="btn sm" data-replay="sc-arch"><i class="bi bi-arrow-counterclockwise"></i>Vẽ lại</button></div>
+            <div class="scroll-x"><svg id="sc-arch" class="mid" role="img" aria-label="Kiến trúc Sweet Cake"></svg></div>
+        </div>
+    </section>
+</div>
+</main>
+
+
+<footer class="foot">
+    <div class="wrap">
+        <div><b>Sweet Cake</b><div style="color:var(--ink)">Case study · Nguyễn Quốc Hoàn</div></div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+            <a href="index.html">← Về trang chủ</a>
+            <a href="homestay-may.html">Case study Homestay Mây</a>
+            <a href="so-do/luong-dat-phong.html#sc-dat-hang">Sơ đồ nghiệp vụ</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Bang chi tiet noi khi bam vao so do -->
+<aside class="dock" id="dock" aria-live="polite">
+    <div class="dock-top"><span><i class="bi bi-info-square"></i> Diễn giải</span><button class="x" aria-label="Đóng" onclick="document.getElementById('dock').classList.remove('open')">×</button></div>
+    <div id="dock-body"></div>
+</aside>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Ảnh phóng to"><figure><img alt=""><figcaption></figcaption></figure></div>
+
+<script src="assets/js/sketch.js"></script>
+<script src="assets/js/sweetcake-diagrams.js"></script>
+<script>
+// Ty le dat lan dau theo module (tong 3 cap kiem thu)
+(() => {
+    const M = [['Đăng nhập', 252, 258], ['Sản phẩm & danh mục', 182, 212], ['Giỏ hàng & đặt hàng', 103, 147], ['Hồ sơ & địa chỉ', 85, 106],
+        ['Liên hệ, tin nhắn, trang chủ', 56, 71], ['QT: người dùng, đơn, sản phẩm', 95, 147], ['QT: khuyến mãi & banner', 88, 123],
+        ['QT: báo cáo & nhật ký', 70, 110], ['QT: đánh giá & tin nhắn', 45, 72]];
+    document.getElementById('mods').innerHTML = M.map(([n, p, t]) => {
+        const r = (p / t * 100).toFixed(1).replace('.', ',');
+        return `<div class="mod"><span>${n}</span><div class="bar"><i style="width:${p / t * 100}%"></i></div><b>${r}%</b></div>`;
+    }).join('');
+})();
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

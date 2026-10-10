@@ -1,0 +1,160 @@
+/* =====================================================================
+   Theme "eaut" lay tu du an Homestay May: giay cham bi, muc navy,
+   xanh baby lam diem nhan, bong do lech kieu nhan dan.
+   ===================================================================== */
+:root {
+    --paper: #ffffff; --dot: #d6ecf9; --baby: #9fd8f5; --baby-soft: #e3f4fd; --baby-deep: #5bb8e8;
+    --ink: #14365a; --ink-soft: #4d6b88; --sun: #ffd76a; --sun-soft: #fff4c9;
+    --rose: #ff9fb2; --rose-soft: #ffe6ec; --red: #c2334d; --mint: #bdeccf; --mint-soft: #e9f8ef; --green: #1d8a4e;
+    --line: 1.5px solid var(--ink); --pop: 5px 5px 0 var(--baby); --pop-hover: 8px 8px 0 var(--baby-deep);
+    --display: 'Fraunces', Georgia, serif; --hand: 'Patrick Hand', 'Comic Sans MS', cursive;
+    --mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body { margin: 0; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: var(--ink); overflow-x: hidden; line-height: 1.55;
+    background-color: var(--paper); background-image: radial-gradient(var(--dot) 1.3px, transparent 1.3px); background-size: 22px 22px; }
+img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
+a { color: var(--ink); text-decoration-color: var(--baby-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--baby-deep); }
+code { font-family: var(--mono); font-size: .86em; background: var(--baby-soft); padding: .05em .35em; border-radius: 5px; }
+h1, h2, h3, h4 { font-family: var(--display); letter-spacing: -.01em; line-height: 1.15; margin: 0; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+.muted { color: var(--ink-soft); }
+
+/* ---------- Header: bien so cua phong ---------- */
+.top { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 62px; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.12rem; padding: .2rem .8rem; border: var(--line); border-radius: 8px;
+    background: var(--baby-soft); box-shadow: 3px 3px 0 var(--baby); text-decoration: none; white-space: nowrap; }
+.nav { display: flex; align-items: center; gap: 1.3rem; font-weight: 600; font-size: .93rem; }
+.nav a { text-decoration: none; position: relative; padding: .2rem 0; }
+.nav a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -3px; height: 3px; border-radius: 3px; background: var(--baby-deep); transition: right .25s; }
+.nav a:hover::after, .nav a.on::after { right: 0; }
+.nav .gh { border: var(--line); border-radius: 10px; padding: .32rem .75rem; background: var(--baby); box-shadow: 3px 3px 0 var(--ink); }
+.nav .gh::after { display: none; }
+.top .menu-btn { display: none; }
+@media (max-width: 820px) {
+    .top .menu-btn { display: inline-flex; }
+    .nav { position: absolute; top: 62px; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: .9rem; padding: 1rem 16px 1.2rem;
+        background: var(--paper); border-bottom: var(--line); display: none; }
+    .nav.open { display: flex; }
+}
+
+/* ---------- Tieu de muc: tem hanh ly ---------- */
+.eyebrow { position: relative; display: inline-block; padding: .38rem 1rem .38rem 1.6rem; font-size: .74rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; background: var(--sun); border: var(--line); clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%); transform: rotate(-2deg); }
+.eyebrow::before { content: ''; position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--ink); }
+.hl { font-style: italic; padding: 0 .12em; background: linear-gradient(transparent 58%, var(--baby) 58%, var(--baby) 92%, transparent 92%); }
+.divider { width: 140px; height: 14px; margin-top: .6rem; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='14' viewBox='0 0 140 14'%3E%3Cpath d='M2 8 C 20 2, 30 13, 48 7 S 78 2, 94 8 S 124 13, 138 5' fill='none' stroke='%235bb8e8' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat; }
+section.block { padding: 5.5rem 0 1rem; }
+.sec-head { margin-bottom: 2rem; max-width: 820px; }
+.sec-head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); margin-top: .9rem; }
+.sec-head p { color: var(--ink-soft); font-size: 1.04rem; margin: .9rem 0 0; }
+
+/* ---------- Nut ---------- */
+.btn { font: inherit; font-size: .92rem; font-weight: 700; display: inline-flex; align-items: center; gap: .45rem; padding: .62rem 1.1rem; text-decoration: none;
+    color: var(--ink); background: var(--paper); border: var(--line); border-radius: 11px; box-shadow: 3px 3px 0 var(--baby); cursor: pointer;
+    transition: transform .12s, box-shadow .12s, background .15s; white-space: nowrap; }
+.btn:hover { color: var(--ink); background: var(--baby-soft); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--baby-deep); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 transparent; }
+.btn.primary { background: var(--baby); box-shadow: 4px 4px 0 var(--ink); }
+.btn.primary:hover { background: var(--baby-deep); box-shadow: 6px 6px 0 var(--ink); }
+.btn.sm { font-size: .8rem; padding: .38rem .7rem; border-radius: 9px; }
+.btn:focus-visible, .sk .clickable:focus-visible { outline: 3px solid var(--baby-deep); outline-offset: 3px; }
+
+/* ---------- The / khung ---------- */
+.card { background: var(--paper); border: var(--line); border-radius: 14px; box-shadow: var(--pop); }
+.tag { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; background: var(--baby-soft);
+    border: 1.5px solid var(--ink); border-radius: 6px; padding: .12rem .5rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chip { font-size: .8rem; font-weight: 600; padding: .22rem .6rem; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--paper); }
+.chip.b { background: var(--baby-soft); }
+.chip.y { background: var(--sun-soft); }
+.chip.g { background: var(--mint-soft); }
+.chip.r { background: var(--rose-soft); }
+
+/* The chia khoa phong (so lieu) */
+.keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; }
+.key { position: relative; padding: 1.15rem 1.1rem 1rem; border: var(--line); border-radius: 14px 14px 14px 34px; background: var(--paper); box-shadow: var(--pop);
+    transition: transform .2s, box-shadow .2s; }
+.key:hover { transform: translate(-3px, -3px); box-shadow: var(--pop-hover); }
+.key::before { content: ''; position: absolute; top: 12px; right: 12px; width: 11px; height: 11px; border-radius: 50%; border: var(--line); background: var(--baby-soft); }
+.key b { display: block; font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+.key span { font-size: .84rem; color: var(--ink-soft); }
+
+/* Anh polaroid */
+.polaroid { display: block; padding: 10px 10px 0; background: var(--paper); border: var(--line); border-radius: 6px; box-shadow: var(--pop);
+    transition: transform .2s, box-shadow .2s; text-decoration: none; cursor: zoom-in; }
+.polaroid:hover { transform: rotate(0) translate(-3px, -3px) !important; box-shadow: var(--pop-hover); }
+.polaroid img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: var(--line); border-radius: 3px; background: var(--baby-soft); }
+.polaroid .cap { font-family: var(--display); font-style: italic; font-size: .98rem; text-align: center; padding: .6rem .3rem .75rem; }
+
+/* ---------- Khung so do ---------- */
+.dg { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 1.4rem; align-items: start; }
+.dg.full { grid-template-columns: 1fr; }
+@media (max-width: 1000px) { .dg { grid-template-columns: 1fr; } }
+.dg-box { padding: .6rem; overflow-x: auto; }
+.dg-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; padding: .3rem .4rem .7rem; }
+.dg-bar .t { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+.dg-bar .t small { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: .8rem; color: var(--ink-soft); margin-left: .4rem; }
+.dg svg { display: block; width: 100%; height: auto; }
+.dg-side { position: sticky; top: 84px; }
+@media (max-width: 1000px) { .dg-side { position: static; } }
+.panel { padding: 1.1rem 1.2rem 1.2rem; }
+.panel h3 { font-size: 1.3rem; margin: .55rem 0 .45rem; }
+.panel p { margin: 0 0 .7rem; color: var(--ink-soft); font-size: .92rem; }
+.panel p b, .panel li b { color: var(--ink); }
+.panel ul { margin: 0 0 .7rem; padding-left: 1.1rem; color: var(--ink-soft); font-size: .9rem; }
+.hint { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; color: var(--ink-soft); }
+.hint i { font-size: 1.3rem; color: var(--baby-deep); }
+pre.code { margin: .4rem 0 .5rem; padding: .8rem .9rem; background: #0f2a47; color: #e3f4fd; border: var(--line); border-radius: 10px;
+    font: .74rem/1.55 var(--mono); overflow: auto; max-height: 300px; white-space: pre; }
+pre.code .c { color: #8fb4d6; font-style: italic; }
+pre.code .k { color: var(--sun); }
+pre.code .s { color: var(--mint); }
+.ref { font: .76rem var(--mono); color: var(--ink-soft); word-break: break-all; }
+
+/* Tab */
+.tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.tabs button { font: inherit; font-size: .88rem; font-weight: 700; padding: .45rem .9rem; border: var(--line); border-radius: 10px; background: var(--paper);
+    color: var(--ink); cursor: pointer; box-shadow: 3px 3px 0 var(--baby); transition: transform .12s, box-shadow .12s, background .15s; }
+.tabs button:hover { background: var(--baby-soft); }
+.tabs button[aria-selected="true"] { background: var(--sun); box-shadow: 3px 3px 0 var(--ink); }
+[role="tabpanel"][hidden] { display: none; }
+
+/* ---------- Lightbox ---------- */
+.lb { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 24px; background: rgba(20, 54, 90, .78); cursor: zoom-out; }
+.lb.open { display: grid; }
+.lb figure { margin: 0; max-width: min(1200px, 100%); }
+.lb img { max-height: 82vh; width: auto; margin: 0 auto; border: 2px solid var(--ink); border-radius: 8px; background: #fff; box-shadow: 8px 8px 0 var(--baby); }
+.lb figcaption { color: #fff; text-align: center; font-family: var(--display); font-style: italic; font-size: 1.1rem; margin-top: .9rem; }
+
+/* ---------- Footer: dai song xanh baby ---------- */
+footer.foot { position: relative; margin-top: 6rem; background: var(--baby); border-top: var(--line); padding: 2.4rem 0 2rem; }
+footer.foot::before { content: ''; position: absolute; left: 0; right: 0; top: -19px; height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'%3E%3Cpath d='M0 20 Q15 0 30 10 T60 10 V20 Z' fill='%239fd8f5'/%3E%3Cpath d='M0 20 Q15 0 30 10 T60 10' fill='none' stroke='%2314365a' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x; }
+footer.foot .wrap { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; align-items: center; }
+footer.foot b { font-family: var(--display); font-size: 1.15rem; }
+
+/* Hien dan khi cuon */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+/* ---------- Bang chi tiet noi (mo khi bam vao mot khoi tren so do) ---------- */
+.dock { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: min(400px, calc(100vw - 32px)); max-height: min(70vh, 640px);
+    display: flex; flex-direction: column; background: var(--paper); border: var(--line); border-radius: 14px; box-shadow: 6px 6px 0 var(--ink);
+    transform: translateY(calc(100% + 40px)); transition: transform .35s cubic-bezier(.2, .9, .3, 1.15); }
+.dock.open { transform: none; }
+.dock .dock-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .55rem .7rem .55rem 1rem;
+    border-bottom: 1.5px dashed var(--baby-deep); font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.dock .x { font: inherit; font-size: 1.1rem; line-height: 1; width: 32px; height: 32px; border: var(--line); border-radius: 9px; background: var(--baby-soft); cursor: pointer; color: var(--ink); }
+.dock .x:hover { background: var(--sun); }
+#dock-body { padding: .3rem 1.1rem 1.1rem; overflow: auto; }
+#dock-body h3 { font-size: 1.28rem; margin: .5rem 0 .45rem; }
+#dock-body p { margin: 0 0 .7rem; color: var(--ink-soft); font-size: .92rem; }
+#dock-body p b, #dock-body li b { color: var(--ink); }
+#dock-body ul { margin: 0 0 .7rem; padding-left: 1.1rem; color: var(--ink-soft); font-size: .9rem; }
+@media (max-width: 640px) { .dock { right: 0; left: 0; bottom: 0; width: 100%; border-radius: 14px 14px 0 0; max-height: 62vh; } }

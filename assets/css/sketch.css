@@ -1,0 +1,69 @@
+/* Kieu cho so do SVG ve tay (assets/js/sketch.js) - dung chung moi trang */
+/* ---------- SVG so do (Sketch) ---------- */
+.sk .sk-lane { fill: rgba(255, 255, 255, .55); }
+.sk .sk-lane.alt { fill: rgba(227, 244, 253, .5); }
+.sk .sk-lane-sep { stroke: var(--ink); stroke-opacity: .2; stroke-dasharray: 5 7; }
+.sk .sk-pill { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.sk .sk-pill-sh { fill: var(--baby); }
+.sk .sk-lane-t { font: 800 12.5px 'Be Vietnam Pro', sans-serif; letter-spacing: .08em; fill: var(--ink); text-transform: uppercase; }
+.sk .sk-note-t { font: italic 500 13px 'Be Vietnam Pro', sans-serif; fill: var(--ink-soft); }
+
+.sk .sk-body { fill: var(--paper); stroke: var(--ink); stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; transition: fill .2s; }
+.sk .sk-extra { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; }
+.sk .sk-sh { fill: var(--baby); }
+.sk .s-diamond .sk-body { fill: #fff8e0; }
+.sk .s-diamond .sk-sh { fill: var(--sun); }
+.sk .s-cyl .sk-body { fill: var(--baby-soft); }
+.sk .s-start .sk-body { fill: var(--ink); }
+.sk .s-end .sk-body { fill: var(--paper); }
+.sk .sk-dot { fill: var(--ink); }
+.sk .s-actor .sk-body { fill: none; stroke-width: 2; }
+.sk .s-bar .sk-body { fill: var(--sun-soft); stroke-width: 1.5; }
+.sk .s-fork .sk-body { stroke-width: 7; }
+.sk .s-box .sk-body { fill: rgba(227, 244, 253, .35); stroke-dasharray: none; stroke-width: 1.6; }
+.sk .s-head .sk-body { fill: var(--baby-soft); }
+.sk .s-note .sk-body { fill: var(--sun-soft); }
+.sk .s-table .sk-body { fill: var(--paper); }
+.sk .sk-thead { fill: var(--baby-soft); }
+.sk .err .sk-body { fill: var(--rose-soft); }
+.sk .err .sk-sh { fill: var(--rose); }
+.sk .sys .sk-body { fill: var(--mint-soft); }
+.sk .sys .sk-sh { fill: var(--mint); }
+.sk .soft .sk-body { fill: var(--baby-soft); }
+.sk .warm .sk-body { fill: var(--sun-soft); }
+.sk .warm .sk-sh { fill: var(--sun); }
+.sk .gone .sk-body { fill: #f1f3f6; }
+.sk .clickable { cursor: pointer; }
+.sk .clickable:hover .sk-body { fill: var(--baby-soft); }
+.sk .s-start.clickable:hover .sk-body { fill: var(--ink); }
+.sk .sel .sk-body { stroke-width: 3.2; }
+.sk .sel .sk-sh { fill: var(--baby-deep); }
+.sk .sk-t { font: 700 13.5px 'Be Vietnam Pro', sans-serif; fill: var(--ink); pointer-events: none; }
+.sk .sk-t.sm { font-size: 12px; font-weight: 600; }
+.sk .sk-s { font: 500 11px 'Be Vietnam Pro', sans-serif; fill: var(--ink-soft); pointer-events: none; }
+.sk .sk-no { font: italic 600 10.5px 'Fraunces', serif; fill: var(--ink-soft); pointer-events: none; }
+.sk .sk-box-t { font: 800 13px 'Be Vietnam Pro', sans-serif; fill: var(--ink); letter-spacing: .02em; }
+.sk .sk-actor-t { font: 700 13px 'Be Vietnam Pro', sans-serif; fill: var(--ink); }
+.sk .sk-th { font: 800 13px var(--mono); fill: var(--ink); pointer-events: none; }
+.sk .sk-tr { font: 500 11px var(--mono); fill: var(--ink-soft); pointer-events: none; }
+.sk .sk-tr.pk { fill: var(--ink); font-weight: 800; }
+.sk .sk-tr.fk { fill: #2a7fb3; font-weight: 600; }
+
+.sk .sk-ln { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sk .k-dash .sk-ln, .sk .k-ret .sk-ln { stroke-dasharray: 7 6; }
+.sk .k-life .sk-ln { stroke-dasharray: 5 6; stroke-opacity: .45; stroke-width: 1.4; }
+.sk .k-async .sk-ln { stroke-dasharray: 7 6; stroke: var(--green); }
+.sk .k-side .sk-ln { stroke: var(--baby-deep); }
+.sk .k-err .sk-ln { stroke: var(--red); }
+.sk .k-err.k-ret .sk-ln { stroke-dasharray: 7 6; }
+.sk .k-rel .sk-ln { stroke-width: 1.6; }
+.sk .sk-arw { fill: var(--ink); }
+.sk .k-err .sk-arw { fill: var(--red); }
+.sk .k-async .sk-arw { fill: var(--green); }
+.sk .sk-tri { fill: var(--paper); stroke: var(--ink); stroke-width: 1.6; }
+.sk .sk-lbl { font: 16.5px var(--hand); fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
+.sk .k-err .sk-lbl, .sk .k-err .sk-msg { fill: var(--red); }
+.sk .k-async .sk-lbl, .sk .k-async .sk-msg { fill: var(--green); }
+.sk .sk-msg { font: 500 12.2px 'Be Vietnam Pro', sans-serif; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+.sk .sk-card { font: 800 12px 'Be Vietnam Pro', sans-serif; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.sk .sk-pencil { pointer-events: none; }

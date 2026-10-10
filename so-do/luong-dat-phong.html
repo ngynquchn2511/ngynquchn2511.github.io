@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sơ đồ nghiệp vụ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600;1,9..144,700&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+/* Cung bo mau voi theme "eaut" cua Homestay May: giay cham bi, muc navy, xanh baby, bong do lech */
+:root {
+    --paper: #ffffff; --dot: #d6ecf9; --baby: #9fd8f5; --baby-soft: #e3f4fd; --baby-deep: #5bb8e8;
+    --ink: #14365a; --ink-soft: #4d6b88; --sun: #ffd76a; --rose: #ff9fb2; --rose-soft: #ffe6ec; --red: #c2334d;
+    --mint: #bdeccf; --mint-soft: #e9f8ef; --sun-soft: #fff4c9; --green: #1d8a4e;
+    --line: 1.5px solid var(--ink); --pop: 5px 5px 0 var(--baby); --pop-hover: 8px 8px 0 var(--baby-deep);
+    --display: 'Fraunces', Georgia, serif; --hand: 'Patrick Hand', 'Comic Sans MS', cursive;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body { margin: 0; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: var(--ink); overflow-x: hidden;
+    background-color: var(--paper); background-image: radial-gradient(var(--dot) 1.3px, transparent 1.3px); background-size: 22px 22px; }
+
+/* ---------- Header ---------- */
+header.top { position: sticky; top: 0; z-index: 30; background: var(--paper); border-bottom: var(--line); }
+.top .in { max-width: 1340px; margin: auto; padding: .65rem 16px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.1rem; padding: .2rem .8rem; border: var(--line); border-radius: 8px;
+    background: var(--baby-soft); box-shadow: 3px 3px 0 var(--baby); color: var(--ink); text-decoration: none; }
+.top nav { display: flex; gap: 1.2rem; font-weight: 600; font-size: .92rem; }
+.top nav a { color: var(--ink); text-decoration: none; position: relative; }
+.top nav a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -3px; height: 3px; border-radius: 3px; background: var(--baby-deep); transition: right .25s; }
+.top nav a:hover::after, .top nav a.on::after { right: 0; }
+@media (max-width: 640px) { .top nav { display: none; } }
+
+main { max-width: 1340px; margin: auto; padding: 2.4rem 16px 5rem; }
+
+/* ---------- Tieu de: tem hanh ly ---------- */
+.eyebrow { position: relative; display: inline-block; padding: .38rem 1rem .38rem 1.6rem; font-size: .76rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; background: var(--sun); border: var(--line); clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%); transform: rotate(-2deg); }
+.eyebrow::before { content: ''; position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--ink); }
+h1 { font-family: var(--display); font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.1; margin: .9rem 0 .4rem; letter-spacing: -.01em; }
+.hl { font-style: italic; padding: 0 .12em; background: linear-gradient(transparent 58%, var(--baby) 58%, var(--baby) 92%, transparent 92%); }
+.divider { width: 140px; height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='14' viewBox='0 0 140 14'%3E%3Cpath d='M2 8 C 20 2, 30 13, 48 7 S 78 2, 94 8 S 124 13, 138 5' fill='none' stroke='%235bb8e8' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat; }
+.lead { color: var(--ink-soft); font-size: 1.05rem; max-width: 760px; margin: .9rem 0 0; line-height: 1.6; }
+.lead b { color: var(--ink); }
+
+/* ---------- Thanh dieu khien ---------- */
+.toolbar { position: sticky; top: 64px; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: .55rem;
+    margin: 1.8rem 0 1.4rem; padding: .7rem .8rem; background: var(--paper); border: var(--line); border-radius: 14px; box-shadow: var(--pop); }
+.btn { font: inherit; font-size: .88rem; font-weight: 700; display: inline-flex; align-items: center; gap: .4rem; padding: .48rem .85rem;
+    color: var(--ink); background: var(--paper); border: var(--line); border-radius: 10px; box-shadow: 3px 3px 0 var(--baby); cursor: pointer;
+    transition: transform .12s, box-shadow .12s, background .15s; white-space: nowrap; }
+.btn:hover { background: var(--baby-soft); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--baby-deep); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 transparent; }
+.btn.primary { background: var(--baby); box-shadow: 4px 4px 0 var(--ink); }
+.btn.primary:hover { background: var(--baby-deep); box-shadow: 5px 5px 0 var(--ink); }
+.btn.on { background: var(--sun); }
+.btn:focus-visible { outline: 3px solid var(--baby-deep); outline-offset: 2px; }
+.sep { width: 1.5px; align-self: stretch; background: var(--ink); opacity: .18; margin: 0 .2rem; }
+.grp-label { font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.speed { display: inline-flex; align-items: center; gap: .45rem; font-size: .85rem; font-weight: 700; }
+.speed input { accent-color: var(--ink); width: 90px; }
+.progress { flex: 1 1 120px; min-width: 120px; height: 10px; border: var(--line); border-radius: 6px; overflow: hidden; background: var(--baby-soft); }
+.progress i { display: block; height: 100%; width: 0; background: var(--baby-deep); }
+
+/* ---------- Bo cuc ---------- */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 370px; gap: 1.6rem; align-items: start; }
+.card { background: var(--paper); border: var(--line); border-radius: 14px; box-shadow: var(--pop); }
+.diagram { padding: .5rem; overflow-x: auto; }
+svg#d { display: block; width: 100%; min-width: 820px; height: auto; }
+.side { position: sticky; top: 150px; display: grid; gap: 1.3rem; }
+@media (max-width: 1060px) { .layout { grid-template-columns: 1fr; } .side { position: static; } .toolbar { top: 0; } }
+.panel { padding: 1.1rem 1.2rem 1.2rem; }
+.tag { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; background: var(--baby-soft); border-radius: 6px; padding: .2rem .55rem; }
+.tag.lane { background: var(--sun); }
+.panel h3 { font-family: var(--display); font-size: 1.35rem; margin: .55rem 0 .45rem; line-height: 1.2; }
+.panel p { margin: 0 0 .7rem; color: var(--ink-soft); line-height: 1.6; font-size: .92rem; }
+.panel p b, .panel li b { color: var(--ink); }
+.panel ul { margin: 0 0 .7rem; padding-left: 1.1rem; color: var(--ink-soft); font-size: .9rem; line-height: 1.6; }
+pre.code { margin: .4rem 0 .5rem; padding: .8rem .9rem; background: #0f2a47; color: #e3f4fd; border: var(--line); border-radius: 10px;
+    font: .74rem/1.55 ui-monospace, 'Cascadia Code', Consolas, monospace; overflow: auto; max-height: 300px; white-space: pre; }
+pre.code .c { color: #8fb4d6; font-style: italic; }
+pre.code .k { color: var(--sun); }
+pre.code .s { color: var(--mint); }
+.ref { font: .76rem ui-monospace, Consolas, monospace; color: var(--ink-soft); word-break: break-all; }
+.hint { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; color: var(--ink-soft); line-height: 1.55; }
+.hint i { font-size: 1.3rem; color: var(--baby-deep); }
+.panel .head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.panel .head h4 { font-family: var(--display); font-size: 1.1rem; margin: 0; }
+ol.log { list-style: none; margin: .6rem 0 0; padding: 0; max-height: 280px; overflow: auto; font-size: .84rem; }
+ol.log li { display: flex; gap: .55rem; align-items: flex-start; padding: .38rem 0; border-bottom: 1.5px dashed var(--baby-soft); line-height: 1.45; animation: logIn .3s ease; }
+ol.log li.bad { color: var(--red); font-weight: 600; }
+ol.log li.good { font-weight: 600; }
+ol.log .who { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .7rem; font-weight: 800; border: 1.5px solid var(--ink); }
+ol.log .empty { color: var(--ink-soft); border: 0; }
+@keyframes logIn { from { opacity: 0; transform: translateX(8px); } }
+.legend { display: flex; flex-wrap: wrap; gap: .5rem 1rem; padding: .9rem 1.1rem; font-size: .8rem; font-weight: 600; margin-top: 1.3rem; }
+.legend span { display: inline-flex; align-items: center; gap: .4rem; }
+.legend svg { flex: none; }
+
+/* ---------- SVG ---------- */
+.lane-bg.odd { fill: rgba(227, 244, 253, .45); }
+.lane-bg.even { fill: rgba(255, 255, 255, .55); }
+.lane-sep { stroke: var(--ink); stroke-opacity: .2; stroke-dasharray: 5 7; }
+.lane-pill { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.lane-pill-sh { fill: var(--baby); }
+.lane-txt { font: 800 12.5px 'Be Vietnam Pro', sans-serif; letter-spacing: .08em; fill: var(--ink); text-anchor: middle; text-transform: uppercase; }
+.lane-sub { font: 500 11px ui-monospace, Consolas, monospace; fill: var(--ink-soft); text-anchor: middle; }
+
+.node { cursor: pointer; }
+.node .body { fill: var(--paper); stroke: var(--ink); stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; transition: fill .25s; }
+.node .extra { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; }
+.node .sh { fill: var(--baby); }
+.node.t-decision .body { fill: #fff8e0; }
+.node.t-decision .sh { fill: var(--sun); }
+.node.t-db .body { fill: var(--baby-soft); }
+.node.t-error .body { fill: var(--rose-soft); }
+.node.t-error .sh { fill: var(--rose); }
+.node.t-note .body { fill: #fff4c9; }
+.node.t-note .sh { fill: var(--sun); }
+.node.t-async .body { fill: var(--mint-soft); }
+.node.t-async .sh { fill: var(--mint); }
+.node.t-start .body, .node.t-end .dot { fill: var(--ink); }
+.node:hover .body { fill: var(--baby-soft); }
+.node.t-start:hover .body { fill: var(--ink); }
+.node.sel .body { stroke-width: 3.2; }
+.node.sel .sh { fill: var(--baby-deep); }
+.node.hot .body { fill: var(--sun) !important; }
+.node.waiting .body { animation: waitPulse .9s ease-in-out infinite; }
+@keyframes waitPulse { 50% { fill: #ffe9a6; stroke-width: 3; } }
+.n-title { font: 700 13.5px 'Be Vietnam Pro', sans-serif; fill: var(--ink); text-anchor: middle; pointer-events: none; }
+.n-sub { font: 500 10.8px 'Be Vietnam Pro', sans-serif; fill: var(--ink-soft); text-anchor: middle; pointer-events: none; }
+.n-no { font: italic 600 10.5px 'Fraunces', serif; fill: var(--ink-soft); pointer-events: none; }
+
+.edge .ln { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.edge.k-side .ln, .edge.k-async .ln { stroke-dasharray: 6 6; stroke-width: 1.6; }
+.edge.k-side .ln { stroke: var(--baby-deep); }
+.edge.k-async .ln { stroke: #1d8a4e; }
+.edge.k-err .ln { stroke: var(--red); }
+.edge .arw { fill: var(--ink); }
+.edge.k-side .arw { fill: var(--baby-deep); }
+.edge.k-async .arw { fill: #1d8a4e; }
+.edge.k-err .arw { fill: var(--red); }
+.edge .lbl { font: 17px var(--hand); fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
+.edge.k-err .lbl { fill: var(--red); }
+.edge.k-async .lbl { fill: #1d8a4e; }
+.edge .trail { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; opacity: .55; }
+.edge.flash .ln { stroke-width: 3.4; }
+
+.token circle { stroke: var(--ink); stroke-width: 2; }
+.token text { font: 800 11px 'Be Vietnam Pro', sans-serif; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.lock-badge text { font: 700 11px 'Be Vietnam Pro', sans-serif; fill: var(--ink); }
+.lock-badge rect { fill: var(--sun); stroke: var(--ink); stroke-width: 1.5; }
+#pencil { pointer-events: none; transition: opacity .3s; }
+
+@media (prefers-reduced-motion: reduce) { .node.waiting .body { animation: none; } }
+
+/* ---------- Trang nhieu luong: sidebar chon luong ---------- */
+main.fl { max-width: 1720px; }
+.fl-grid { display: grid; grid-template-columns: 262px minmax(0, 1fr); gap: 1.6rem; align-items: start; margin-top: 1.8rem; }
+.fl-side { position: sticky; top: 76px; max-height: calc(100vh - 92px); overflow: auto; padding: .9rem .75rem 1rem; }
+.fl-side h5 { display: flex; align-items: center; gap: .5rem; margin: .9rem .4rem .5rem; font: 700 1.02rem var(--display); }
+.fl-side .grp:first-child h5 { margin-top: .2rem; }
+.fl-side h5 small { font: 600 .66rem 'Be Vietnam Pro', sans-serif; letter-spacing: .05em; color: var(--ink-soft); text-transform: uppercase; margin-left: auto; text-align: right; }
+.fl-side h5 i { width: 30px; height: 30px; display: grid; place-items: center; border: var(--line); border-radius: 8px; background: var(--baby); font-size: .95rem; flex: none; }
+.fl-side .grp + .grp h5 i { background: var(--rose-soft); }
+.fl-side a { display: grid; grid-template-columns: auto 1fr; gap: .1rem .6rem; align-items: center; padding: .5rem .6rem; margin: .18rem 0; border: 1.5px solid transparent;
+    border-radius: 10px; color: var(--ink); text-decoration: none; font-size: .88rem; font-weight: 600; line-height: 1.3; transition: background .15s, border-color .15s, transform .12s; }
+.fl-side a i { grid-row: span 2; font-size: 1.05rem; color: var(--baby-deep); width: 20px; text-align: center; }
+.fl-side a small { font-size: .7rem; font-weight: 600; color: var(--ink-soft); letter-spacing: .02em; }
+.fl-side a:hover { background: var(--baby-soft); }
+.fl-side a.on { background: var(--sun); border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); transform: translate(-1px, -1px); }
+.fl-side a.on i { color: var(--ink); }
+.fl-side .count { font-size: .72rem; color: var(--ink-soft); padding: .6rem .5rem 0; border-top: 1.5px dashed var(--baby-soft); margin-top: .7rem; }
+@media (max-width: 1000px) {
+    .fl-grid { grid-template-columns: 1fr; }
+    .fl-side { position: sticky; top: 0; z-index: 25; max-height: none; display: flex; gap: .4rem; overflow-x: auto; padding: .55rem; }
+    .fl-side h5, .fl-side .count { display: none; }
+    .fl-side .grp { display: contents; }
+    .fl-side a { flex: none; grid-template-columns: auto; white-space: nowrap; }
+    .fl-side a i, .fl-side a small { display: none; }
+}
+.flow[hidden] { display: none; }
+.flow-head { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; align-items: flex-end; justify-content: space-between; margin-bottom: 1rem; }
+.flow-head h2 { font-family: var(--display); font-size: clamp(1.6rem, 3vw, 2.2rem); margin: .55rem 0 .35rem; line-height: 1.15; }
+.flow-head p { margin: 0; color: var(--ink-soft); max-width: 780px; line-height: 1.6; }
+.flow-head p b { color: var(--ink); }
+.flow-head .acts { display: flex; gap: .5rem; }
+.proj-tag { display: inline-flex; align-items: center; gap: .35rem; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: .25rem .6rem; border: var(--line); border-radius: 7px; background: var(--baby-soft); }
+.proj-tag.sc { background: var(--rose-soft); }
+.proj-tag.kind { background: var(--sun-soft); }
+.flow .canvas { padding: .6rem; overflow-x: auto; }
+.flow .canvas svg { display: block; width: 100%; min-width: 760px; height: auto; margin: 0 auto; }
+.flow .canvas svg.sk { max-width: 1180px; }
+.flow .tip { font-size: .84rem; color: var(--ink-soft); margin: .8rem .2rem 0; display: flex; gap: .4rem; align-items: center; }
+
+/* Bang chi tiet noi */
+.dock { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: min(410px, calc(100vw - 32px)); max-height: min(72vh, 660px); display: flex; flex-direction: column;
+    background: var(--paper); border: var(--line); border-radius: 14px; box-shadow: 6px 6px 0 var(--ink); transform: translateY(calc(100% + 40px)); transition: transform .35s cubic-bezier(.2, .9, .3, 1.15); }
+.dock.open { transform: none; }
+.dock .dock-top { display: flex; align-items: center; justify-content: space-between; padding: .55rem .7rem .55rem 1rem; border-bottom: 1.5px dashed var(--baby-deep);
+    font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.dock .x { font: inherit; font-size: 1.1rem; width: 32px; height: 32px; border: var(--line); border-radius: 9px; background: var(--baby-soft); cursor: pointer; color: var(--ink); }
+.dock .x:hover { background: var(--sun); }
+#dock-body { padding: .3rem 1.1rem 1.1rem; overflow: auto; }
+#dock-body h3 { font-family: var(--display); font-size: 1.28rem; margin: .5rem 0 .45rem; }
+#dock-body p, #dock-body ul { margin: 0 0 .7rem; color: var(--ink-soft); font-size: .92rem; line-height: 1.6; }
+#dock-body p b, #dock-body li b { color: var(--ink); }
+#dock-body ul { padding-left: 1.1rem; }
+@media (max-width: 640px) { .dock { right: 0; left: 0; bottom: 0; width: 100%; border-radius: 14px 14px 0 0; max-height: 62vh; } }
+</style>
+<link href="../assets/css/sketch.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="top">
+    <div class="in">
+        <a class="brand" href="../index.html">Nguyễn Quốc Hoàn</a>
+        <nav>
+            <a href="../index.html">Giới thiệu</a>
+            <a href="../homestay-may.html">Homestay Mây</a>
+            <a href="../sweet-cake.html">Sweet Cake</a>
+            <a href="../so-do/luong-dat-phong.html" class="on">Sơ đồ nghiệp vụ</a>
+            <a href="https://github.com/ngynquchn2511" target="_blank" rel="noopener"><i class="bi bi-github"></i> GitHub</a>
+        </nav>
+    </div>
+</header>
+
+<main class="fl">
+    <span class="eyebrow">Sơ đồ quy trình nghiệp vụ</span>
+    <h1>Quy trình <span class="hl">nghiệp vụ</span></h1>
+    <div class="divider"></div>
+    <p class="lead">
+        Sơ đồ hoạt động, tuần tự và trạng thái của hai dự án <b>Homestay Mây</b> và <b>Sweet Cake</b>.
+        Chọn quy trình ở cột bên trái, bấm vào từng bước để xem diễn giải.
+    </p>
+
+    <div class="fl-grid">
+        <nav class="card fl-side" id="flSide" aria-label="Chọn luồng"></nav>
+        <div class="fl-content" id="flContent">
+            <section class="flow" id="f-dat-phong" data-id="dat-phong">
+                <div class="flow-head">
+                    <div>
+                        <span class="proj-tag"><i class="bi bi-house-heart"></i>Homestay Mây</span> <span class="proj-tag kind">Hoạt động · có kịch bản</span>
+                        <h2>Đặt phòng trực tuyến</h2>
+                        <p><code>CustomerBookingController</code> → <code>BookingService.createBooking()</code> → khóa dòng phòng → lưu đơn → gửi email ở luồng riêng. Chạy kịch bản <b>“Hai người cùng đặt”</b> để xem cơ chế chống đặt trùng.</p>
+                    </div>
+                </div>
+            <div class="toolbar" role="toolbar" aria-label="Điều khiển sơ đồ">
+                <button class="btn primary" id="bPlay"><i class="bi bi-play-fill"></i><span>Phát</span></button>
+                <button class="btn" id="bStep" title="Vẽ bước tiếp theo"><i class="bi bi-skip-end-fill"></i>Từng bước</button>
+                <button class="btn" id="bReplay" title="Xóa và vẽ lại từ đầu"><i class="bi bi-arrow-counterclockwise"></i>Vẽ lại</button>
+                <button class="btn" id="bAll" title="Hiện toàn bộ sơ đồ ngay"><i class="bi bi-lightning-charge"></i>Hiện hết</button>
+                <label class="speed"><i class="bi bi-speedometer2"></i><input type="range" id="speed" min="0.5" max="3" step="0.25" value="1" aria-label="Tốc độ"><span id="speedV">1×</span></label>
+                <button class="btn on" id="bFollow" title="Tự cuộn trang theo nét vẽ"><i class="bi bi-crosshair"></i>Bám theo</button>
+                <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+                <span class="sep"></span>
+                <span class="grp-label">Kịch bản</span>
+                <button class="btn" data-sc="ok"><i class="bi bi-check2-circle"></i>Đặt thành công</button>
+                <button class="btn" data-sc="race"><i class="bi bi-people"></i>Hai người cùng đặt</button>
+                <button class="btn" data-sc="bad"><i class="bi bi-x-octagon"></i>Form nhập sai</button>
+            </div>
+
+            <div class="layout">
+                <div>
+                    <div class="card diagram"><svg id="d" viewBox="0 0 1120 1870" role="img" aria-label="Sơ đồ hoạt động luồng đặt phòng"></svg></div>
+                    <div class="card legend" id="legend"></div>
+                </div>
+                <aside class="side">
+                    <div class="card panel" id="detail">
+                        <div class="hint"><i class="bi bi-hand-index-thumb"></i><div>Bấm vào <b>một bước bất kỳ</b> trên sơ đồ để xem nó làm gì và <b>diễn giải chi tiết</b> tương ứng trong dự án.</div></div>
+                    </div>
+                    <div class="card panel">
+                        <div class="head"><h4><i class="bi bi-terminal"></i> Nhật ký chạy</h4><span class="tag" id="clock">00:00.0</span></div>
+                        <ol class="log" id="log"><li class="empty">Chọn một kịch bản ở thanh trên để chạy thử.</li></ol>
+                    </div>
+                </aside>
+            </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<aside class="dock" id="dock" aria-live="polite">
+    <div class="dock-top"><span><i class="bi bi-info-square"></i> Diễn giải</span><button class="x" aria-label="Đóng" onclick="document.getElementById('dock').classList.remove('open')">×</button></div>
+    <div id="dock-body"></div>
+</aside>
+
+<script>
+(() => {
+'use strict';
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('d');
+const W = 1120, H = 1870;
+
+/* ================= DU LIEU SO DO (lay tu code that) ================= */
+const LANES = [
+    { x: 0,   w: 230, t: 'Khách hàng',    s: 'trình duyệt' },
+    { x: 230, w: 220, t: 'Controller',    s: 'CustomerBooking…' },
+    { x: 450, w: 280, t: 'BookingService', s: '@Service' },
+    { x: 730, w: 200, t: 'MySQL',         s: 'InnoDB' },
+    { x: 930, w: 190, t: 'Bất đồng bộ',   s: 'email · scheduler' },
+];
+const CX = LANES.map(l => l.x + l.w / 2);
+const SIZE = {
+    action: [184, 58], action2: [232, 58], decision: [152, 80], db: [176, 64], error: [190, 62],
+    note: [168, 64], async: [168, 58], start: [26, 26], end: [32, 32],
+};
+const N = {
+    s0:  { l: 0, y: 92,   t: 'start' },
+    n1:  { l: 0, y: 170,  t: 'action', ti: 'Chọn phòng & ngày', su: 'trang /rooms' },
+    n2:  { l: 1, y: 170,  t: 'action', ti: 'GET /bookings/new', su: 'giá từng đêm · còn trống?' },
+    n3:  { l: 0, y: 265,  t: 'action', ti: 'Điền form xác nhận', su: 'tên · SĐT · email · giờ · mã' },
+    n4:  { l: 0, y: 360,  t: 'action', ti: 'Bấm “Xác nhận”', su: 'POST /customer/bookings/new' },
+    d1:  { l: 1, y: 445,  t: 'decision', ti: '@Valid hợp lệ?' },
+    d2:  { l: 1, y: 550,  t: 'decision', ti: 'Đã đăng nhập?' },
+    n5:  { l: 2, y: 550,  t: 'action', ti: 'Tìm / tạo tài khoản', su: 'findOrCreateGuestCustomer()' },
+    n6:  { l: 2, y: 645,  t: 'action', ti: 'Mở giao dịch', su: '@Transactional · READ_COMMITTED' },
+    n7:  { l: 2, y: 735,  t: 'action', ti: 'Kiểm tra dữ liệu', su: 'email · BR-02 ngày trả > ngày nhận' },
+    n8:  { l: 2, y: 825,  t: 'action', ti: 'lockRoom(roomId)', su: 'khóa dòng phòng trước khi kiểm tra' },
+    db1: { l: 3, y: 825,  t: 'db', ti: 'SELECT … FOR UPDATE', su: 'PESSIMISTIC_WRITE · 5s' },
+    d3:  { l: 2, y: 920,  t: 'decision', ti: 'Đang bảo trì?', su: 'BR-03' },
+    d4:  { l: 2, y: 1020, t: 'decision', ti: 'Trùng lịch?', su: 'BR-01' },
+    db2: { l: 3, y: 1020, t: 'db', ti: 'existsOverlapping…', su: 'đơn chồng khoảng ngày' },
+    n9:  { l: 2, y: 1115, t: 'action', ti: 'Kiểm tra giờ đổi khách', su: 'checkTurnoverTimes()' },
+    n10: { l: 2, y: 1205, t: 'action', ti: 'Tính tiền', su: 'Σ giá từng đêm + combo − mã giảm' },
+    n11: { l: 2, y: 1295, t: 'action', ti: 'Tiền cọc & hạn cọc', su: 'hạn ≤ 6 giờ trước giờ nhận phòng' },
+    n12: { l: 2, y: 1385, t: 'action', ti: 'save(booking)', su: 'trạng thái PENDING' },
+    db3: { l: 3, y: 1385, t: 'db', ti: 'INSERT booking', su: 'bảng bookings' },
+    a2:  { l: 4, y: 1385, t: 'note', ti: 'Scheduler 5 phút', su: 'quá hạn → CANCELLED' },
+    n13: { l: 2, y: 1475, t: 'action', ti: 'Soạn email xác nhận', su: 'deliverAfterCommit(…)' },
+    n14: { l: 2, y: 1565, t: 'action', ti: 'COMMIT', su: 'nhả khóa dòng phòng' },
+    a1:  { l: 4, y: 1565, t: 'async', ti: 'Gửi email', su: 'luồng riêng, lỗi → log' },
+    n15: { l: 1, y: 1655, t: 'action', ti: 'Redirect → trang đơn', su: '/bookings/{id}?token=…' },
+    n16: { l: 0, y: 1745, t: 'action', ti: 'Trang đặt thành công', su: 'mã đơn + QR chuyển cọc' },
+    e1:  { l: 0, y: 1830, t: 'end' },
+    err: { l: 0, y: 1205, t: 'error', ti: 'Hiện lại form + lỗi', su: 'lỗi validate / nghiệp vụ' },
+};
+for (const [id, n] of Object.entries(N)) {
+    n.id = id;
+    n.cx = CX[n.l];
+    const key = n.t === 'action' && n.l === 2 ? 'action2' : n.t;
+    [n.w, n.h] = SIZE[key];
+}
+// Diem neo tren vien cua 1 nut
+const A = (id, side) => {
+    const n = N[id];
+    if (side === 't') return [n.cx, n.y - n.h / 2];
+    if (side === 'b') return [n.cx, n.y + n.h / 2];
+    if (side === 'l') return [n.cx - n.w / 2, n.y];
+    return [n.cx + n.w / 2, n.y];
+};
+const BUS = 236; // duong gom cac nhanh loi ve form
+const toErr = (from, side) => [A(from, side), [BUS, N[from].y], [BUS, N.err.y], A('err', 'r')];
+
+// kind: flow | err | side (truy van DB) | async
+const EDGES = [
+    ['s0', 'n1'], ['n1', 'n2'],
+    ['n2', 'n3', { pts: [A('n2', 'b'), [CX[1], N.n3.y], A('n3', 'r')] }],
+    ['n3', 'n4'],
+    ['n4', 'd1', { pts: [A('n4', 'r'), [CX[1], N.n4.y], A('d1', 't')] }],
+    ['d1', 'd2', { lb: 'có', lp: [352, 497] }],
+    ['d1', 'err', { k: 'err', pts: toErr('d1', 'l'), lb: 'không', lp: [226, 472, 'end'] }],
+    ['err', 'n3', { k: 'err', pts: [A('err', 'l'), [12, N.err.y], [12, N.n3.y], A('n3', 'l')], lb: 'sửa & gửi lại', lp: [12, 760, 'middle', -90] }],
+    ['d2', 'n5', { lb: 'không', lp: [446, 538, 'middle'] }],
+    ['d2', 'n6', { pts: [A('d2', 'b'), [CX[1], N.n6.y], A('n6', 'l')], lb: 'có', lp: [352, 602] }],
+    ['n5', 'n6'], ['n6', 'n7'],
+    ['n7', 'err', { k: 'err', pts: toErr('n7', 'l'), lb: 'sai dữ liệu', lp: [360, 727, 'middle'] }],
+    ['n7', 'n8'],
+    ['n8', 'db1', { k: 'side' }],
+    ['n8', 'd3'],
+    ['d3', 'err', { k: 'err', pts: toErr('d3', 'l'), lb: 'có', lp: [494, 910, 'middle'] }],
+    ['d3', 'd4', { lb: 'không', lp: [602, 976] }],
+    ['d4', 'db2', { k: 'side' }],
+    ['d4', 'err', { k: 'err', pts: toErr('d4', 'l'), lb: 'có · phòng vừa bị đặt', lp: [378, 1010, 'middle'] }],
+    ['d4', 'n9', { lb: 'không', lp: [602, 1076] }],
+    ['n9', 'err', { k: 'err', pts: toErr('n9', 'l'), lb: 'giờ vướng khách khác', lp: [356, 1107, 'middle'] }],
+    ['n9', 'n10'],
+    ['n10', 'err', { k: 'err', lb: 'mã giảm giá sai', lp: [345, 1197, 'middle'] }],
+    ['n10', 'n11'], ['n11', 'n12'],
+    ['n12', 'db3', { k: 'side' }],
+    ['a2', 'db3', { k: 'side', pts: [A('a2', 'l'), A('db3', 'r')] }],
+    ['n12', 'n13'], ['n13', 'n14'],
+    ['n14', 'a1', { k: 'async', lb: 'sau commit', lp: [830, 1556, 'middle'] }],
+    ['n14', 'n15', { pts: [A('n14', 'b'), [CX[2], N.n15.y], A('n15', 'r')] }],
+    ['n15', 'n16', { pts: [A('n15', 'b'), [CX[1], N.n16.y], A('n16', 'r')] }],
+    ['n16', 'e1'],
+];
+const E = {};
+for (const [from, to, o = {}] of EDGES) {
+    const id = from + '-' + to;
+    let pts = o.pts;
+    if (!pts) {
+        const a = N[from], b = N[to];
+        if (a.l === b.l) pts = [A(from, 'b'), A(to, 't')];
+        else if (a.cx < b.cx) pts = [A(from, 'r'), A(to, 'l')];
+        else pts = [A(from, 'l'), A(to, 'r')];
+    }
+    E[id] = { id, from, to, k: o.k || 'flow', pts, lb: o.lb, lp: o.lp };
+}
+
+/* Thu tu ve: di theo dong chay, nhanh loi ve ngay sau nut sinh ra no */
+const ORDER = ['lanes', 's0', 's0-n1', 'n1', 'n1-n2', 'n2', 'n2-n3', 'n3', 'n3-n4', 'n4', 'n4-d1', 'd1',
+    'd1-err', 'err', 'err-n3', 'd1-d2', 'd2', 'd2-n5', 'n5', 'd2-n6', 'n6', 'n5-n6', 'n6-n7', 'n7', 'n7-err',
+    'n7-n8', 'n8', 'n8-db1', 'db1', 'n8-d3', 'd3', 'd3-err', 'd3-d4', 'd4', 'd4-db2', 'db2', 'd4-err',
+    'd4-n9', 'n9', 'n9-err', 'n9-n10', 'n10', 'n10-err', 'n10-n11', 'n11', 'n11-n12', 'n12', 'n12-db3', 'db3',
+    'a2', 'a2-db3', 'n12-n13', 'n13', 'n13-n14', 'n14', 'n14-a1', 'a1', 'n14-n15', 'n15', 'n15-n16', 'n16', 'n16-e1', 'e1'];
+
+/* ================= CHI TIET TUNG BUOC ================= */
+const CTRL = 'controller/CustomerBookingController.java';
+const SVC = 'service/BookingService.java';
+const INFO = {
+    s0: { t: 'Bắt đầu', d: 'Khách mở website Homestay Mây. Không bắt buộc đăng nhập — khách vãng lai vẫn đặt được phòng.' },
+    n1: { t: 'Chọn phòng & ngày', d: 'Khách lọc phòng trống theo ngày nhận / trả, chọn số khách và có thể chọn thêm <b>combo</b> (BBQ, đưa đón…).' },
+    n2: { t: 'Dựng trang xác nhận', d: 'Server tính <b>giá từng đêm</b> (ngày thường / cuối tuần / lễ có giá khác nhau), kiểm tra phòng còn trống và giờ nhận/trả bị giới hạn bởi khách trước/sau. Nếu đã đăng nhập thì điền sẵn họ tên, SĐT, email.',
+        c: `<span class="k">@GetMapping</span>(<span class="s">"/new"</span>)
+<span class="k">public</span> String confirmForm(Long roomId, LocalDate checkIn, ...) {
+    rebuildModel(model, roomId, checkIn, checkOut, guests, comboId);
+    request.setCheckInTime(DEFAULT_CHECK_IN_TIME);   <span class="c">// 14:00</span>
+    request.setCheckOutTime(DEFAULT_CHECK_OUT_TIME); <span class="c">// 12:00</span>
+    <span class="c">// Ngay doi khach: khong nhan som hon gio khach truoc tra</span>
+    <span class="k">if</span> (availability.earliestCheckIn() != <span class="k">null</span> && ...)
+        request.setCheckInTime(availability.earliestCheckIn());
+    <span class="k">if</span> (userDetails != <span class="k">null</span>) { <span class="c">/* dien san thong tin */</span> }
+    <span class="k">return</span> <span class="s">"customer/booking-confirm"</span>;
+}`, r: CTRL + ' · confirmForm()' },
+    n3: { t: 'Điền form xác nhận', d: 'Họ tên, SĐT, email, giờ nhận/trả (chọn mỗi 30 phút), combo và mã giảm giá. Nút <b>“Kiểm tra mã”</b> gọi AJAX <code>/check-discount</code> để xem trước số tiền giảm mà không tải lại trang.' },
+    n4: { t: 'Gửi đơn', d: 'Form gửi <b>POST /customer/bookings/new</b> kèm CSRF token (Spring Security).' },
+    d1: { t: '@Valid hợp lệ?', d: 'Bean Validation kiểm tra <code>BookingConfirmRequest</code>. Sai thì trả lại đúng trang form kèm thông báo — không tạo đơn.',
+        c: `<span class="k">@PostMapping</span>(<span class="s">"/new"</span>)
+<span class="k">public</span> String createBooking(...,
+        <span class="k">@Valid</span> <span class="k">@ModelAttribute</span> BookingConfirmRequest request,
+        BindingResult bindingResult, ...) {
+    <span class="k">if</span> (bindingResult.hasErrors()) {
+        rebuildModel(model, roomId, checkIn, checkOut, guests, comboId);
+        <span class="k">return</span> <span class="s">"customer/booking-confirm"</span>;
+    }`, r: CTRL + ' · createBooking()' },
+    d2: { t: 'Đã đăng nhập?', d: 'Đã đăng nhập thì gắn đơn vào tài khoản đó. Chưa thì hệ thống <b>tự tìm / tạo tài khoản theo email</b> — khách không cần biết mình “có tài khoản”.',
+        c: `User customer = (userDetails != <span class="k">null</span>)
+        ? userDetails.getUser()
+        : customerManagementService.findOrCreateGuestCustomer(
+                request.getGuestName(), request.getGuestEmail(), request.getGuestPhone());`, r: CTRL + ' · createBooking()' },
+    n5: { t: 'Tìm / tạo tài khoản khách', d: 'Tra theo email; chưa có thì tạo tài khoản khách hàng mới để lưu lịch sử đặt phòng.' },
+    n6: { t: 'Mở giao dịch READ_COMMITTED', d: 'Toàn bộ kiểm tra + lưu đơn chạy trong <b>một giao dịch</b>. Mức cô lập <b>READ_COMMITTED</b> (thay vì REPEATABLE READ mặc định của MySQL) để sau khi chờ khóa, câu kiểm tra trùng lịch đọc được đơn mà người trước <b>vừa commit</b> — không đọc “ảnh chụp” cũ.',
+        c: `<span class="c">// Khach dat online: don cho xac nhan, kem tien coc + han coc</span>
+<span class="k">@Transactional</span>(isolation = Isolation.READ_COMMITTED)
+<span class="k">public</span> Booking createBooking(User customer, Long roomId, ...) {
+    Booking booking = buildBooking(customer, roomId, ...);
+    ...
+}`, r: SVC + ':208' },
+    n7: { t: 'Kiểm tra dữ liệu', d: 'Kiểm tra lại ở tầng service (không tin dữ liệu từ trình duyệt):',
+        ul: ['Họ tên, SĐT, email bắt buộc; email đúng định dạng', '<b>BR-02</b>: ngày trả phải sau ngày nhận', 'Ngày nhận không được ở quá khứ'],
+        c: `<span class="k">if</span> (!guestEmail.trim().matches(<span class="s">"^[^\\\\s@]+@[^\\\\s@]+\\\\.[^\\\\s@]+$"</span>))
+    <span class="k">throw</span> BusinessException.of(<span class="s">"err.guestEmailInvalid"</span>);
+<span class="c">// BR-02</span>
+<span class="k">if</span> (!checkOutDate.isAfter(checkInDate))
+    <span class="k">throw</span> BusinessException.of(<span class="s">"err.checkOutAfterCheckIn"</span>);
+<span class="k">if</span> (checkInDate.isBefore(LocalDate.now()))
+    <span class="k">throw</span> BusinessException.of(<span class="s">"err.checkInPast"</span>);`, r: SVC + ' · buildBooking()' },
+    n8: { t: 'Khóa dòng phòng', d: 'Điểm mấu chốt chống <b>đặt trùng</b>: hai người đặt cùng một phòng cùng lúc sẽ phải <b>xếp hàng</b>. Người sau chờ tối đa 5 giây; quá thì báo “phòng đang bận”, không treo request.',
+        c: `<span class="c">// Khoa dong phong den het giao dich</span>
+<span class="k">private</span> Optional&lt;Room&gt; lockRoom(Long roomId) {
+    <span class="k">try</span> {
+        <span class="k">return</span> roomRepository.findByIdForUpdate(roomId);
+    } <span class="k">catch</span> (PessimisticLockingFailureException | QueryTimeoutException ex) {
+        <span class="k">throw</span> BusinessException.of(<span class="s">"err.roomBusy"</span>);
+    }
+}`, r: SVC + ':175' },
+    db1: { t: 'SELECT … FOR UPDATE', d: 'Khóa ghi bi quan (pessimistic) trên đúng một dòng của bảng <code>rooms</code> — các phòng khác vẫn đặt bình thường song song.',
+        c: `<span class="k">@Lock</span>(LockModeType.PESSIMISTIC_WRITE)
+<span class="k">@QueryHints</span>(<span class="k">@QueryHint</span>(name = <span class="s">"jakarta.persistence.lock.timeout"</span>, value = <span class="s">"5000"</span>))
+<span class="k">@Query</span>(<span class="s">"SELECT r FROM Room r WHERE r.id = :id"</span>)
+Optional&lt;Room&gt; findByIdForUpdate(<span class="k">@Param</span>(<span class="s">"id"</span>) Long id);`, r: 'repository/RoomRepository.java:28' },
+    d3: { t: 'Phòng đang bảo trì? (BR-03)', d: 'Phòng ở trạng thái <code>MAINTENANCE</code> thì không cho đặt.',
+        c: `<span class="c">// BR-03</span>
+<span class="k">if</span> (room.getStatus() == RoomStatus.MAINTENANCE)
+    <span class="k">throw</span> BusinessException.of(<span class="s">"err.roomMaintenance"</span>);`, r: SVC + ' · buildBooking()' },
+    d4: { t: 'Trùng lịch? (BR-01)', d: 'Kiểm tra <b>lần cuối ngay trước khi lưu</b> — phòng trường hợp phòng bị đặt mất trong lúc khách đang xem form. Nhờ đã giữ khóa ở bước trước, kết quả này không thể “cũ”.',
+        c: `<span class="c">// BR-01 - kiem tra lai lan cuoi ngay truoc khi luu</span>
+<span class="k">if</span> (bookingRepository.existsOverlappingBooking(roomId, checkInDate, checkOutDate)) {
+    <span class="k">throw</span> BusinessException.rendered(t -> {
+        String detail = availability.describe(t);
+        <span class="k">return</span> detail != <span class="k">null</span> ? detail : t.t(<span class="s">"err.roomJustTaken"</span>);
+    });
+}`, r: SVC + ':277' },
+    db2: { t: 'Truy vấn đơn chồng ngày', d: 'Chỉ tính các đơn đang giữ chỗ: <b>PENDING, CONFIRMED, CHECKED_IN</b>. Hai khoảng ngày chồng nhau khi <i>nhận cũ &lt; trả mới</i> và <i>trả cũ &gt; nhận mới</i>.',
+        c: `AND b.status IN (PENDING, CONFIRMED, CHECKED_IN)
+AND b.checkInDate  &lt; :checkOutDate
+AND b.checkOutDate &gt; :checkInDate`, r: 'repository/BookingRepository.java:53' },
+    n9: { t: 'Giờ đổi khách', d: 'Cùng ngày có khách trả phòng trước / nhận phòng sau thì giờ nhận không được sớm hơn, giờ trả không được muộn hơn mốc cho phép.',
+        c: `<span class="k">if</span> (availability.earliestCheckIn() != <span class="k">null</span>
+        && checkInTime.isBefore(availability.earliestCheckIn()))
+    <span class="k">throw</span> BusinessException.of(<span class="s">"err.turnover.checkIn"</span>, ...);
+<span class="k">if</span> (availability.latestCheckOut() != <span class="k">null</span>
+        && checkOutTime.isAfter(availability.latestCheckOut()))
+    <span class="k">throw</span> BusinessException.of(<span class="s">"err.turnover.checkOut"</span>, ...);`, r: SVC + ':160' },
+    n10: { t: 'Tính tiền', d: 'Tiền phòng cộng <b>từng đêm</b> theo bảng giá; cộng combo; trừ mã giảm giá.',
+        ul: ['Mã phải đang hoạt động và đúng <b>loại khách</b> (mới / thân thiết…)', 'Mỗi khách chỉ dùng một mã một lần (không tính đơn đã hủy)', 'Giảm theo % hoặc số tiền cố định, không âm tổng'],
+        c: `BigDecimal roomAmount = pricingService.roomAmount(room.getPrice(), checkInDate, checkOutDate);
+BigDecimal subtotal = roomAmount.add(comboAmount);
+<span class="k">if</span> (discountCode.getDiscountType() == DiscountType.PERCENTAGE)
+    discountAmount = subtotal.multiply(value).divide(BigDecimal.valueOf(100));
+<span class="k">else</span>
+    discountAmount = discountCode.getDiscountValue().min(subtotal);`, r: SVC + ' · buildBooking()' },
+    n11: { t: 'Tiền cọc & hạn cọc', d: 'Tiền cọc theo % cài đặt. Hạn chuyển cọc = lúc đặt + số giờ cài đặt, nhưng <b>không muộn hơn 6 giờ trước giờ nhận phòng</b>.',
+        c: `LocalDateTime deadline = LocalDateTime.now().plusHours(settings.getDepositDeadlineHours());
+LocalDateTime latest = LocalDateTime.of(checkInDate, checkInTime).minusHours(EDIT_CUTOFF_HOURS);
+<span class="k">return</span> deadline.isAfter(latest) ? latest : deadline;`, r: SVC + ':229' },
+    n12: { t: 'Lưu đơn PENDING', d: 'Đơn được lưu ở trạng thái <b>PENDING</b> (chờ xác nhận / chờ cọc), kèm mã truy cập để khách vãng lai xem lại đơn.' },
+    db3: { t: 'INSERT booking', d: 'Ghi vào bảng <code>bookings</code> — vẫn trong giao dịch, chưa ai khác thấy cho tới khi COMMIT.' },
+    a2: { t: 'Tự hủy đơn quá hạn', d: '<code>BookingExpirationScheduler</code> chạy <b>mỗi 5 phút</b>: đơn PENDING quá hạn cọc (hoặc sát giờ nhận mà chưa xác nhận) bị chuyển <b>CANCELLED</b> và gửi email báo khách.',
+        c: `<span class="k">@Scheduled</span>(fixedRate = 5 * 60 * 1000)
+<span class="k">@Transactional</span>
+<span class="k">public void</span> expireUnconfirmedBookings() {
+    ...
+    <span class="k">if</span> (now.isAfter(confirmDeadline) || depositOverdue) {
+        booking.setStatus(BookingStatus.CANCELLED);`, r: 'config/BookingExpirationScheduler.java:34' },
+    n13: { t: 'Soạn email', d: 'Nội dung email được soạn ngay (còn trong giao dịch nên đọc được phòng, combo…), còn việc <b>gửi</b> thì đăng ký chạy <b>sau khi commit</b>.' },
+    n14: { t: 'COMMIT', d: 'Giao dịch kết thúc → đơn hiện ra với mọi người và <b>khóa dòng phòng được nhả</b>. Người đang xếp hàng ở <code>lockRoom</code> lúc này mới chạy tiếp và sẽ thấy đơn vừa lưu.' },
+    a1: { t: 'Gửi email ở luồng riêng', d: 'Gửi qua <code>mailExecutor</code> nên trang không phải chờ SMTP. Gửi lỗi chỉ ghi log — <b>không làm hỏng</b> việc đặt phòng. Nếu giao dịch bị rollback thì email không bao giờ được gửi.',
+        c: `<span class="k">private void</span> deliverAfterCommit(Runnable send) {
+    <span class="k">if</span> (TransactionSynchronizationManager.isSynchronizationActive()) {
+        TransactionSynchronizationManager.registerSynchronization(
+            <span class="k">new</span> TransactionSynchronization() {
+                <span class="k">@Override public void</span> afterCommit() {
+                    mailExecutor.execute(send);
+                }
+            });
+    } <span class="k">else</span> mailExecutor.execute(send);
+}`, r: 'service/EmailService.java:102' },
+    n15: { t: 'Chuyển hướng', d: 'Mẫu <b>Post/Redirect/Get</b>: F5 không tạo đơn lần hai. Link kèm <code>?token=</code> để khách vãng lai xem lại đơn mà không cần đăng nhập — đổi id trong URL không xem được đơn người khác.',
+        c: `<span class="k">return</span> <span class="s">"redirect:/customer/bookings/"</span> + booking.getId()
+        + <span class="s">"?token="</span> + booking.getAccessToken();`, r: CTRL + ' · createBooking()' },
+    n16: { t: 'Đặt thành công', d: 'Trang chi tiết đơn: mã đơn, tiền phòng từng đêm, <b>QR chuyển cọc</b> (nếu có), sửa giờ / combo hoặc hủy đơn khi còn trong hạn.' },
+    e1: { t: 'Kết thúc', d: 'Đơn chờ cọc / chờ lễ tân xác nhận.' },
+    err: { t: 'Hiện lại form kèm lỗi', d: 'Mọi lỗi nghiệp vụ đều là <code>BusinessException</code> → giao dịch <b>rollback</b> (không có đơn nửa vời, khóa được nhả) → controller bắt lỗi và hiện lại form với thông báo song ngữ Việt – Anh.',
+        c: `} <span class="k">catch</span> (BusinessException ex) {
+    model.addAttribute(<span class="s">"errorMessage"</span>, userMessages.of(ex));
+    rebuildModel(model, roomId, checkIn, checkOut, guests, comboId);
+    <span class="k">return</span> <span class="s">"customer/booking-confirm"</span>;
+}`, r: CTRL + ' · createBooking()' },
+};
+
+/* ================= VE SVG ================= */
+const el = (tag, attrs = {}, parent) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+};
+// Nhieu ngau nhien co dinh -> net "ve tay" giong nhau moi lan tai trang
+let seed = 20230221;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const j = a => (rnd() - .5) * 2 * a;
+
+function roughRect(x, y, w, h, r, J = 1.4) {
+    return `M${x + r},${y + j(.6)} Q${x + w / 2},${y + j(J)} ${x + w - r},${y} Q${x + w},${y} ${x + w},${y + r}`
+        + ` Q${x + w + j(J)},${y + h / 2} ${x + w},${y + h - r} Q${x + w},${y + h} ${x + w - r},${y + h}`
+        + ` Q${x + w / 2},${y + h + j(J)} ${x + r},${y + h} Q${x},${y + h} ${x},${y + h - r}`
+        + ` Q${x + j(J)},${y + h / 2} ${x},${y + r} Q${x},${y} ${x + r + 3},${y + j(.8)}`;
+}
+function roughDiamond(cx, cy, w, h, J = 1.6) {
+    const t = [cx, cy - h / 2], r = [cx + w / 2, cy], b = [cx, cy + h / 2], l = [cx - w / 2, cy];
+    const mid = (p, q) => `${(p[0] + q[0]) / 2 + j(J)},${(p[1] + q[1]) / 2 + j(J)}`;
+    return `M${t} Q${mid(t, r)} ${r} Q${mid(r, b)} ${b} Q${mid(b, l)} ${l} Q${mid(l, t)} ${t[0] + 2},${t[1] + 1}`;
+}
+function cylinder(x, y, w, h) {
+    const e = 9;
+    return { body: `M${x},${y + e} A${w / 2},${e} 0 0 1 ${x + w},${y + e} L${x + w},${y + h - e} A${w / 2},${e} 0 0 1 ${x},${y + h - e} Z`,
+             extra: `M${x},${y + e} A${w / 2},${e} 0 0 0 ${x + w},${y + e}` };
+}
+function circlePath(cx, cy, r) {
+    return `M${cx - r},${cy} A${r},${r} 0 1 1 ${cx + r},${cy} A${r},${r} 0 1 1 ${cx - r},${cy}`;
+}
+// Duong gap khuc vuong goc, bo tron goc
+function orthoPath(pts) {
+    let d = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+        const [px, py] = pts[i - 1], [x, y] = pts[i], [nx, ny] = pts[i + 1];
+        const l1 = Math.hypot(x - px, y - py), l2 = Math.hypot(nx - x, ny - y);
+        const r = Math.min(12, l1 / 2, l2 / 2);
+        const ax = x - (x - px) / l1 * r, ay = y - (y - py) / l1 * r;
+        const bx = x + (nx - x) / l2 * r, by = y + (ny - y) / l2 * r;
+        d += ` L${ax},${ay} Q${x},${y} ${bx},${by}`;
+    }
+    const last = pts[pts.length - 1];
+    return d + ` L${last[0]},${last[1]}`;
+}
+
+const defs = el('defs', {}, svg);
+const gLanes = el('g', { opacity: 0 }, svg);
+const gEdges = el('g', {}, svg);
+const gNodes = el('g', {}, svg);
+const gTok = el('g', {}, svg);
+
+// Lan boi (swimlanes)
+LANES.forEach((l, i) => {
+    el('rect', { x: l.x, y: 0, width: l.w, height: H, class: 'lane-bg ' + (i % 2 ? 'odd' : 'even') }, gLanes);
+    if (i) el('line', { x1: l.x, y1: 0, x2: l.x, y2: H, class: 'lane-sep' }, gLanes);
+    const pw = Math.min(l.w - 24, 170), px = l.x + (l.w - pw) / 2;
+    el('rect', { x: px + 4, y: 18, width: pw, height: 44, rx: 10, class: 'lane-pill-sh' }, gLanes);
+    el('rect', { x: px, y: 14, width: pw, height: 44, rx: 10, class: 'lane-pill' }, gLanes);
+    el('text', { x: CX[i], y: 33, class: 'lane-txt' }, gLanes).textContent = l.t;
+    el('text', { x: CX[i], y: 49, class: 'lane-sub' }, gLanes).textContent = l.s;
+});
+
+// Nut
+let stepNo = 0;
+for (const id of ORDER) {
+    const n = N[id];
+    if (!n) continue;
+    const g = el('g', { class: `node t-${n.t}`, 'data-id': id, tabindex: 0, role: 'button', 'aria-label': (n.ti || INFO[id].t) }, gNodes);
+    const x = n.cx - n.w / 2, y = n.y - n.h / 2;
+    let body, extra = null, shD;
+    if (n.t === 'decision') { body = roughDiamond(n.cx, n.y, n.w, n.h); shD = roughDiamond(n.cx + 5, n.y + 5, n.w, n.h, 0); }
+    else if (n.t === 'db') { const c = cylinder(x, y, n.w, n.h); body = c.body; extra = c.extra; shD = cylinder(x + 5, y + 5, n.w, n.h).body; }
+    else if (n.t === 'start') { body = circlePath(n.cx, n.y, 13); }
+    else if (n.t === 'end') { body = circlePath(n.cx, n.y, 16); }
+    else { const r = n.t === 'note' ? 4 : 12; body = roughRect(x, y, n.w, n.h, r); shD = roughRect(x + 5, y + 5, n.w, n.h, r, 0); }
+    n.g = g;
+    n.sh = shD ? el('path', { d: shD, class: 'sh', opacity: 0 }, g) : null;
+    n.body = el('path', { d: body, class: 'body', pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1, 'fill-opacity': 0 }, g);
+    n.extra = extra ? el('path', { d: extra, class: 'extra', pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1 }, g) : null;
+    if (n.t === 'note') n.extra = el('path', { d: `M${x + n.w - 16},${y} L${x + n.w - 16},${y + 14} L${x + n.w},${y + 14}`, class: 'extra', pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1 }, g);
+    if (n.t === 'end') n.dot = el('circle', { cx: n.cx, cy: n.y, r: 0, class: 'dot' }, g);
+    const tg = el('g', { opacity: 0 }, g);
+    if (n.ti) {
+        const hasSub = !!n.su;
+        const ty = (n.t === 'decision' ? (hasSub ? n.y - 3 : n.y + 5) : (hasSub ? n.y - 4 : n.y + 5)) + (n.t === 'db' ? 5 : 0);
+        el('text', { x: n.cx, y: ty, class: 'n-title' }, tg).textContent = n.ti;
+        if (hasSub) el('text', { x: n.cx, y: ty + 17, class: 'n-sub' }, tg).textContent = n.su;
+        if (n.t !== 'decision' && n.t !== 'error') {
+            stepNo++;
+            el('text', { x: x + 8, y: y + 13, class: 'n-no' }, tg).textContent = String(stepNo).padStart(2, '0');
+        }
+    }
+    n.tg = tg;
+    g.addEventListener('click', () => select(id));
+    g.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(id); } });
+}
+
+// Canh
+for (const id of ORDER) {
+    const e = E[id];
+    if (!e) continue;
+    const g = el('g', { class: `edge k-${e.k}` }, gEdges);
+    const d = orthoPath(e.pts);
+    e.g = g;
+    e.trail = el('path', { d, class: 'trail', stroke: 'transparent' }, g);
+    if (e.k === 'side' || e.k === 'async') {
+        // Duong net dut: dung mask de "ve dan" ma van giu net dut
+        const m = el('mask', { id: 'm-' + id, maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, defs);
+        e.mask = el('path', { d, fill: 'none', stroke: '#fff', 'stroke-width': 10, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1 }, m);
+        e.ln = el('path', { d, class: 'ln', mask: `url(#m-${id})` }, g);
+        e.drawEl = e.mask;
+    } else {
+        e.ln = el('path', { d, class: 'ln', pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1 }, g);
+        e.drawEl = e.ln;
+    }
+    const [p, q] = [e.pts[e.pts.length - 2], e.pts[e.pts.length - 1]];
+    const ang = Math.atan2(q[1] - p[1], q[0] - p[0]) * 180 / Math.PI;
+    e.arw = el('path', { d: 'M0,0 L-11,-5.5 L-8,0 L-11,5.5 Z', class: 'arw', transform: `translate(${q[0]},${q[1]}) rotate(${ang}) scale(0)` }, g);
+    e.ang = ang; e.tip = q;
+    if (e.lb) {
+        const [lx, ly, anchor = 'start', rot = 0] = e.lp;
+        e.lbl = el('text', { x: lx, y: ly, class: 'lbl', 'text-anchor': anchor, opacity: 0, transform: rot ? `rotate(${rot} ${lx} ${ly})` : '' }, g);
+        e.lbl.textContent = e.lb;
+    }
+    e.len = e.ln.getTotalLength();
+}
+
+// But chi chay theo net ve
+const pencil = el('g', { id: 'pencil', opacity: 0 }, svg);
+const pin = el('g', { transform: 'rotate(-35)' }, pencil);
+el('path', { d: 'M0,0 L8,-4 L8,4 Z', fill: '#f4d3a1', stroke: '#14365a', 'stroke-width': 1.2 }, pin);
+el('rect', { x: 8, y: -4, width: 30, height: 8, fill: '#ffd76a', stroke: '#14365a', 'stroke-width': 1.2 }, pin);
+el('rect', { x: 38, y: -4, width: 6, height: 8, fill: '#ff9fb2', stroke: '#14365a', 'stroke-width': 1.2 }, pin);
+el('circle', { cx: 0.6, cy: 0, r: 1.4, fill: '#14365a' }, pin);
+
+/* ================= DONG CO VE ================= */
+const clamp = v => Math.max(0, Math.min(1, v));
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const items = ORDER.map(id => ({ id, kind: id === 'lanes' ? 'lanes' : N[id] ? 'node' : 'edge' }));
+function dur(it) {
+    if (it.kind === 'lanes') return 700;
+    if (it.kind === 'node') return N[it.id].t === 'start' || N[it.id].t === 'end' ? 380 : 720;
+    return Math.min(1300, 260 + E[it.id].len * 1.5);
+}
+// Ve het toan bo so do trong DRAW_MS (o toc do 1x), giu ti le thoi gian giua cac buoc
+const DRAW_MS = 2000;
+const SCALE = DRAW_MS / items.reduce((s, it) => s + dur(it), 0);
+let tip = null;
+function apply(it, t) {
+    if (it.kind === 'lanes') { gLanes.setAttribute('opacity', ease(t)); tip = null; return; }
+    if (it.kind === 'node') {
+        const n = N[it.id], o = clamp(t / .62), f = clamp((t - .5) / .5);
+        n.body.setAttribute('stroke-dashoffset', 1 - ease(o));
+        n.body.setAttribute('fill-opacity', f);
+        if (n.extra) n.extra.setAttribute('stroke-dashoffset', 1 - ease(clamp((t - .45) / .3)));
+        if (n.sh) n.sh.setAttribute('opacity', f);
+        if (n.dot) n.dot.setAttribute('r', 9 * f);
+        n.tg.setAttribute('opacity', f);
+        n.tg.setAttribute('transform', `translate(0 ${(1 - f) * 4})`);
+        const L = n.body.getTotalLength();
+        tip = t < .62 ? n.body.getPointAtLength(L * ease(o)) : null;
+        return;
+    }
+    const e = E[it.id], p = ease(t);
+    e.drawEl.setAttribute('stroke-dashoffset', 1 - p);
+    const s = clamp((t - .85) / .15);
+    e.arw.setAttribute('transform', `translate(${e.tip[0]},${e.tip[1]}) rotate(${e.ang}) scale(${s})`);
+    if (e.lbl) e.lbl.setAttribute('opacity', clamp((t - .6) / .4));
+    tip = t < 1 ? e.ln.getPointAtLength(e.len * p) : null;
+}
+
+const S = { i: 0, t: 0, playing: false, speed: 1, follow: true, last: 0 };
+const bPlay = document.getElementById('bPlay');
+const prog = document.getElementById('prog');
+function setPlaying(v) {
+    S.playing = v;
+    bPlay.innerHTML = v ? '<i class="bi bi-pause-fill"></i><span>Dừng</span>' : '<i class="bi bi-play-fill"></i><span>Phát</span>';
+}
+function drawDone() { return S.i >= items.length; }
+function finishAll() {
+    while (S.i < items.length) { apply(items[S.i], 1); S.i++; }
+    S.t = 0; tip = null;
+}
+function resetDrawing() {
+    items.forEach(it => apply(it, 0));
+    S.i = 0; S.t = 0; tip = null;
+    clearRun();
+}
+
+/* ================= KICH BAN: TOKEN CHAY TREN SO DO ================= */
+const PRE = ['s0-n1', 'n1-n2', 'n2-n3', 'n3-n4', 'n4-d1'];
+const GUEST = ['d1-d2', 'd2-n5', 'n5-n6'];
+const MEMBER = ['d1-d2', 'd2-n6'];
+const MID = ['n6-n7', 'n7-n8', 'n8-d3', 'd3-d4'];
+const OK = ['d4-n9', 'n9-n10', 'n10-n11', 'n11-n12', 'n12-n13', 'n13-n14', 'n14-n15', 'n15-n16', 'n16-e1'];
+const SCEN = {
+    ok: [{ name: 'A', color: '#9fd8f5', who: 'Khách vãng lai', route: [...PRE, ...GUEST, ...MID, ...OK] }],
+    race: [
+        { name: 'A', color: '#9fd8f5', who: 'Khách A (đã đăng nhập)', route: [...PRE, ...MEMBER, ...MID, ...OK] },
+        { name: 'B', color: '#ff9fb2', who: 'Khách B (vãng lai)', delay: 650, route: [...PRE, ...GUEST, ...MID, 'd4-err', 'err-n3'] },
+    ],
+    bad: [{ name: 'A', color: '#ffd76a', who: 'Khách nhập thiếu email', route: [...PRE, 'd1-err', 'err-n3'] }],
+};
+const SIDE = { n8: ['n8-db1'], d4: ['d4-db2'], n12: ['n12-db3'] };
+const R = { tokens: [], lock: null, clock: 0, active: false, scenario: null };
+const logEl = document.getElementById('log');
+const clockEl = document.getElementById('clock');
+
+function log(tok, html, cls = '') {
+    if (logEl.querySelector('.empty')) logEl.innerHTML = '';
+    const li = document.createElement('li');
+    if (cls) li.className = cls;
+    li.innerHTML = `<span class="who" style="background:${tok ? tok.color : '#e3f4fd'}">${tok ? tok.name : '⏱'}</span><span>${html}</span>`;
+    logEl.appendChild(li);
+    logEl.scrollTop = logEl.scrollHeight;
+}
+function clearRun() {
+    R.tokens.forEach(t => t.el.remove());
+    R.tokens = []; R.lock = null; R.active = false; R.clock = 0;
+    gEdges.querySelectorAll('.trail').forEach(p => p.setAttribute('stroke', 'transparent'));
+    gNodes.querySelectorAll('.hot, .waiting').forEach(n => n.classList.remove('hot', 'waiting'));
+    lockBadge.setAttribute('opacity', 0);
+    clockEl.textContent = '00:00.0';
+}
+const lockBadge = el('g', { class: 'lock-badge', opacity: 0 }, svg);
+el('rect', { x: 0, y: 0, width: 132, height: 24, rx: 7 }, lockBadge);
+const lockTxt = el('text', { x: 10, y: 16 }, lockBadge);
+function showLock(tok) {
+    if (!tok) { lockBadge.setAttribute('opacity', 0); return; }
+    lockTxt.textContent = `🔒 ${tok.name} giữ khóa phòng`;
+    lockBadge.setAttribute('transform', `translate(${N.db1.cx - 66},${N.db1.y - 62})`);
+    lockBadge.setAttribute('opacity', 1);
+}
+function spawn(spec, parentName) {
+    const g = el('g', { class: 'token', opacity: 0 }, gTok);
+    el('circle', { r: 11, fill: spec.color }, g);
+    el('text', {}, g).textContent = spec.name;
+    const tok = { ...spec, el: g, ei: 0, s: 0, state: spec.delay ? 'delay' : 'dwell', timer: spec.delay || 300, node: 's0', parent: parentName };
+    const p = A(E[tok.route[0]].from, 't');
+    const s0 = N[E[tok.route[0]].from];
+    g.setAttribute('transform', `translate(${s0.cx},${s0.y})`);
+    if (!spec.delay && !spec.child) log(tok, `<b>${spec.who}</b> bắt đầu`);
+    if (!spec.delay) { g.setAttribute('opacity', 1); }
+    R.tokens.push(tok);
+    return tok;
+}
+function startScenario(name) {
+    finishAll();
+    clearRun();
+    logEl.innerHTML = '';
+    R.scenario = name; R.active = true;
+    document.querySelectorAll('[data-sc]').forEach(b => b.classList.toggle('on', b.dataset.sc === name));
+    SCEN[name].forEach(s => spawn(s));
+    setPlaying(true);
+}
+function hot(id, ms = 700) {
+    const g = N[id].g;
+    g.classList.add('hot');
+    clearTimeout(g._h);
+    g._h = setTimeout(() => g.classList.remove('hot'), ms / S.speed);
+}
+function flash(eid) {
+    const e = E[eid];
+    e.g.classList.add('flash');
+    setTimeout(() => e.g.classList.remove('flash'), 900 / S.speed);
+}
+// Noi dung nhat ky khi token toi 1 nut (theo dung logic code)
+function arrive(tok, id) {
+    tok.node = id;
+    hot(id);
+    (SIDE[id] || []).forEach(flash);
+    const next = tok.route[tok.ei];
+    const M = {
+        n1: 'chọn phòng 101 · 12/10 → 14/10',
+        n2: 'server tính giá từng đêm, báo phòng còn trống',
+        n3: tok.ei > 5 ? 'quay lại form, đọc thông báo lỗi' : 'điền thông tin đặt phòng',
+        n4: 'gửi <code>POST /customer/bookings/new</code>',
+        d1: next === 'd1-err' ? ['form thiếu email → <b>@Valid</b> không qua', 'bad'] : 'form hợp lệ ✓',
+        d2: next === 'd2-n6' ? 'đã đăng nhập → dùng tài khoản sẵn có' : 'chưa đăng nhập',
+        n5: 'tìm / tạo tài khoản theo email',
+        n6: 'mở giao dịch (READ_COMMITTED)',
+        n7: 'dữ liệu & ngày hợp lệ ✓',
+        d3: 'phòng không bảo trì ✓',
+        d4: next === 'd4-err' ? ['đọc thấy đơn của A vừa commit → <b>TRÙNG LỊCH</b>', 'bad'] : 'không trùng lịch ✓',
+        n9: 'giờ nhận / trả không vướng khách khác ✓',
+        n10: 'tính tiền từng đêm + combo − mã',
+        n11: 'tính tiền cọc, hạn cọc',
+        n12: 'lưu đơn <b>PENDING</b>',
+        n13: 'soạn email, hẹn gửi sau commit',
+        n15: 'redirect kèm <code>?token=</code>',
+        n16: ['thấy trang <b>đặt thành công</b> 🎉', 'good'],
+        e1: 'xong',
+        a1: ['email xác nhận đã gửi (luồng riêng) ✉️', 'good'],
+    };
+    if (id === 'n14') {
+        log(tok, 'COMMIT → đơn hiện ra, <b>nhả khóa</b> 🔓', 'good');
+        if (R.lock === tok) { R.lock = null; showLock(null); }
+        spawn({ name: tok.name, color: tok.color, who: 'email', route: ['n14-a1'], child: true }, tok.name);
+        return;
+    }
+    if (id === 'err') {
+        log(tok, 'BusinessException → <b>rollback</b>, hiện lại form kèm lỗi', 'bad');
+        if (R.lock === tok) { R.lock = null; showLock(null); log(tok, 'rollback cũng nhả khóa phòng 🔓'); }
+        return;
+    }
+    if (id === 'n8') return; // xu ly o buoc xin khoa
+    const m = M[id];
+    if (!m) return;
+    if (tok.child && id !== 'a1') return;
+    Array.isArray(m) ? log(tok, m[0], m[1]) : log(tok, m);
+}
+const SPEED_PX = 230; // px/giay
+function tickTokens(dt) {
+    R.clock += dt;
+    const sec = R.clock / 1000;
+    clockEl.textContent = `${String(Math.floor(sec / 60)).padStart(2, '0')}:${(sec % 60).toFixed(1).padStart(4, '0')}`;
+    for (const tok of R.tokens) {
+        if (tok.state === 'done') continue;
+        if (tok.state === 'delay') {
+            tok.timer -= dt;
+            if (tok.timer <= 0) { tok.el.setAttribute('opacity', 1); tok.state = 'dwell'; tok.timer = 300; log(tok, `<b>${tok.who}</b> bắt đầu (chậm hơn A ${(tok.delay / 1000).toFixed(2)} giây)`); }
+            continue;
+        }
+        if (tok.state === 'dwell') {
+            tok.timer -= dt;
+            if (tok.timer > 0) continue;
+            if (tok.ei >= tok.route.length) { tok.state = 'done'; if (tok.child) setTimeout(() => tok.el.remove(), 900); continue; }
+            // Xin khoa dong phong truoc khi roi lockRoom()
+            if (tok.node === 'n8') {
+                if (R.lock && R.lock !== tok) {
+                    tok.state = 'wait';
+                    N.n8.g.classList.add('waiting');
+                    log(tok, `<code>SELECT … FOR UPDATE</code> → <b>phải chờ</b>, ${R.lock.name} đang giữ khóa ⏳`);
+                    continue;
+                }
+                if (R.lock !== tok) {
+                    R.lock = tok; showLock(tok); flash('n8-db1');
+                    log(tok, '<code>SELECT … FOR UPDATE</code> → <b>giữ khóa</b> phòng 101 🔒');
+                }
+            }
+            tok.state = 'move'; tok.s = 0;
+            continue;
+        }
+        if (tok.state === 'wait') {
+            if (!R.lock) {
+                N.n8.g.classList.remove('waiting');
+                R.lock = tok; showLock(tok); flash('n8-db1');
+                log(tok, `được khóa sau ${((R.clock - (tok.waitFrom || R.clock)) / 1000).toFixed(1)} giây chờ → chạy tiếp 🔒`);
+                tok.state = 'move'; tok.s = 0;
+            } else if (!tok.waitFrom) tok.waitFrom = R.clock;
+            continue;
+        }
+        // move
+        const e = E[tok.route[tok.ei]];
+        tok.s += SPEED_PX * dt / 1000;
+        const s = Math.min(tok.s, e.len);
+        const p = e.ln.getPointAtLength(s);
+        tok.el.setAttribute('transform', `translate(${p.x},${p.y})`);
+        e.trail.setAttribute('stroke', tok.color);
+        e.trail.setAttribute('stroke-dasharray', `${s} ${e.len}`);
+        if (tok.s >= e.len) {
+            tok.ei++;
+            tok.state = 'dwell';
+            tok.timer = N[e.to].t === 'start' || N[e.to].t === 'end' ? 150 : 520;
+            arrive(tok, e.to);
+        }
+    }
+    if (R.tokens.length && R.tokens.every(t => t.state === 'done')) {
+        R.active = false; setPlaying(false);
+        log(null, R.scenario === 'race'
+            ? '<b>Kết quả:</b> chỉ một đơn được tạo cho phòng 101, không có đặt trùng.'
+            : 'Kịch bản kết thúc.');
+    }
+}
+
+/* ================= VONG LAP ================= */
+function followTo(pt) {
+    if (!S.follow || !pt) return;
+    const m = svg.getScreenCTM();
+    if (!m) return;
+    const y = pt.x * m.b + pt.y * m.d + m.f;
+    const target = y - innerHeight * 0.5;
+    if (Math.abs(target) > 60) window.scrollBy(0, target * 0.06);
+}
+function frame(ts) {
+    const dt = Math.min(64, ts - (S.last || ts)) * S.speed;
+    S.last = ts;
+    if (S.playing) {
+        if (R.active) {
+            tickTokens(dt);
+            const lead = R.tokens.filter(t => t.state !== 'done' && !t.child && t.state !== 'delay').pop() || R.tokens[0];
+            if (lead) { const tr = lead.el.transform.baseVal.consolidate(); if (tr) followTo({ x: tr.matrix.e, y: tr.matrix.f }); }
+        } else if (!drawDone()) {
+            // Moi buoc chi vai chuc ms nen 1 khung hinh co the ve xong nhieu buoc; thoi gian du chuyen sang buoc sau
+            let left = dt;
+            while (left > 0 && !drawDone()) {
+                const it = items[S.i], d = dur(it) * SCALE;
+                const need = (1 - S.t) * d;
+                if (left >= need) { apply(it, 1); S.i++; S.t = 0; left -= need; }
+                else { S.t += left / d; apply(it, S.t); left = 0; }
+            }
+            // 2 giay qua nhanh de cuon theo - chi bam theo khi chay kich ban
+            if (drawDone()) { setPlaying(false); tip = null; }
+        }
+    }
+    prog.style.width = (R.active ? 100 : (S.i + S.t) / items.length * 100) + '%';
+    if (tip && S.playing && !R.active) {
+        pencil.setAttribute('opacity', 1);
+        pencil.setAttribute('transform', `translate(${tip.x},${tip.y})`);
+    } else pencil.setAttribute('opacity', 0);
+    requestAnimationFrame(frame);
+}
+
+/* ================= DIEU KHIEN ================= */
+bPlay.addEventListener('click', () => {
+    if (S.playing) return setPlaying(false);
+    if (drawDone() && !R.active) { if (R.scenario) return startScenario(R.scenario); resetDrawing(); }
+    setPlaying(true);
+});
+document.getElementById('bStep').addEventListener('click', () => {
+    setPlaying(false);
+    if (R.active) return;
+    if (drawDone()) resetDrawing();
+    apply(items[S.i], 1); S.i++; S.t = 0;
+    const it = items[S.i - 1];
+    if (it.kind === 'node') select(it.id, false);
+});
+document.getElementById('bReplay').addEventListener('click', () => {
+    R.scenario = null;
+    document.querySelectorAll('[data-sc]').forEach(b => b.classList.remove('on'));
+    resetDrawing(); S.follow = true; followBtn(); window.scrollTo({ top: document.querySelector('.toolbar').offsetTop - 70 });
+    setPlaying(true);
+});
+document.getElementById('bAll').addEventListener('click', () => { finishAll(); setPlaying(false); });
+const speed = document.getElementById('speed');
+speed.addEventListener('input', () => { S.speed = +speed.value; document.getElementById('speedV').textContent = S.speed + '×'; });
+const bFollow = document.getElementById('bFollow');
+const followBtn = () => bFollow.classList.toggle('on', S.follow);
+bFollow.addEventListener('click', () => { S.follow = !S.follow; followBtn(); });
+// Nguoi dung tu cuon thi tat bam theo
+['wheel', 'touchmove'].forEach(ev => addEventListener(ev, () => { if (S.follow && S.playing) { S.follow = false; followBtn(); } }, { passive: true }));
+document.querySelectorAll('[data-sc]').forEach(b => b.addEventListener('click', () => { S.follow = true; followBtn(); startScenario(b.dataset.sc); }));
+
+/* ================= BANG CHI TIET ================= */
+const detail = document.getElementById('detail');
+let selected = null;
+function select(id, scroll = true) {
+    const info = INFO[id], n = N[id];
+    if (!info) return;
+    if (selected) N[selected].g.classList.remove('sel');
+    selected = id; n.g.classList.add('sel');
+    detail.innerHTML = `
+        <span class="tag lane">${LANES[n.l].t}</span>
+        <h3>${info.t}</h3>
+        <p>${info.d}</p>
+        ${info.ul ? '<ul>' + info.ul.map(x => `<li>${x}</li>`).join('') + '</ul>' : ''}
+        ${info.c ? `<pre class="code">${info.c}</pre>` : ''}
+        ${info.r ? `<div class="ref"><i class="bi bi-file-earmark-code"></i> ${info.r}</div>` : ''}`;
+    if (scroll && innerWidth <= 1060) detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ================= CHU GIAI ================= */
+const LEG = [
+    ['<rect x="2" y="3" width="26" height="16" rx="5" fill="#fff" stroke="#14365a" stroke-width="1.5"/>', 'Hành động'],
+    ['<path d="M15 2 L28 11 L15 20 L2 11 Z" fill="#fff8e0" stroke="#14365a" stroke-width="1.5"/>', 'Rẽ nhánh'],
+    ['<path d="M4 6 A11 3 0 0 1 26 6 V17 A11 3 0 0 1 4 17 Z" fill="#e3f4fd" stroke="#14365a" stroke-width="1.5"/>', 'Cơ sở dữ liệu'],
+    ['<rect x="2" y="3" width="26" height="16" rx="5" fill="#e9f8ef" stroke="#14365a" stroke-width="1.5"/>', 'Chạy nền'],
+    ['<path d="M2 11 H24" stroke="#14365a" stroke-width="1.8"/><path d="M28 11 L20 7 L22 11 L20 15Z" fill="#14365a"/>', 'Luồng chính'],
+    ['<path d="M2 11 H24" stroke="#c2334d" stroke-width="1.8"/><path d="M28 11 L20 7 L22 11 L20 15Z" fill="#c2334d"/>', 'Nhánh lỗi'],
+    ['<path d="M2 11 H26" stroke="#5bb8e8" stroke-width="1.6" stroke-dasharray="5 4"/>', 'Truy vấn DB'],
+    ['<circle cx="15" cy="11" r="8" fill="#9fd8f5" stroke="#14365a" stroke-width="2"/>', 'Khách đang đi qua (kịch bản)'],
+];
+document.getElementById('legend').innerHTML = LEG.map(([s, t]) => `<span><svg width="30" height="22" viewBox="0 0 30 22">${s}</svg>${t}</span>`).join('');
+
+// Tu dong ve khi trang mo (giam chuyen dong thi hien het luon)
+if (location.hash === '#all' || matchMedia('(prefers-reduced-motion: reduce)').matches) finishAll();
+else setTimeout(() => setPlaying(true), 150);
+requestAnimationFrame(frame);
+})();
+</script>
+<script src="../assets/js/sketch.js"></script>
+<script>window.HMD_NO_AUTO = true;</script>
+<script src="../assets/js/homestay-diagrams.js"></script>
+<script src="../assets/js/flows.js"></script>
+<script src="../assets/js/flow-page.js"></script>
+</body>
+</html>

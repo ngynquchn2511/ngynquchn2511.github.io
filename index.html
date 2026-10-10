@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyễn Quốc Hoàn · Hồ sơ năng lực</title>
+<meta name="description" content="Hồ sơ năng lực Nguyễn Quốc Hoàn, sinh viên Công nghệ thông tin định hướng Business Analyst. Dự án tiêu biểu: Homestay Mây, Sweet Cake.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600;1,9..144,700&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="assets/css/site.css" rel="stylesheet">
+<style>
+    /* ---------- Hero ---------- */
+    .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 3rem; align-items: center; padding: 3.2rem 0 2.6rem; scroll-margin-top: 80px; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: 0; gap: 2.4rem; } }
+    .hello { font-family: var(--hand); font-size: 1.5rem; color: var(--baby-deep); transform: rotate(-2deg); display: inline-block; }
+    .hero h1 { font-size: clamp(2.7rem, 7vw, 5.2rem); margin: .2rem 0 .3rem; }
+    .role { font-family: var(--display); font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--ink-soft); }
+    .typing { color: var(--ink); font-style: normal; border-right: 3px solid var(--baby-deep); padding-right: 3px; animation: caret .8s step-end infinite; }
+    @keyframes caret { 50% { border-color: transparent; } }
+    .hero p.lead { font-size: 1.07rem; color: var(--ink-soft); max-width: 590px; margin: 1.2rem 0 1.6rem; }
+    .hero p.lead b { color: var(--ink); }
+    .ctas { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+    /* The sinh vien kieu the chia khoa phong */
+    .idcard { position: relative; max-width: 380px; margin: 0 auto; padding: 1.6rem 1.5rem 1.4rem; border-radius: 18px 18px 18px 54px; transform: rotate(2deg); }
+    .idcard::before { content: ''; position: absolute; top: 18px; right: 18px; width: 16px; height: 16px; border-radius: 50%; border: var(--line); background: var(--baby-soft); }
+    .idcard .strap { position: absolute; top: -70px; right: 26px; width: 3px; height: 82px; background: var(--ink); border-radius: 2px; }
+    .idcard .hd { font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+    .avatar { width: 128px; height: 128px; margin: 1rem 0 1rem; border: var(--line); border-radius: 14px; background: var(--baby);
+        display: grid; place-items: center; font-family: var(--display); font-size: 3.2rem; font-weight: 700; box-shadow: 4px 4px 0 var(--ink); overflow: hidden; }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .idcard h3 { font-size: 1.55rem; }
+    .idcard dl { display: grid; grid-template-columns: auto 1fr; gap: .3rem .9rem; margin: .9rem 0 0; font-size: .88rem; }
+    .idcard dt { color: var(--ink-soft); }
+    .idcard dd { margin: 0; font-weight: 600; }
+    .idcard .stamp { position: absolute; right: 26px; top: 104px; width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; text-align: center;
+        padding: 12px; font-size: .56rem; font-weight: 800; letter-spacing: .12em; color: var(--baby-deep); border: 2.5px dashed var(--baby-deep);
+        background: rgba(255,255,255,.88); transform: rotate(-16deg); }
+
+    /* ---------- Ky nang ---------- */
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.2rem; }
+    .skill { padding: 1.25rem 1.25rem 1.3rem; }
+    .skill h3 { font-size: 1.15rem; display: flex; align-items: center; gap: .55rem; margin-bottom: .8rem; }
+    .skill h3 i { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 9px; border: var(--line); background: var(--baby); font-size: 1.05rem; }
+    .skill:nth-child(3n+2) h3 i { background: var(--sun); }
+    .skill:nth-child(3n) h3 i { background: var(--mint); }
+    .skill p { font-size: .86rem; color: var(--ink-soft); margin: .8rem 0 0; }
+
+    /* ---------- Du an noi bat ---------- */
+    .feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; padding: 1.6rem; align-items: center; }
+    @media (max-width: 900px) { .feature { grid-template-columns: 1fr; } }
+    .feature h3 { font-size: clamp(1.8rem, 3.6vw, 2.4rem); margin: .6rem 0 .5rem; }
+    .feature p { color: var(--ink-soft); margin: 0 0 1rem; }
+    .feature ul { list-style: none; padding: 0; margin: 0 0 1.3rem; display: grid; gap: .5rem; font-size: .93rem; }
+    .feature li { display: grid; grid-template-columns: auto 1fr; gap: .55rem; }
+    .feature li i { color: var(--baby-deep); }
+    .feature .shots { position: relative; min-height: 340px; }
+    .feature .shots .polaroid { position: absolute; width: 78%; }
+    .feature .shots .a { left: 0; top: 0; transform: rotate(-3deg); }
+    .feature .shots .b { right: 0; bottom: 0; transform: rotate(2.5deg); }
+    @media (max-width: 560px) { .feature .shots { min-height: 250px; } }
+
+    /* ---------- Du an khac ---------- */
+    .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.3rem; }
+    .proj { position: relative; padding: 1.3rem 1.25rem 1.2rem; display: flex; flex-direction: column; gap: .65rem; transition: transform .2s, box-shadow .2s; }
+    .proj:hover { transform: translate(-3px, -3px); box-shadow: var(--pop-hover); }
+    .proj .top-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+    .proj .ic { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 11px; border: var(--line); font-size: 1.25rem; background: var(--baby-soft); }
+    .proj h3 { font-size: 1.2rem; }
+    .proj p { margin: 0; font-size: .9rem; color: var(--ink-soft); flex: 1; }
+    .proj .chips { gap: .35rem; }
+    .proj .chip { font-size: .72rem; padding: .14rem .5rem; }
+    .proj a.more { font-size: .82rem; font-weight: 700; text-decoration: none; color: var(--baby-deep); }
+
+    /* ---------- Hoc van + lien he ---------- */
+    .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.3rem; }
+    .edu { padding: 1.4rem 1.4rem 1.3rem; }
+    .edu .yr { font-family: var(--hand); font-size: 1.15rem; color: var(--baby-deep); }
+    .edu h3 { font-size: 1.3rem; margin: .2rem 0 .3rem; }
+    .edu p { margin: 0; color: var(--ink-soft); font-size: .93rem; }
+    .contact { padding: 1.4rem; }
+    .contact h3 { font-size: 1.3rem; margin-bottom: .9rem; }
+    .contact a.row { display: flex; align-items: center; gap: .8rem; padding: .7rem .8rem; margin-bottom: .6rem; border: var(--line); border-radius: 11px;
+        text-decoration: none; background: var(--paper); box-shadow: 3px 3px 0 var(--baby); transition: transform .12s, box-shadow .12s, background .15s; }
+    .contact a.row:hover { background: var(--baby-soft); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--baby-deep); color: var(--ink); }
+    .contact a.row i { font-size: 1.2rem; width: 26px; text-align: center; }
+    .contact a.row span { font-weight: 600; word-break: break-all; }
+    .contact a.row small { display: block; font-weight: 500; color: var(--ink-soft); font-size: .76rem; }
+
+    /* ---------- Chon du an ---------- */
+    .pj { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+    @media (max-width: 900px) { .pj { grid-template-columns: 1fr; } }
+    .pj-list { display: grid; gap: .55rem; position: sticky; top: 80px; }
+    @media (max-width: 900px) { .pj-list { position: static; display: flex; overflow-x: auto; padding-bottom: .4rem; } }
+    .pj-btn { font: inherit; text-align: left; display: grid; grid-template-columns: auto 1fr auto; gap: .1rem .75rem; align-items: center; padding: .7rem .8rem;
+        background: var(--paper); color: var(--ink); border: var(--line); border-radius: 12px; box-shadow: 3px 3px 0 var(--baby); cursor: pointer;
+        transition: transform .12s, box-shadow .12s, background .15s; }
+    @media (max-width: 900px) { .pj-btn { flex: none; min-width: 230px; } }
+    .pj-btn:hover { background: var(--baby-soft); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--baby-deep); }
+    .pj-btn[aria-selected="true"] { background: var(--sun); box-shadow: 4px 4px 0 var(--ink); transform: translate(-2px, -2px); }
+    .pj-btn .ic { grid-row: span 2; width: 40px; height: 40px; display: grid; place-items: center; border: var(--line); border-radius: 10px; background: var(--baby-soft); font-size: 1.15rem; }
+    .pj-btn[aria-selected="true"] .ic { background: var(--paper); }
+    .pj-btn b { font-family: var(--display); font-size: 1.02rem; line-height: 1.2; }
+    .pj-btn small { font-size: .74rem; color: var(--ink-soft); font-weight: 600; }
+    .pj-btn .star { grid-row: span 2; font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: .15rem .4rem; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--paper); }
+    .pj-view { padding: 1.6rem 1.6rem 1.5rem; min-height: 420px; }
+    .pj-view .in { animation: pjIn .45s cubic-bezier(.2, .8, .2, 1); }
+    @keyframes pjIn { from { opacity: 0; transform: translateY(14px); } }
+    @media (prefers-reduced-motion: reduce) { .pj-view .in { animation: none; } }
+    .pj-top { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 1.8rem; align-items: start; }
+    @media (max-width: 1100px) { .pj-top { grid-template-columns: 1fr; } }
+    .pj-view h3 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); margin: .55rem 0 .5rem; }
+    .pj-view .desc { color: var(--ink-soft); margin: 0 0 1rem; }
+    .pj-view ul.pts { list-style: none; padding: 0; margin: 0 0 1.2rem; display: grid; gap: .5rem; font-size: .93rem; }
+    .pj-view ul.pts li { display: grid; grid-template-columns: auto 1fr; gap: .55rem; }
+    .pj-view ul.pts li i { color: var(--baby-deep); }
+    .pj-view .nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: .6rem; margin: 0 0 1.2rem; }
+    .pj-view .num { padding: .55rem .8rem; border: var(--line); border-radius: 10px 10px 10px 22px; background: var(--paper); box-shadow: 3px 3px 0 var(--baby); }
+    .pj-view .num b { display: block; font-family: var(--display); font-size: 1.4rem; line-height: 1.1; }
+    .pj-view .num span { font-size: .74rem; color: var(--ink-soft); }
+    .pj-view .flows { margin: 1.2rem 0 0; padding-top: 1rem; border-top: 1.5px dashed var(--baby-deep); }
+    .pj-view .flows h4 { font-size: 1.05rem; margin-bottom: .6rem; }
+    .pj-view .flows .chips a { text-decoration: none; }
+    .pj-view .flows .chip:hover { background: var(--sun); }
+    .pj-shots { position: relative; min-height: 320px; }
+    .pj-shots .polaroid { position: absolute; width: 82%; }
+    .pj-shots .polaroid:nth-child(1) { left: 0; top: 0; transform: rotate(-2.5deg); }
+    .pj-shots .polaroid:nth-child(2) { right: 0; top: 120px; transform: rotate(2deg); }
+    .pj-shots.one .polaroid { position: relative; width: 100%; }
+    .pj-art { display: grid; place-items: center; min-height: 260px; border: var(--line); border-radius: 16px; background: var(--baby-soft);
+        background-image: radial-gradient(var(--baby) 1.4px, transparent 1.4px); background-size: 18px 18px; box-shadow: var(--pop); }
+    .pj-art i { font-size: 4.4rem; width: 130px; height: 130px; display: grid; place-items: center; border: var(--line); border-radius: 26px; background: var(--paper);
+        box-shadow: 6px 6px 0 var(--ink); transform: rotate(-4deg); }
+    .pj-art span { margin-top: 1rem; font-family: var(--hand); font-size: 1.3rem; }
+
+    /* ---------- Cach lam viec: 5 buoc ---------- */
+    .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; position: relative; counter-reset: s; }
+    .steps::before { content: ''; position: absolute; left: 4%; right: 4%; top: 30px; border-top: 2.5px dashed var(--baby-deep); z-index: 0; }
+    @media (max-width: 1100px) { .steps { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } .steps::before { display: none; } }
+    .step { position: relative; z-index: 1; padding: 1.2rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: .55rem; }
+    .step .no { width: 42px; height: 42px; display: grid; place-items: center; border: var(--line); border-radius: 50%; background: var(--sun);
+        font-family: var(--display); font-weight: 700; box-shadow: 3px 3px 0 var(--ink); }
+    .step:nth-child(even) .no { background: var(--baby); }
+    .step h3 { font-size: 1.12rem; }
+    .step p { margin: 0; font-size: .88rem; color: var(--ink-soft); flex: 1; }
+    .step .chips { gap: .3rem; }
+    .step .chip { font-size: .72rem; padding: .12rem .5rem; }
+    .step .more { font-size: .82rem; font-weight: 700; color: var(--baby-deep); text-decoration: none; }
+    .step .more:hover { text-decoration: underline; }
+    .skill.main { grid-column: span 2; background: linear-gradient(135deg, var(--sun-soft), #fff 70%); }
+    @media (max-width: 700px) { .skill.main { grid-column: auto; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+    <div class="wrap">
+        <a class="brand" href="index.html">Nguyễn Quốc Hoàn</a>
+        <button class="btn sm menu-btn" aria-label="Mở menu" onclick="document.querySelector('.nav').classList.toggle('open')"><i class="bi bi-list"></i></button>
+        <nav class="nav">
+            <a href="#gioi-thieu" class="on">Giới thiệu</a>
+            <a href="#cach-lam">Cách làm việc</a>
+            <a href="#du-an">Dự án</a>
+            <a href="#ky-nang">Kỹ năng</a>
+            <a href="so-do/luong-dat-phong.html">Sơ đồ nghiệp vụ</a>
+            <a class="gh" href="https://github.com/ngynquchn2511" target="_blank" rel="noopener"><i class="bi bi-github"></i> GitHub</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+<div class="wrap">
+    <!-- ================= 1. HERO: minh la ai, lam duoc gi ================= -->
+    <section class="hero" id="gioi-thieu">
+        <div>
+            <span class="hello">Hồ sơ năng lực</span>
+            <h1>Nguyễn <span class="hl">Quốc Hoàn</span></h1>
+            <div class="role">Sinh viên CNTT · <span class="typing" id="typing">Business Analyst</span></div>
+            <div class="divider"></div>
+            <p class="lead">
+                Tôi phân tích yêu cầu nghiệp vụ, đặc tả quy tắc, mô hình hóa quy trình và xây dựng tiêu chí
+                kiểm thử cho hệ thống web. Nền tảng lập trình giúp tôi đánh giá tính khả thi của yêu cầu
+                và làm việc hiệu quả với đội phát triển.
+            </p>
+            <div class="ctas">
+                <a class="btn primary" href="homestay-may.html"><i class="bi bi-journal-richtext"></i>Case study Homestay Mây</a>
+                <a class="btn" href="so-do/luong-dat-phong.html"><i class="bi bi-diagram-3"></i>Sơ đồ nghiệp vụ</a>
+                <a class="btn" href="sweet-cake.html"><i class="bi bi-cake2"></i>Case study Sweet Cake</a>
+            </div>
+        </div>
+        <div class="card idcard reveal">
+            <span class="strap"></span>
+            <div class="hd">Thẻ sinh viên · Khoa CNTT</div>
+            <!-- Doi chu "QH" thanh anh that: dat file anh vao assets/img/avatar.jpg roi bo comment dong <img> -->
+            <div class="avatar">QH<!-- <img src="assets/img/avatar.jpg" alt="Ảnh Nguyễn Quốc Hoàn"> --></div>
+            <h3>Nguyễn Quốc Hoàn</h3>
+            <dl>
+                <dt>2023 - nay</dt><dd>ĐH Công nghệ Đông Á</dd>
+                <dt>GPA</dt><dd>3.3</dd>
+                <dt>Vị trí ứng tuyển</dt><dd>Business Analyst</dd>
+            </dl>
+            <div class="stamp">EAUT · BẮC NINH · 2026</div>
+        </div>
+    </section>
+
+    <!-- ================= 2. SO LIEU: bang chung nhanh ================= -->
+    <section>
+        <div class="keys reveal">
+            <div class="key"><b>2</b><span>hệ thống được phân tích từ yêu cầu đến vận hành</span></div>
+            <div class="key"><b>18</b><span>sơ đồ quy trình nghiệp vụ</span></div>
+            <div class="key"><b>15</b><span>thực thể trong mô hình dữ liệu</span></div>
+            <div class="key"><b>1.413</b><span>test case tự động, đạt 100%</span></div>
+        </div>
+    </section>
+
+    <!-- ================= 3. CACH LAM VIEC: quy trinh phan tich + bang chung ================= -->
+    <section class="block" id="cach-lam">
+        <div class="sec-head reveal">
+            <span class="eyebrow">Phương pháp</span>
+            <h2>Từ yêu cầu tới <span class="hl">tiêu chí nghiệm thu</span></h2>
+            <p>Quy trình phân tích áp dụng cho dự án Homestay Mây. Mỗi bước có tài liệu đầu ra đi kèm.</p>
+        </div>
+        <ol class="steps">
+            <li class="card step reveal">
+                <span class="no">01</span>
+                <h3>Hiểu người dùng & phân quyền</h3>
+                <p>Xác định các nhóm người dùng, quyền hạn và giới hạn của từng vai trò.</p>
+                <div class="chips"><span class="chip b">4 nhóm người dùng</span><span class="chip b">Ma trận quyền</span></div>
+                <a class="more" href="homestay-may.html#nguoi-dung">Bảng vai trò →</a>
+            </li>
+            <li class="card step reveal">
+                <span class="no">02</span>
+                <h3>Đặc tả quy tắc nghiệp vụ</h3>
+                <p>Chuyển yêu cầu thành quy tắc có thể kiểm chứng, ví dụ không đặt trùng phòng, chỉ sửa đơn trước giờ nhận phòng 6 tiếng.</p>
+                <div class="chips"><span class="chip y">BR-01 → BR-05</span><span class="chip y">Quy tắc 6 giờ</span></div>
+                <a class="more" href="homestay-may.html#quy-tac">Danh sách quy tắc →</a>
+            </li>
+            <li class="card step reveal">
+                <span class="no">03</span>
+                <h3>Mô hình hóa luồng & trạng thái</h3>
+                <p>Sơ đồ hoạt động, tuần tự và trạng thái cho từng nghiệp vụ, bao gồm các nhánh ngoại lệ.</p>
+                <div class="chips"><span class="chip g">Activity</span><span class="chip g">Sequence</span><span class="chip g">State</span></div>
+                <a class="more" href="so-do/luong-dat-phong.html">Mở 18 sơ đồ →</a>
+            </li>
+            <li class="card step reveal">
+                <span class="no">04</span>
+                <h3>Mô hình dữ liệu</h3>
+                <p>Xác định thực thể, quan hệ và dữ liệu cần lưu trữ để đáp ứng các quy tắc.</p>
+                <div class="chips"><span class="chip r">ERD 15 bảng</span><span class="chip r">Khóa & ràng buộc</span></div>
+                <a class="more" href="homestay-may.html#du-lieu">Xem ERD →</a>
+            </li>
+            <li class="card step reveal">
+                <span class="no">05</span>
+                <h3>Kiểm chứng & nghiệm thu</h3>
+                <p>Thiết kế test case cho từng quy tắc: giá trị biên, ma trận phân quyền, kịch bản đầu cuối của khách hàng và lễ tân.</p>
+                <div class="chips"><span class="chip b">1.413 test case</span><span class="chip b">Kịch bản E2E</span></div>
+                <a class="more" href="homestay-may.html#kiem-thu">Kết quả kiểm thử →</a>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ================= 4. DU AN: chon du an nao thi hien du an do ================= -->
+    <section class="block" id="du-an">
+        <div class="sec-head reveal">
+            <span class="eyebrow">Dự án</span>
+            <h2>Dự án <span class="hl">tiêu biểu</span></h2>
+            <p>Chọn dự án trong danh sách để xem bối cảnh, phạm vi phân tích và công nghệ sử dụng.</p>
+        </div>
+        <div class="pj">
+            <div class="pj-list" role="tablist" aria-label="Danh sách dự án" id="pjList"></div>
+            <div class="card pj-view" id="pjView" role="tabpanel" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <!-- ================= 5. KY NANG: phan tich truoc, ky thuat sau ================= -->
+    <section class="block" id="ky-nang">
+        <div class="sec-head reveal">
+            <span class="eyebrow">Kỹ năng</span>
+            <h2>Năng lực <span class="hl">chuyên môn</span></h2>
+            <p>Các kỹ năng đã áp dụng trong đồ án và dự án cá nhân.</p>
+        </div>
+        <div class="skills">
+            <div class="card skill main reveal">
+                <h3><i class="bi bi-clipboard-data"></i>Phân tích nghiệp vụ</h3>
+                <div class="chips"><span class="chip y">Phân tích yêu cầu</span><span class="chip y">Phân quyền theo vai trò</span><span class="chip y">Đặc tả quy tắc nghiệp vụ</span><span class="chip y">Use case</span><span class="chip y">Activity diagram</span><span class="chip y">Sequence diagram</span><span class="chip y">State diagram</span><span class="chip y">Thiết kế test case</span></div>
+                <p>Chú trọng các tình huống ngoại lệ như hai khách đặt cùng lúc, khách không chuyển cọc hoặc bảng giá thay đổi sau khi đặt.</p>
+            </div>
+            <div class="card skill reveal">
+                <h3><i class="bi bi-database"></i>Dữ liệu & SQL</h3>
+                <div class="chips"><span class="chip b">ERD</span><span class="chip b">MySQL</span><span class="chip b">Oracle · PL/SQL</span><span class="chip b">SQL Server</span><span class="chip b">Báo cáo Excel</span></div>
+                <p>Truy vấn, stored procedure, báo cáo doanh thu và công suất phòng.</p>
+            </div>
+            <div class="card skill reveal">
+                <h3><i class="bi bi-check2-circle"></i>Kiểm thử</h3>
+                <div class="chips"><span class="chip g">Unit · Integration · System</span><span class="chip g">Giá trị biên</span><span class="chip g">Bảng quyết định</span><span class="chip g">JUnit 5</span><span class="chip g">Playwright</span></div>
+                <p>Thiết kế test case từ quy tắc nghiệp vụ, theo dõi và xác nhận lỗi.</p>
+            </div>
+            <div class="card skill reveal">
+                <h3><i class="bi bi-code-slash"></i>Nền tảng kỹ thuật</h3>
+                <div class="chips"><span class="chip">Java · Spring Boot</span><span class="chip">Laravel · React</span><span class="chip">Android</span><span class="chip">ASP.NET Core</span><span class="chip">HTML · CSS · JS</span></div>
+                <p>Đọc hiểu mã nguồn, đánh giá tính khả thi của yêu cầu và phối hợp trực tiếp với lập trình viên.</p>
+            </div>
+            <div class="card skill reveal">
+                <h3><i class="bi bi-tools"></i>Công cụ</h3>
+                <div class="chips"><span class="chip">Git · GitHub</span><span class="chip">Docker</span><span class="chip">IntelliJ IDEA</span><span class="chip">VS Code</span><span class="chip">Word · Excel</span></div>
+                <p>Soạn tài liệu phân tích thiết kế, hướng dẫn sử dụng và quản lý phiên bản.</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+</main>
+
+<footer class="foot">
+    <div class="wrap">
+        <div><b>Nguyễn Quốc Hoàn</b><div style="font-size:.9rem">Hồ sơ năng lực · 2026</div></div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+            <a href="homestay-may.html">Homestay Mây</a>
+            <a href="sweet-cake.html">Sweet Cake</a>
+            <a href="so-do/luong-dat-phong.html">Sơ đồ nghiệp vụ</a>
+            <a href="https://github.com/ngynquchn2511" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Mo trang la vao thang phan gioi thieu (khong giu vi tri cuon cu khi tai lai)
+if (!location.hash) { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; scrollTo(0, 0); }
+</script>
+<script src="assets/js/site.js"></script>
+<script>
+// ===== Thong tin lien he: dien vao day, o nao de trong se an =====
+const ME = {
+    email: '',   // VD: 'ten@gmail.com'
+    phone: '',   // VD: '0912 345 678'
+    cv: '',      // VD: 'assets/cv.pdf'
+};
+(() => {
+    const set = (id, href, text, sub) => {
+        const a = document.getElementById(id);
+        if (!a || !href) return;
+        a.href = href; a.hidden = false;
+        if (text) a.querySelector('span').innerHTML = `${text}<small>${sub}</small>`;
+    };
+    set('ct-email', ME.email && 'mailto:' + ME.email, ME.email, 'Email');
+    set('ct-phone', ME.phone && 'tel:' + ME.phone.replace(/\s/g, ''), ME.phone, 'Điện thoại / Zalo');
+    set('ct-cv', ME.cv);
+
+    // Chu chay o dong vai tro
+    const el = document.getElementById('typing');
+    const words = ['Business Analyst', 'Phân tích yêu cầu', 'Mô hình hóa quy trình', 'Đặc tả và kiểm thử'];
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let w = 0, i = words[0].length, del = true;
+    setInterval(() => {
+        const word = words[w];
+        if (del) { i--; if (i <= 0) { del = false; w = (w + 1) % words.length; } }
+        else { i++; if (i >= words[w].length) { del = true; i = words[w].length + 18; } }
+        el.textContent = words[w].slice(0, Math.max(0, Math.min(i, words[w].length))) || ' ';
+    }, 70);
+})();
+</script>
+
+<script>
+// ===== Danh sach du an: bam ten du an nao thi hien du an do =====
+const PROJECTS = [
+    { id: 'homestay-may', name: 'Homestay Mây', icon: 'bi-house-heart', kind: 'Spring Boot · đồ án CNJ46', star: 'Nổi bật',
+      title: 'Website đặt phòng Homestay Mây',
+      desc: 'Hệ thống đặt phòng trực tuyến cho homestay tại Tam Đảo: đặt cọc qua VietQR, nghiệp vụ lễ tân từ nhận đến trả phòng, thống kê doanh thu và công suất phòng.',
+      nums: [['4', 'nhóm người dùng'], ['10', 'quy tắc nghiệp vụ'], ['9', 'sơ đồ quy trình'], ['1.413', 'test case, đạt 100%']],
+      pts: [
+        ['bi-lock-fill', 'Không để hai khách giữ cùng một phòng, kể cả khi đặt cùng lúc. Đã kiểm thử với 10 khách đặt đồng thời.'],
+        ['bi-diagram-3-fill', 'Hai cổng đăng nhập cho khách hàng và nhân viên, phân quyền lễ tân và quản trị đến từng chức năng.'],
+        ['bi-alarm-fill', 'Tự hủy đơn chưa chuyển cọc đúng hạn để giải phóng phòng cho khách khác.'],
+        ['bi-cash-coin', 'Giá theo từng đêm (ngày thường, cuối tuần, lễ Tết), đặt cọc, phụ phí, hóa đơn và báo cáo doanh thu.'],
+        ['bi-translate', 'Giao diện song ngữ Việt - Anh, chatbot tư vấn giá và phòng trống.'],
+      ],
+      stack: ['Java 17', 'Spring Boot 3.3', 'Spring Security', 'JPA / Hibernate', 'Thymeleaf', 'MySQL 8', 'JUnit 5', 'Docker · Caddy'],
+      shots: [['assets/img/hm/chi-tiet-phong.png', 'Chi tiết phòng'], ['assets/img/hm/kpi.png', 'Thống kê cho quản trị']],
+      links: [['Đọc case study', 'homestay-may.html', 'bi-journal-richtext', 1], ['Sơ đồ nghiệp vụ', 'so-do/luong-dat-phong.html#dat-phong', 'bi-diagram-2'], ['Mã nguồn', 'https://github.com/ngynquchn2511/hotel-booking-with-java', 'bi-github']],
+      flows: [['Đặt phòng', 'dat-phong'], ['Hai khách cùng đặt', 'hai-khach'], ['Mã giảm giá', 'ma-giam-gia'], ['Đổi giờ · hủy', 'sua-huy'], ['Quầy lễ tân', 'quay-le-tan'], ['Tự hủy đơn', 'tu-huy'], ['Đăng nhập 2 cổng', 'dang-nhap'], ['Vòng đời đơn', 'vong-doi-don'], ['Trạng thái phòng', 'trang-thai-phong']] },
+    { id: 'sweet-cake', name: 'Sweet Cake', icon: 'bi-cake2', kind: 'Laravel 12 · React', star: 'Nổi bật',
+      title: 'Sweet Bakery: website bán bánh',
+      desc: 'Cửa hàng bánh trực tuyến với giỏ hàng, danh sách yêu thích, thanh toán khi nhận hàng hoặc qua ví MoMo, mã khuyến mãi và kênh hỏi đáp. Trang quản trị có báo cáo, phân tích giỏ hàng và nhật ký thao tác.',
+      nums: [['16', 'thực thể dữ liệu'], ['7', 'trạng thái đơn hàng'], ['2', 'phương thức thanh toán'], ['9', 'sơ đồ quy trình']],
+      pts: [
+        ['bi-bag-check-fill', 'Một quy trình đặt hàng thống nhất cho thanh toán khi nhận hàng và qua MoMo, kiểm tra tồn kho ngay lúc chốt đơn để không bán vượt số lượng.'],
+        ['bi-shield-check', 'Chỉ ghi nhận đã thanh toán khi kết quả từ MoMo được xác thực chữ ký.'],
+        ['bi-arrow-clockwise', 'Giỏ hàng tự cập nhật theo giá và tồn kho mới nhất trước khi hiển thị.'],
+        ['bi-chat-left-text', 'Khách gửi câu hỏi không cần tài khoản, có giới hạn chống spam; quản trị trả lời qua email.'],
+        ['bi-journal-text', 'Tách trạng thái đơn hàng và trạng thái thanh toán; mọi thay đổi của quản trị đều được ghi nhật ký.'],
+      ],
+      stack: ['PHP 8.2', 'Laravel 12', 'Inertia.js', 'React · Vite', 'Tailwind CSS', 'MySQL', 'MoMo API', 'PHPUnit', 'Vitest', 'Playwright'],
+      shots: [['assets/img/sc/dang-nhap.png', 'Trang đăng nhập']],
+      links: [['Đọc case study', 'sweet-cake.html', 'bi-journal-richtext', 1], ['Sơ đồ nghiệp vụ', 'so-do/luong-dat-phong.html#sc-dat-hang', 'bi-diagram-2'], ['Mã nguồn', 'https://github.com/ngynquchn2511/Sweet_Cake', 'bi-github']],
+      flows: [['Thêm vào giỏ', 'sc-gio-hang'], ['Đồng bộ giỏ', 'sc-dong-bo'], ['Đặt hàng COD', 'sc-dat-hang'], ['Thanh toán MoMo', 'sc-momo'], ['Mã khuyến mãi', 'sc-khuyen-mai'], ['Hủy đơn', 'sc-huy-don'], ['Vòng đời đơn', 'sc-vong-doi'], ['Đăng nhập admin', 'sc-admin'], ['Hỏi đáp', 'sc-tin-nhan']] },
+    { id: 'nesvie', name: 'Nesvie Chat', icon: 'bi-chat-heart', kind: 'Android · Java',
+      title: 'Nesvie Chat', desc: 'Ứng dụng nhắn tin Android: đăng ký / đăng nhập (cả bằng Google), khung chat realtime.',
+      pts: [['bi-google', 'Đăng nhập bằng Firebase Auth và Google Sign-In.'], ['bi-lightning-charge', 'Tin nhắn đồng bộ realtime qua Firebase Realtime Database.'], ['bi-image', 'Ảnh đại diện tròn, tải ảnh bằng Picasso.']],
+      stack: ['Java', 'Android SDK', 'Firebase Auth', 'Realtime Database', 'Picasso'] },
+    { id: 'zalo', name: 'Chat kiểu Zalo', icon: 'bi-chat-dots', kind: 'Android · Firebase',
+      title: 'Chat kiểu Zalo', desc: 'Chat 1-1 realtime gửi chữ và ảnh, thông báo đẩy và quy tắc bảo mật Firestore.',
+      pts: [['bi-chat-left-text', 'Chat 1-1 realtime: chữ + ảnh (Firebase Storage).'], ['bi-bell', 'Thông báo đẩy bằng FCM, gửi qua Cloud Functions.'], ['bi-shield-lock', 'Viết <code>firestore.rules</code> giới hạn ai đọc / ghi được cuộc trò chuyện.']],
+      stack: ['Java', 'Android', 'Firestore', 'Storage', 'FCM', 'Cloud Functions'] },
+    { id: 'profit', name: 'Phân tích doanh thu', icon: 'bi-graph-up-arrow', kind: 'ASP.NET Core',
+      title: 'Phân tích doanh thu & lợi nhuận', desc: 'Web dashboard phân tích lợi nhuận theo khách hàng, biểu đồ trực quan và xuất báo cáo Excel.',
+      pts: [['bi-bar-chart', 'Biểu đồ bằng Chart.js và ECharts.'], ['bi-file-earmark-excel', 'Xuất Excel bằng EPPlus.']],
+      stack: ['C#', 'ASP.NET Core', 'Chart.js', 'ECharts', 'EPPlus', 'Bootstrap'] },
+    { id: 'qldiem', name: 'Quản lý điểm SV', icon: 'bi-mortarboard', kind: 'ASP.NET Core MVC',
+      title: 'Quản lý điểm sinh viên', desc: 'Ứng dụng web MVC quản lý điểm sinh viên, tách lớp Controller / Service / Model.',
+      pts: [['bi-layers', 'Tách tầng Controllers · Services · Models · Views.']],
+      stack: ['C#', 'ASP.NET Core MVC', 'SQL'] },
+    { id: 'vigenere', name: 'Mã hóa Vigenère', icon: 'bi-key', kind: 'C# WinForms',
+      title: 'Mã hóa Vigenère', desc: 'Ứng dụng desktop mã hóa / giải mã Vigenère cho môn An toàn bảo mật thông tin.',
+      pts: [['bi-diagram-2', 'Tách lớp nghiệp vụ (BLL) khỏi giao diện WinForms.']],
+      stack: ['C#', 'WinForms', '.NET'] },
+    { id: 'opengl', name: 'Đồ họa OpenGL', icon: 'bi-badge-3d', kind: 'C++ · OpenGL',
+      title: 'Đồ họa máy tính OpenGL', desc: 'Bài tập và đồ án môn Đồ họa máy tính.',
+      pts: [['bi-bezier2', 'Cài đặt thuật toán vẽ đường Bresenham.'], ['bi-sun', 'Mô hình hệ Mặt Trời chuyển động.'], ['bi-lamp', 'Dựng cảnh 3D: phòng khách, cái bàn, cái quạt.']],
+      stack: ['C++', 'OpenGL'] },
+];
+(() => {
+    const list = document.getElementById('pjList'), view = document.getElementById('pjView');
+    list.innerHTML = PROJECTS.map(p => `
+        <button class="pj-btn" role="tab" id="tab-${p.id}" aria-controls="pjView" aria-selected="false" data-id="${p.id}">
+            <span class="ic"><i class="bi ${p.icon}"></i></span><b>${p.name}</b>${p.star ? `<span class="star">${p.star}</span>` : '<span></span>'}<small>${p.kind}</small>
+        </button>`).join('');
+    const btns = [...list.querySelectorAll('.pj-btn')];
+    const render = p => {
+        const shots = p.shots
+            ? `<div class="pj-shots ${p.shots.length === 1 ? 'one' : ''}">${p.shots.map(([src, cap]) => `<a class="polaroid" href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${cap}" loading="lazy"><div class="cap">${cap}</div></a>`).join('')}</div>`
+            : `<div class="pj-art"><div style="text-align:center"><i class="bi ${p.icon}"></i><span>${p.kind}</span></div></div>`;
+        view.innerHTML = `<div class="in">
+            <div class="pj-top">
+                <div>
+                    <span class="tag">${p.kind}</span>
+                    <h3>${p.title}</h3>
+                    <p class="desc">${p.desc}</p>
+                    ${p.nums ? `<div class="nums">${p.nums.map(([b, s]) => `<div class="num"><b>${b}</b><span>${s}</span></div>`).join('')}</div>` : ''}
+                    <ul class="pts">${p.pts.map(([i, t]) => `<li><i class="bi ${i}"></i><span>${t}</span></li>`).join('')}</ul>
+                    <div class="chips" style="margin-bottom:1.2rem">${p.stack.map(t => `<span class="chip b">${t}</span>`).join('')}</div>
+                    ${p.links ? `<div class="ctas">${p.links.map(([t, h, i, pri]) => `<a class="btn ${pri ? 'primary' : ''}" href="${h}" ${h.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}><i class="bi ${i}"></i>${t}</a>`).join('')}</div>` : ''}
+                </div>
+                ${shots}
+            </div>
+            ${p.flows ? `<div class="flows"><h4><i class="bi bi-diagram-3"></i> Sơ đồ quy trình nghiệp vụ</h4><div class="chips">${p.flows.map(([t, id]) => `<a class="chip y" href="so-do/luong-dat-phong.html#${id}">${t}</a>`).join('')}</div></div>` : ''}
+        </div>`;
+    };
+    const select = (id, push) => {
+        const p = PROJECTS.find(x => x.id === id) || PROJECTS[0];
+        btns.forEach(b => { const on = b.dataset.id === p.id; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+        view.setAttribute('aria-labelledby', 'tab-' + p.id);
+        render(p);
+        if (push) history.replaceState(null, '', '#du-an/' + p.id);
+    };
+    btns.forEach((b, i) => {
+        b.addEventListener('click', () => select(b.dataset.id, true));
+        b.addEventListener('keydown', ev => {
+            const d = ev.key === 'ArrowDown' || ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowUp' || ev.key === 'ArrowLeft' ? -1 : 0;
+            if (d) { ev.preventDefault(); const n = btns[(i + d + btns.length) % btns.length]; n.focus(); select(n.dataset.id, true); }
+        });
+    });
+    const m = location.hash.match(/^#du-an\/(.+)$/);
+    select(m ? m[1] : PROJECTS[0].id);
+    if (m) setTimeout(() => document.getElementById('du-an').scrollIntoView(), 50);
+})();
+</script>
+</body>
+</html>
