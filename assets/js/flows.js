@@ -624,7 +624,7 @@ function hmChatbot(svg, opts) {
     d.node('c2', { shape: 'round', x: 530, y: 670, w: 320, h: 56, t: 'Trả JSON · gợi ý bước tiếp', s: '{ message, suggestions: [ … ] }', cls: 'sys' });
     d.edge({ from: 'c2', to: 'k2', pts: [[530, 698], [530, 738], [150, 738], [150, 748]] });
     d.node('k2', { shape: 'round', x: 150, y: 776, w: 250, h: 50, t: 'Hiển thị phản hồi', s: 'gợi ý nút "Đặt phòng ngay"' });
-    d.edge({ from: 'k2', to: 'e', pts: [[150, 801]] });
+    d.edge({ from: 'k2', to: 'e' });
     d.node('e', { shape: 'end', x: 150, y: 812 });
     return d.mount();
 }
@@ -648,15 +648,15 @@ function scDanhGia(svg, opts) {
     d.edge({ from: 'q2', to: 'c1', lb: 'chưa', lp: [410, 406, 'start'] });
     d.node('c1', { shape: 'round', x: 400, y: 465, w: 340, h: 56, t: 'INSERT reviews · status = pending', s: 'rating, body, product_id, user_id', cls: 'sys',
         info: { t: 'Review chờ duyệt', d: 'Đánh giá mới luôn ở <b>pending</b> — không hiện lên trang sản phẩm cho đến khi admin duyệt.' } });
-    d.edge({ from: 'c1', to: 'k2', pts: [[400, 493], [400, 540], [200, 540], [200, 548]] });
+    d.edge({ from: 'c1', to: 'k2', pts: [[400, 540], [200, 540]] });
     d.node('k2', { shape: 'round', x: 200, y: 576, w: 280, h: 50, t: '"Cảm ơn! Đánh giá đang\nchờ duyệt."', cls: 'sys', small: true });
-    d.edge({ from: 'c1', to: 'adm', pts: [[400, 493], [400, 610]] });
+    d.edge({ from: 'c1', to: 'adm' });
     d.node('adm', { shape: 'round', x: 400, y: 640, w: 340, h: 52, t: 'Admin xem danh sách pending', s: '/admin/reviews?status=pending', cls: 'warm' });
     d.edge({ from: 'adm', to: 'qa' });
     d.node('qa', { shape: 'diamond', x: 400, y: 745, w: 210, h: 84, t: 'Duyệt?' });
     d.edge({ from: 'qa', to: 'c2', lb: 'duyệt', lp: [410, 807, 'start'] });
     d.node('c2', { shape: 'round', x: 400, y: 800, w: 340, h: 52, t: 'status = approved · cập nhật avg_rating', s: '→ hiện sao trên trang sản phẩm', cls: 'sys', small: true });
-    d.edge({ from: 'c2', to: 'e', pts: [[400, 826]] });
+    d.edge({ from: 'c2', to: 'e' });
     d.edge({ from: 'qa', to: 'cr', k: 'err', lb: 'từ chối', lp: [295, 736] });
     d.node('cr', { shape: 'round', x: 100, y: 745, w: 200, h: 50, t: 'status = rejected', cls: 'err', small: true });
     d.edge({ from: 'cr', to: 'e', pts: [[100, 770], [100, 830], [390, 830]] });
@@ -797,7 +797,7 @@ function hmWalkIn(svg, opts) {
     d.node('em', { shape: 'round', x: 525, y: 790, w: 300, h: 52, t: 'Gửi email xác nhận (async)', s: 'EmailService.deliverAfterCommit()', cls: 'soft' });
     d.edge({ from: 'em', to: 'k3', pts: [[525, 816], [525, 850], [145, 850], [145, 860]] });
     d.node('k3', { shape: 'round', x: 145, y: 882, w: 250, h: 48, t: 'Hiển thị đơn đã xác nhận', cls: 'sys', small: true });
-    d.edge({ from: 'k3', to: 'e', pts: [[145, 906]] });
+    d.edge({ from: 'k3', to: 'e' });
     d.node('e', { shape: 'end', x: 145, y: 916 });
     return d.mount();
 }
@@ -833,7 +833,7 @@ function hmCheckout(svg, opts) {
     d.node('em', { shape: 'round', x: 520, y: 800, w: 300, h: 52, t: 'Gửi hóa đơn email (async)', s: 'EmailService.deliverAfterCommit()', cls: 'soft' });
     d.edge({ from: 'em', to: 'k3', pts: [[520, 826], [520, 862], [145, 862], [145, 870]] });
     d.node('k3', { shape: 'round', x: 145, y: 890, w: 250, h: 44, t: 'Hiển thị hóa đơn đã thanh toán', cls: 'sys', small: true });
-    d.edge({ from: 'k3', to: 'e', pts: [[145, 912]] });
+    d.edge({ from: 'k3', to: 'e' });
     d.node('e', { shape: 'end', x: 145, y: 920 });
     return d.mount();
 }
@@ -857,9 +857,9 @@ user.setPasswordResetToken(token);
 user.setPasswordResetExpiry(now().plusMinutes(30));`, r: HM + 'controller/AuthController.java' } });
     d.edge({ from: 'a2', to: 'a3' });
     d.node('a3', { shape: 'round', x: 420, y: 475, w: 340, h: 56, t: 'sendPasswordReset() — gửi đồng bộ', s: 'link chứa token · hạn 30 phút', cls: 'soft' });
-    d.edge({ from: 'a3', to: 'k1', pts: [[420, 503], [420, 545], [200, 545], [200, 555]] });
+    d.edge({ from: 'a3', to: 'k1', pts: [[420, 545], [200, 545]] });
     d.node('k1', { shape: 'round', x: 200, y: 575, w: 280, h: 50, t: '"Nếu email tồn tại,\nbạn sẽ nhận được thư."', cls: 'sys', small: true });
-    d.edge({ from: 'a3', to: 'a4', pts: [[420, 503], [420, 615]] });
+    d.edge({ from: 'a3', to: 'a4' });
     d.node('a4', { shape: 'round', x: 420, y: 645, w: 340, h: 56, t: 'Người dùng nhấn link\nGET /reset-password?token=…' });
     d.edge({ from: 'a4', to: 'q2' });
     d.node('q2', { shape: 'diamond', x: 420, y: 754, w: 230, h: 88, t: 'Token hợp lệ\nvà chưa hết hạn?' });
@@ -867,7 +867,7 @@ user.setPasswordResetExpiry(now().plusMinutes(30));`, r: HM + 'controller/AuthCo
     d.node('exp', { shape: 'round', x: 790, y: 754, w: 250, h: 50, t: 'Trang "Link đã hết hạn"', cls: 'err', small: true });
     d.edge({ from: 'q2', to: 'a5', lb: 'hợp lệ', lp: [430, 810, 'start'] });
     d.node('a5', { shape: 'round', x: 420, y: 840, w: 360, h: 52, t: 'resetPassword() · token = null · redirect /login', cls: 'sys', small: true });
-    d.edge({ from: 'a5', to: 'e', pts: [[420, 866]] });
+    d.edge({ from: 'a5', to: 'e' });
     d.node('e', { shape: 'end', x: 420, y: 878 });
     return d.mount();
 }
@@ -1072,7 +1072,7 @@ function scWishlist(svg, opts) {
     d.edge({ from: 'rm', to: 'res', pts: [[130, 403], [130, 572], [370, 572]] });
     d.edge({ from: 'add', to: 'res' });
     d.node('res', { shape: 'round', x: 380, y: 580, w: 310, h: 52, t: 'JSON { is_in_wishlist: bool }', cls: 'sys', small: true });
-    d.edge({ from: 'res', to: 'e', pts: [[380, 606]] });
+    d.edge({ from: 'res', to: 'e' });
     d.node('e', { shape: 'end', x: 380, y: 618 });
     return d.mount();
 }
