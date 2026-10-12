@@ -93,5 +93,5 @@ function architecture(svg = $('sc-arch'), opts = P) {
 }
 
 window.SCD = { erd, architecture };
-erd(); architecture();
+if (!window.SCD_NO_AUTO) { erd(); architecture(); }
 })();
