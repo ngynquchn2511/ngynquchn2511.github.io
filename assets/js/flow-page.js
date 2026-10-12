@@ -21,6 +21,8 @@ const GROUPS = [
             d: 'Chờ xác nhận, đã xác nhận, đã nhận phòng, đã trả phòng, kèm nhánh hủy. Mỗi lần chuyển trạng thái đều có điều kiện bắt buộc.' },
         { id: 'trang-thai-phong', t: 'Trạng thái phòng',        k: 'Trạng thái',           icon: 'bi-door-closed',      fn: H.roomState,
             d: 'AVAILABLE → OCCUPIED → NOT_READY → AVAILABLE, cùng MAINTENANCE; lịch trống luôn tính từ đơn chứ không từ trạng thái phòng.' },
+        { id: 'bpmn-hm',         t: 'Đặt phòng trực tuyến',     k: 'BPMN',                 icon: 'bi-signpost-split',   fn: BA.bpmn,
+            d: 'Ba swimlane: Khách hàng · Lễ tân · Hệ thống. Luồng từ chọn phòng → kiểm tra trùng → tạo đơn → cọc VietQR → xác nhận; nhánh timer tự hủy đơn quá hạn.' },
         { id: 'uc-hm',           t: 'Use Case (18 UC)',          k: 'Use Case',             icon: 'bi-person-circle',    fn: BA.useCase,
             d: '18 use case của hệ thống đặt phòng: khách vãng lai và khách hàng (kế thừa), lễ tân, quản trị viên và bộ hẹn giờ. Mối quan hệ kế thừa giữa các actor được thể hiện rõ.' },
         { id: 'kien-truc-hm',    t: 'Kiến trúc hệ thống',       k: 'Kiến trúc',            icon: 'bi-diagram-2',        fn: H.architecture,
@@ -47,6 +49,8 @@ const GROUPS = [
             d: 'Đăng nhập kiểm vai trò và tài khoản bị khóa, tạo lại session; <code>AdminMiddleware</code> kiểm lại ở mọi request.' },
         { id: 'sc-tin-nhan',  t: 'Hỏi đáp & admin trả lời',    k: 'Hoạt động',            icon: 'bi-chat-left-text',   fn: F.scMessage,
             d: 'API công khai giới hạn 10 lần/phút/IP; khách vãng lai phải để lại tên + email; admin trả lời thì khách nhận email.' },
+        { id: 'bpmn-sc',         t: 'Đặt hàng & thanh toán MoMo', k: 'BPMN',               icon: 'bi-signpost-split',   fn: SC.scBpmn,
+            d: 'Ba swimlane: Khách hàng · Hệ thống Sweet Cake · Cổng MoMo. Luồng từ thêm giỏ → placeFromCart() → COD hoặc MoMo → xác thực HMAC-SHA256 IPN; nhánh timer hủy đơn quá hạn.' },
         { id: 'uc-sc',           t: 'Use Case (18 UC)',          k: 'Use Case',             icon: 'bi-person-circle',    fn: SC.scUseCase,
             d: '18 use case của Sweet Cake: khách vãng lai (giỏ, đặt hàng, MoMo, hỏi đáp), khách hàng (lịch sử, hủy, đánh giá) và quản trị viên (sản phẩm, đơn hàng, khuyến mãi, banner).' },
         { id: 'kien-truc-sc',    t: 'Kiến trúc hệ thống',       k: 'Kiến trúc',            icon: 'bi-diagram-2',        fn: SC.architecture,
@@ -73,6 +77,7 @@ const TYPE_ICON = {
     'Kiến trúc':      'bi-buildings',
     'Dữ liệu':        'bi-table',
     'Use Case':       'bi-person-circle',
+    'BPMN':           'bi-columns-gap',
 };
 const mainType = k => k.split(' · ')[0];
 

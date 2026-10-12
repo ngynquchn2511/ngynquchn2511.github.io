@@ -136,6 +136,56 @@ function scUseCase(svg = $('sc-uc'), opts = P) {
     return d.mount();
 }
 
-window.SCD = { erd, architecture, scUseCase };
+function scBpmn(svg = $('sc-bpmn'), opts = P) {
+    if (!svg) return;
+    const d = Sketch(svg, Object.assign({ w: 1150, h: 820, seed: 45 }, opts));
+    d.lane(0, 330, 'Khách hàng');
+    d.lane(330, 380, 'Hệ thống Sweet Cake', { alt: true });
+    d.lane(710, 440, 'Cổng MoMo', { last: true });
+    const K = 165, HT = 520, MM = 930;
+    const T = (id, x, y, t, info, cls) => d.node(id, { shape: 'round', x, y, w: 250, h: 56, t, info, cls, small: true });
+
+    d.node('s', { shape: 'evStart', x: K, y: 95, t: 'Khách muốn mua bánh' });
+    d.edge({ from: 's', to: 't1' });
+    T('t1', K, 185, 'Chọn sản phẩm,\nthêm vào giỏ hàng');
+    d.edge({ from: 't1', to: 't2' });
+    T('t2', HT, 185, 'Mở giỏ: đồng bộ\nkho & giá',
+        { t: 'Đồng bộ giỏ hàng', d: 'Trước khi hiển thị: bỏ sản phẩm ngừng bán, giảm số lượng vượt tồn kho, cập nhật giá mới nhất. Khách thấy giỏ luôn khớp với thực tế.' }, 'sys');
+    d.edge({ from: 't2', to: 't3', pts: [[HT, 213], [HT, 242], [K, 242], [K, 253]] });
+    T('t3', K, 280, 'Nhập địa chỉ giao hàng,\nmã KM, bấm Đặt hàng');
+    d.edge({ from: 't3', to: 't4' });
+    T('t4', HT, 280, 'Kiểm tra kho, áp mã,\ntạo đơn, trừ kho',
+        { t: 'placeFromCart()', d: 'Dùng chung cho COD, API và MoMo: kiểm tra tồn kho, áp mã khuyến mãi, tạo đơn, trừ kho và xóa giỏ trong cùng một giao dịch.' }, 'sys');
+    d.edge({ from: 't4', to: 'g1' });
+    d.node('g1', { shape: 'gw', x: HT, y: 375, t: 'Thanh toán?' });
+    d.edge({ from: 'g1', to: 'e1', lb: 'COD', lp: [HT - 60, 366, 'end'] });
+    d.node('e1', { shape: 'evEnd', x: K, y: 375, t: '' });
+    d.text(K + 26, 382, 'Đơn PENDING,\nemail xác nhận', 'sk-evl', 'start');
+    d.edge({ from: 'g1', to: 't5', lb: 'MoMo', lp: [HT + 10, 420, 'start'] });
+    T('t5', HT, 465, 'Ký HMAC-SHA256,\ngọi MoMo API',
+        { t: 'Tạo yêu cầu thanh toán', d: 'Hệ thống tạo đơn trước, sau đó tạo requestId và chữ ký HMAC-SHA256, gọi MoMo API để lấy URL thanh toán và chuyển hướng khách.' }, 'sys');
+    d.edge({ from: 't5', to: 't5mm' });
+    T('t5mm', MM, 465, 'Nhận yêu cầu,\ntrả về URL thanh toán', null, 'sys');
+    d.edge({ from: 't5mm', to: 't6', pts: [[MM, 493], [MM, 513], [K, 513], [K, 533]] });
+    T('t6', K, 560, 'Redirect sang MoMo,\nkhách nhập OTP xác nhận');
+    d.edge({ from: 't5', to: 'tm' });
+    d.node('tm', { shape: 'evTimer', x: HT, y: 560, t: 'Quá thời hạn\nthanh toán' });
+    d.edge({ from: 'tm', to: 'tcan', pts: [[HT, 577], [HT, 622]] });
+    T('tcan', HT, 648, 'Hoàn kho,\nđơn → CANCELLED', null, 'err');
+    d.edge({ from: 'tcan', to: 'ecan', pts: [[HT, 676], [HT, 716]] });
+    d.node('ecan', { shape: 'evEnd', x: HT, y: 730, t: '' });
+    d.text(HT + 26, 737, 'Đơn bị hủy', 'sk-evl', 'start');
+    T('tipn', MM, 560, 'Gửi IPN (server-to-server)\nvà trang redirect', null, 'sys');
+    d.edge({ from: 't5mm', to: 'tipn', pts: [[MM, 493], [MM, 540]] });
+    T('t7', MM, 648, 'Xác thực HMAC-SHA256,\ncập nhật đơn → PAID',
+        { t: 'Xác thực callback MoMo', d: 'Cả IPN (server gọi lại) và trang redirect đều xác thực chữ ký HMAC-SHA256 trước khi ghi nhận thanh toán — tránh giả mạo kết quả từ bên ngoài.' }, 'sys');
+    d.edge({ from: 'tipn', to: 't7' });
+    d.edge({ from: 't7', to: 'eok', pts: [[MM, 676], [MM, 690], [K, 690], [K, 716]] });
+    d.node('eok', { shape: 'evEnd', x: K, y: 730, t: '' });
+    d.text(K + 26, 737, 'Đơn PAID,\nemail xác nhận', 'sk-evl', 'start');
+    return d.mount();
+}
+
+window.SCD = { erd, architecture, scUseCase, scBpmn };
 if (!window.SCD_NO_AUTO) { erd(); architecture(); }
 })();
