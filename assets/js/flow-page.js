@@ -29,6 +29,8 @@ const GROUPS = [
             d: 'Caddy → Spring Boot: hai <code>SecurityFilterChain</code>, Controller → Service (20 lớp) → JPA → MySQL 8; gửi email bất đồng bộ sau commit; <code>@Scheduled</code> tự hủy đơn quá hạn.' },
         { id: 'erd-hm',          t: 'Mô hình dữ liệu (15 bảng)', k: 'Dữ liệu',             icon: 'bi-table',            fn: H.erd,
             d: 'Sơ đồ quan hệ từ 15 <code>@Entity</code>: bookings là bảng trung tâm, liên kết với rooms, combos, discount_codes, payments, booking_guests, booking_charges, reviews và audit_logs.' },
+        { id: 'tinh-gia-hm',     t: 'Tính giá phòng từng đêm',   k: 'Hoạt động',            icon: 'bi-calculator',       fn: F.hmTinhGia,
+            d: 'Duyệt từng đêm từ checkIn → checkOut: special_rate (ngày lễ) ưu tiên tuyệt đối → cuối tuần → ngày thường. Cọc = min(total × %, max). Hạn cọc = min(now + hours, checkIn − 6h).' },
         { id: 'chatbot-hm',      t: 'Chatbot tư vấn phòng',      k: 'Hoạt động',            icon: 'bi-chat-dots',        fn: F.hmChatbot,
             d: 'API công khai <code>/api/chatbot/ask</code> giới hạn 10 lần/phút/IP; phân tích từ khóa → tra DB (phòng/giá) hoặc bảng FAQ tĩnh → trả <code>{ message, suggestions }</code>.' },
         { id: 'walkin-hm',       t: 'Đặt phòng tại quầy (walk-in)', k: 'Hoạt động',          icon: 'bi-person-walking',   fn: F.hmWalkIn,

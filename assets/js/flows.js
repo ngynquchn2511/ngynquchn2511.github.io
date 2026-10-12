@@ -1129,5 +1129,44 @@ function scAdminUpdateOrder(svg, opts) {
     return d.mount();
 }
 
-window.FLOWS = { hmDiscount, hmModify, hmScheduler, hmLogin, scAddCart, scCartSync, scOrder, scMomo, scPromotion, scCancel, scOrderState, scAdminLogin, scMessage, hmChatbot, scDanhGia, hmDepositState, scReviewState, hmCheckinSeq, scOrderSeq, hmWalkIn, hmCheckout, hmForgotPassword, hmPaymentState, hmAsyncEmail, hmConfirmDeposit, scDangKy, scForgotPassword, scShippingAddr, scWishlist, scPaymentState, scAdminUpdateOrder };
+// Tinh gia phong tung dem (Homestay May) (Activity)
+function hmTinhGia(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1000, h: 820, seed: 67, number: true }, opts));
+    const S = HM + 'service/PricingService.java';
+    d.node('s', { shape: 'start', x: 400, y: 60 });
+    d.edge({ from: 's', to: 'a1' });
+    d.node('a1', { shape: 'round', x: 400, y: 130, w: 360, h: 56, t: 'roomAmount(room, checkIn, checkOut)', s: 'total = BigDecimal.ZERO · d = checkIn', info: { r: S } });
+    d.edge({ from: 'a1', to: 'ql' });
+    d.node('ql', { shape: 'diamond', x: 400, y: 245, w: 230, h: 88, t: 'd < checkOut?' });
+    d.edge({ from: 'ql', to: 'a2', lb: 'không', lp: [546, 236] });
+    d.node('a2', { shape: 'round', x: 760, y: 245, w: 360, h: 60, t: 'depositAmount = min(\ntotal × depositPercent, depositMax)', cls: 'sys',
+        info: { t: 'Tính tiền cọc', d: 'Cọc = total × phần trăm cọc (cấu hình trong DB), không vượt depositMax. Admin thay đổi qua trang cấu hình.', r: S } });
+    d.edge({ from: 'a2', to: 'a3' });
+    d.node('a3', { shape: 'round', x: 760, y: 358, w: 360, h: 60, t: 'depositDeadline = min(\nnow + depositHours, checkIn − 6h)', cls: 'sys',
+        info: { t: 'Hạn chuyển cọc', d: 'Hạn cọc tính từ lúc đặt theo số giờ admin cấu hình, nhưng không muộn hơn 6 giờ trước giờ nhận phòng — để lễ tân còn kịp xác nhận.' } });
+    d.edge({ from: 'a3', to: 'a4' });
+    d.node('a4', { shape: 'round', x: 760, y: 465, w: 360, h: 52, t: 'return { total, depositAmount, depositDeadline }', cls: 'sys', small: true });
+    d.edge({ from: 'a4', to: 'e', pts: [[760, 491], [760, 540]] });
+    d.node('e', { shape: 'end', x: 760, y: 554 });
+    d.edge({ from: 'ql', to: 'qsr', lb: 'có', lp: [410, 301, 'start'] });
+    d.node('qsr', { shape: 'diamond', x: 400, y: 375, w: 280, h: 90, t: 'Có special_rate\ncho ngày d?',
+        info: { t: 'Ngày đặc biệt', d: 'Quản trị viên cài giá theo từng ngày cụ thể (ngày lễ, sự kiện). Bất kỳ đêm nào trùng special_rate đều dùng giá đó thay vì giá thường.' } });
+    d.edge({ from: 'qsr', to: 'sp', lb: 'có', lp: [410, 433, 'start'] });
+    d.node('sp', { shape: 'round', x: 400, y: 510, w: 300, h: 52, t: 'nightPrice = special_rate.price', s: 'ưu tiên cao nhất — ghi đè cuối tuần', cls: 'warm' });
+    d.edge({ from: 'qsr', to: 'qwk', lb: 'không', lp: [540, 366] });
+    d.node('qwk', { shape: 'diamond', x: 720, y: 375, w: 230, h: 88, t: 'Cuối tuần\n(Sat / Sun)?' });
+    d.edge({ from: 'qwk', to: 'wk', lb: 'có', lp: [730, 431, 'start'] });
+    d.node('wk', { shape: 'round', x: 720, y: 505, w: 230, h: 50, t: 'nightPrice = weekendPrice', cls: 'soft', small: true });
+    d.edge({ from: 'qwk', to: 'wd', lb: 'không', lp: [845, 366] });
+    d.node('wd', { shape: 'round', x: 900, y: 375, w: 190, h: 50, t: 'nightPrice =\nweekdayPrice', cls: 'soft', small: true });
+    d.edge({ from: 'sp', to: 'acc' });
+    d.edge({ from: 'wk', to: 'acc', pts: [[720, 530], [720, 590], [540, 590]] });
+    d.edge({ from: 'wd', to: 'acc', pts: [[900, 400], [900, 590], [540, 590]] });
+    d.node('acc', { shape: 'round', x: 400, y: 620, w: 340, h: 56, t: 'total += nightPrice\nd = d.plusDays(1)', cls: 'sys' });
+    d.edge({ pts: [[400, 648], [160, 648], [160, 245], [285, 245]], lb: '↑ đêm tiếp theo', lp: [165, 440, 'start'] });
+    d.node('n', { shape: 'note', x: 635, y: 618, w: 310, h: 72, t: 'Cùng một đêm có thể trùng cả\nspecial_rate lẫn cuối tuần;\nspecial_rate luôn thắng.', small: true });
+    return d.mount();
+}
+
+window.FLOWS = { hmDiscount, hmModify, hmScheduler, hmLogin, scAddCart, scCartSync, scOrder, scMomo, scPromotion, scCancel, scOrderState, scAdminLogin, scMessage, hmChatbot, scDanhGia, hmDepositState, scReviewState, hmCheckinSeq, scOrderSeq, hmWalkIn, hmCheckout, hmForgotPassword, hmPaymentState, hmAsyncEmail, hmConfirmDeposit, scDangKy, scForgotPassword, scShippingAddr, scWishlist, scPaymentState, scAdminUpdateOrder, hmTinhGia };
 })();
