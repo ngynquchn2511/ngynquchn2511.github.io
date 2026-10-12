@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sơ đồ nghiệp vụ</title>
-<meta name="description" content="45 sơ đồ: hoạt động, tuần tự, trạng thái, BPMN, use case, kiến trúc và dữ liệu của Homestay Mây và Sweet Cake.">
+<meta name="description" content="43 sơ đồ: hoạt động, tuần tự, trạng thái, BPMN, use case và kiến trúc của Homestay Mây và Sweet Cake.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sơ đồ nghiệp vụ · Nguyễn Quốc Hoàn">
-<meta property="og:description" content="45 sơ đồ: hoạt động, tuần tự, trạng thái, BPMN, use case, kiến trúc và dữ liệu của Homestay Mây và Sweet Cake.">
+<meta property="og:description" content="43 sơ đồ: hoạt động, tuần tự, trạng thái, BPMN, use case và kiến trúc của Homestay Mây và Sweet Cake.">
 <meta property="og:url" content="https://ngynquchn2511.github.io/so-do/luong-dat-phong.html">
 <meta property="og:image" content="https://ngynquchn2511.github.io/assets/img/og-cover.png">
 <meta property="og:image:width" content="1200">
@@ -223,11 +223,21 @@ main.fl { max-width: 1720px; }
 
 @media (max-width: 1000px) {
     .fl-grid { grid-template-columns: 1fr; }
-    .fl-side { position: sticky; top: 0; z-index: 25; max-height: none; display: flex; gap: .4rem; overflow-x: auto; padding: .55rem; }
+    .fl-side { position: sticky; top: 55px; z-index: 25; max-height: none; display: flex; gap: .35rem; overflow-x: auto; padding: .5rem .75rem;
+        background: var(--paper); border-radius: 0; border-left: none; border-right: none; border-top: none;
+        scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .fl-side::-webkit-scrollbar { display: none; }
     .fl-side .count, .grp-toggle, .type-toggle { display: none; }
     .fl-side .grp, .grp-body, .grp-body.closed, .type-grp, .type-body { display: contents !important; }
-    .fl-side a { flex: none; grid-template-columns: auto; white-space: nowrap; }
+    .fl-side a { flex: none; grid-template-columns: auto; white-space: nowrap; font-size: .82rem; padding: .4rem .65rem; }
     .fl-side a i, .fl-side a small { display: none; }
+}
+@media (max-width: 480px) {
+    main.fl { padding: 1.2rem 12px 4rem; }
+    .fl-grid { margin-top: .9rem; gap: 1rem; }
+    .flow-head h2 { font-size: 1.35rem; }
+    .flow-head p { font-size: .88rem; }
+    .flow .canvas { padding: .3rem; }
 }
 .flow[hidden] { display: none; }
 .flow-head { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; align-items: flex-end; justify-content: space-between; margin-bottom: 1rem; }

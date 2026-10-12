@@ -962,7 +962,7 @@ function scDangKy(svg, opts) {
     d.node('q1', { shape: 'diamond', x: 400, y: 240, w: 250, h: 90, t: 'Email chưa\ntồn tại?' });
     d.edge({ from: 'q1', to: 'eq1', k: 'err', lb: 'đã tồn tại', lp: [530, 231] });
     d.node('eq1', { shape: 'round', x: 800, y: 240, w: 280, h: 50, t: '"Email đã được sử dụng."', cls: 'err', small: true });
-    d.edge({ from: 'q1', to: 'a2', lb: 'chưa', lp: [410, 298, 'start'] });
+    d.edge({ from: 'q1', to: 'a2', lb: 'chưa', lp: [415, 300] });
     d.node('a2', { shape: 'round', x: 400, y: 370, w: 380, h: 60, t: 'Tự sinh username từ email', s: 'strtolower(prefix@) + counter cho đến khi unique',
         info: { t: 'Auto-generate username', d: 'Dùng phần trước dấu @ làm username gốc. Nếu đã tồn tại, thêm số đuôi (user1, user2 …) cho đến khi tìm được username chưa dùng.', r: A } });
     d.edge({ from: 'a2', to: 'a3' });
@@ -976,7 +976,7 @@ function scDangKy(svg, opts) {
     d.node('a4', { shape: 'round', x: 400, y: 580, w: 360, h: 56, t: 'event(Registered) · Auth::login()', s: 'session regenerate · không cần xác minh email', cls: 'sys' });
     d.edge({ from: 'a4', to: 'a5' });
     d.node('a5', { shape: 'round', x: 400, y: 678, w: 300, h: 52, t: 'Inertia::redirect /dashboard', cls: 'sys', small: true });
-    d.edge({ from: 'a5', to: 'e', pts: [[400, 704]] });
+    d.edge({ from: 'a5', to: 'e' });
     d.node('e', { shape: 'end', x: 400, y: 716 });
     d.node('n', { shape: 'note', x: 790, y: 480, w: 270, h: 64, t: 'Không yêu cầu xác minh email\n— đăng nhập ngay sau khi đăng ký,\nkhác với nhiều ứng dụng thương mại.', small: true });
     return d.mount();
