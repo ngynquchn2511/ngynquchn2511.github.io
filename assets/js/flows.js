@@ -598,5 +598,536 @@ ${k('if')} ($recipientEmail) Mail::to($recipientEmail)->send(${k('new')} Message
     return d.mount();
 }
 
-window.FLOWS = { hmDiscount, hmModify, hmScheduler, hmLogin, scAddCart, scCartSync, scOrder, scMomo, scPromotion, scCancel, scOrderState, scAdminLogin, scMessage };
+// Chatbot tu van phong (Homestay May) (Activity)
+function hmChatbot(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1080, h: 800, seed: 41, number: true }, opts));
+    lanes(d, [[300, 'Khách hàng'], [460, 'ChatbotService'], [320, 'Database']]);
+    d.node('s', { shape: 'start', x: 150, y: 92 });
+    d.edge({ from: 's', to: 'k1' });
+    d.node('k1', { shape: 'round', x: 150, y: 165, w: 250, h: 56, t: 'Gõ câu hỏi', s: 'POST /api/chatbot/ask · công khai' });
+    d.edge({ from: 'k1', to: 'th', pts: [[275, 165], [530, 165], [530, 196]] });
+    d.node('th', { shape: 'diamond', x: 530, y: 248, w: 230, h: 88, t: 'Quá 10 lần\n/phút/IP?',
+        info: { t: 'Giới hạn tần suất chatbot', d: 'API <code>/api/chatbot/ask</code> không cần đăng nhập nên bị throttle theo IP để chống spam.' } });
+    d.edge({ from: 'th', to: 'e429', k: 'err', lb: 'có', lp: [400, 239] });
+    d.node('e429', { shape: 'round', x: 150, y: 248, w: 240, h: 50, t: 'HTTP 429 · thử lại sau', cls: 'err', small: true });
+    d.edge({ from: 'th', to: 'c1', lb: 'không', lp: [545, 305, 'start'] });
+    d.node('c1', { shape: 'round', x: 530, y: 375, w: 320, h: 56, t: 'Phân tích từ khóa', s: 'phòng / giá / combo / chính sách / …',
+        info: { t: 'Chatbot dựa từ khóa', d: 'Không dùng AI; từ khóa trong câu hỏi được đối chiếu với bảng keyword → nhóm câu trả lời tương ứng.' } });
+    d.edge({ from: 'c1', to: 'gw' });
+    d.node('gw', { shape: 'diamond', x: 530, y: 482, w: 240, h: 90, t: 'Loại câu hỏi?' });
+    d.edge({ from: 'gw', to: 'qdb', lb: 'phòng / giá', lp: [666, 473] });
+    d.node('qdb', { shape: 'round', x: 910, y: 482, w: 250, h: 56, t: 'SELECT rooms,\nprice_calendar', s: 'giá, ngày còn trống', cls: 'sys' });
+    d.edge({ from: 'qdb', to: 'c2', pts: [[910, 510], [910, 648], [690, 648]] });
+    d.edge({ from: 'gw', to: 'faq', lb: 'chính sách / khác', lp: [405, 473] });
+    d.node('faq', { shape: 'round', x: 530, y: 582, w: 280, h: 52, t: 'Tra bảng FAQ tĩnh', s: 'từ khóa → câu trả lời mẫu', cls: 'soft' });
+    d.edge({ from: 'faq', to: 'c2' });
+    d.node('c2', { shape: 'round', x: 530, y: 670, w: 320, h: 56, t: 'Trả JSON · gợi ý bước tiếp', s: '{ message, suggestions: [ … ] }', cls: 'sys' });
+    d.edge({ from: 'c2', to: 'k2', pts: [[530, 698], [530, 738], [150, 738], [150, 748]] });
+    d.node('k2', { shape: 'round', x: 150, y: 776, w: 250, h: 50, t: 'Hiển thị phản hồi', s: 'gợi ý nút "Đặt phòng ngay"' });
+    d.edge({ from: 'k2', to: 'e', pts: [[150, 801]] });
+    d.node('e', { shape: 'end', x: 150, y: 812 });
+    return d.mount();
+}
+
+// Viet & duyet danh gia san pham (Sweet Cake) (Activity)
+function scDanhGia(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1000, h: 840, seed: 42, number: true }, opts));
+    const chk = (id, y, t, err) => {
+        d.node(id, { shape: 'diamond', x: 400, y, w: 240, h: 88, t });
+        d.edge({ from: id, to: id + 'e', k: 'err', lb: 'không', lp: [540, y - 9] });
+        d.node(id + 'e', { shape: 'round', x: 790, y, w: 310, h: 52, t: err, cls: 'err', small: true });
+    };
+    d.node('s', { shape: 'start', x: 400, y: 60 });
+    d.edge({ from: 's', to: 'a1' });
+    d.node('a1', { shape: 'round', x: 400, y: 130, w: 340, h: 56, t: 'POST /reviews', s: 'đăng nhập bắt buộc · rating 1–5 · nội dung' });
+    d.edge({ from: 'a1', to: 'q1' });
+    chk('q1', 240, 'Đơn completed\nchứa sản phẩm này?', '"Bạn chưa mua sản phẩm này."',
+        { t: 'Chỉ đánh giá hàng đã mua', d: 'Tìm order_items của chính user có product_id và order_status = completed.' });
+    d.edge({ from: 'q1', to: 'q2', lb: 'có', lp: [410, 296, 'start'] });
+    chk('q2', 350, 'Chưa có đánh giá\ncho sản phẩm này?', '"Bạn đã đánh giá sản phẩm này rồi."');
+    d.edge({ from: 'q2', to: 'c1', lb: 'chưa', lp: [410, 406, 'start'] });
+    d.node('c1', { shape: 'round', x: 400, y: 465, w: 340, h: 56, t: 'INSERT reviews · status = pending', s: 'rating, body, product_id, user_id', cls: 'sys',
+        info: { t: 'Review chờ duyệt', d: 'Đánh giá mới luôn ở <b>pending</b> — không hiện lên trang sản phẩm cho đến khi admin duyệt.' } });
+    d.edge({ from: 'c1', to: 'k2', pts: [[400, 493], [400, 540], [200, 540], [200, 548]] });
+    d.node('k2', { shape: 'round', x: 200, y: 576, w: 280, h: 50, t: '"Cảm ơn! Đánh giá đang\nchờ duyệt."', cls: 'sys', small: true });
+    d.edge({ from: 'c1', to: 'adm', pts: [[400, 493], [400, 610]] });
+    d.node('adm', { shape: 'round', x: 400, y: 640, w: 340, h: 52, t: 'Admin xem danh sách pending', s: '/admin/reviews?status=pending', cls: 'warm' });
+    d.edge({ from: 'adm', to: 'qa' });
+    d.node('qa', { shape: 'diamond', x: 400, y: 745, w: 210, h: 84, t: 'Duyệt?' });
+    d.edge({ from: 'qa', to: 'c2', lb: 'duyệt', lp: [410, 807, 'start'] });
+    d.node('c2', { shape: 'round', x: 400, y: 800, w: 340, h: 52, t: 'status = approved · cập nhật avg_rating', s: '→ hiện sao trên trang sản phẩm', cls: 'sys', small: true });
+    d.edge({ from: 'c2', to: 'e', pts: [[400, 826]] });
+    d.edge({ from: 'qa', to: 'cr', k: 'err', lb: 'từ chối', lp: [295, 736] });
+    d.node('cr', { shape: 'round', x: 100, y: 745, w: 200, h: 50, t: 'status = rejected', cls: 'err', small: true });
+    d.edge({ from: 'cr', to: 'e', pts: [[100, 770], [100, 830], [390, 830]] });
+    d.node('e', { shape: 'end', x: 400, y: 842 });
+    return d.mount();
+}
+
+// Vong doi tien dat coc Homestay May (State)
+function hmDepositState(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1100, h: 500, seed: 43 }, opts));
+    const st = (id, x, y, t, s, cls, info) => d.node(id, { shape: 'pill', x, y, w: 190, h: 62, t, s, cls, info });
+    d.node('s', { shape: 'start', x: 60, y: 80 });
+    d.edge({ from: 's', to: 'gw' });
+    d.node('gw', { shape: 'diamond', x: 60, y: 175, w: 220, h: 82, t: 'Yêu cầu cọc?' });
+    d.edge({ from: 'gw', to: 'NK', lb: 'không', lp: [73, 235, 'start'] });
+    st('NK', 60, 330, 'KHÔNG CỌC', 'no_deposit', 'soft', { t: 'Không yêu cầu cọc', d: 'Lễ tân xác nhận trực tiếp; khách thanh toán đầy đủ khi nhận phòng.' });
+    d.edge({ from: 'NK', to: 'e1', pts: [[60, 361], [60, 440]] });
+    d.node('e1', { shape: 'end', x: 60, y: 458 });
+    d.edge({ from: 'gw', to: 'W', lb: 'có', lp: [180, 166] });
+    st('W', 330, 175, 'CHỜ CỌC', 'pending_deposit', 'warm', { t: 'Chờ chuyển cọc', d: 'Hệ thống gửi mã VietQR và hạn chuyển. Bộ hẹn giờ kiểm tra mỗi 5 phút.' });
+    d.edge({ from: 'W', to: 'D', lb: 'lễ tân xác nhận đã nhận', lp: [426, 166] });
+    st('D', 600, 175, 'ĐÃ CỌC', 'deposited', 'sys', { t: 'Đã nhận cọc', d: 'Tiền cọc đã vào tài khoản; lễ tân bấm "Đã nhận cọc"; đơn chuyển sang Đã xác nhận.' });
+    d.edge({ from: 'D', to: 'P', lb: 'nhận & trả phòng', lp: [696, 166] });
+    st('P', 870, 175, 'ĐÃ THANH TOÁN', 'paid_full', 'sys', null, 210);
+    d.edge({ from: 'P', to: 'e2', pts: [[870, 206], [870, 440], [1050, 440]] });
+    d.node('e2', { shape: 'end', x: 1060, y: 458 });
+    d.edge({ from: 'W', to: 'EX', lb: 'quá hạn (timer 5 phút)', lp: [344, 235, 'start'] });
+    st('EX', 330, 360, 'QUÁ HẠN · HỦY', 'expired', 'err', { t: 'Đơn tự hủy', d: '<code>@Scheduled</code> chạy 5 phút/lần; đơn CHỜ CỌC quá hạn bị hủy và gửi email cho khách.' });
+    d.edge({ from: 'D', to: 'RF', lb: 'đơn bị hủy', lp: [612, 235, 'start'] });
+    st('RF', 600, 360, 'HOÀN TIỀN', 'refunded', 'gone', { t: 'Hoàn tiền cọc', d: 'Admin hoàn tiền thủ công khi đơn đã cọc bị hủy.' });
+    d.edge({ from: 'EX', to: 'e3', pts: [[330, 391], [330, 440], [780, 440]] });
+    d.edge({ from: 'RF', to: 'e3', pts: [[600, 391], [600, 440], [780, 440]] });
+    d.node('e3', { shape: 'end', x: 790, y: 458 });
+    return d.mount();
+}
+
+// Vong doi danh gia Sweet Cake (State)
+function scReviewState(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 920, h: 380, seed: 46 }, opts));
+    const st = (id, x, y, t, s, cls, info) => d.node(id, { shape: 'pill', x, y, w: 190, h: 62, t, s, cls, info });
+    d.node('s', { shape: 'start', x: 90, y: 90 });
+    d.edge({ from: 's', to: 'P', lb: 'khách gửi đánh giá', lp: [105, 140, 'start'] });
+    st('P', 90, 210, 'CHỜ DUYỆT', 'pending', 'warm', { t: 'pending', d: 'Đánh giá mới luôn ở pending. Không hiện lên trang sản phẩm.' });
+    d.edge({ from: 'P', to: 'A', lb: 'admin duyệt', lp: [290, 201] });
+    st('A', 390, 210, 'ĐÃ DUYỆT', 'approved', 'sys', { t: 'approved', d: 'Hiện lên trang sản phẩm, tính vào rating trung bình. Không thể sửa sau khi duyệt.' });
+    d.edge({ from: 'P', to: 'R', pts: [[90, 241], [90, 320], [390, 320]], lb: 'admin từ chối', lp: [225, 309] });
+    st('R', 390, 320, 'TỪ CHỐI', 'rejected', 'err', { t: 'rejected', d: 'Không hiện lên trang sản phẩm. Admin có thể xóa hoặc giữ lại trong hệ thống.' });
+    d.edge({ from: 'A', to: 'e', pts: [[390, 241], [390, 360], [690, 360]] });
+    d.edge({ from: 'R', to: 'e', pts: [[390, 351], [390, 360], [690, 360]] });
+    d.node('e', { shape: 'end', x: 700, y: 360 });
+    d.node('n', { shape: 'note', x: 640, y: 120, w: 260, h: 72, t: 'Chỉ tài khoản đã mua mới gửi được;\nmỗi tài khoản-sản phẩm chỉ 1 lần;\nrating tổng được tính lại sau khi duyệt', small: true });
+    return d.mount();
+}
+
+// Check-in tai quay le tan (Homestay May) (Sequence)
+function hmCheckinSeq(svg, opts) {
+    const H = 720;
+    const d = Sketch(svg, Object.assign({ w: 1060, h: H, seed: 47 }, opts));
+    const { msg } = seqKit(d, [
+        { id: 'lt',   x: 100, w: 140, t: 'Lễ tân',            cls: 'warm' },
+        { id: 'ctrl', x: 340, w: 220, t: 'BookingController', cls: 'sys' },
+        { id: 'svc',  x: 650, w: 230, t: 'BookingService',    cls: 'sys' },
+        { id: 'db',   x: 960, w: 140, t: 'MySQL',             cls: 'soft' },
+    ], H);
+    let y = 112; const n = (dy = 36) => (y += dy);
+    msg('lt', 'ctrl', y, 'POST /bookings/{id}/checkin');
+    msg('ctrl', 'svc', n(), 'checkIn(bookingId)');
+    msg('svc', 'db', n(), 'SELECT booking WHERE id=? FOR UPDATE');
+    msg('db', 'svc', n(), 'booking (CONFIRMED)', 'ret');
+    n(10);
+    d.node('gk', { shape: 'note', x: 370, y: n(30), w: 420, h: 46, t: 'Điều kiện: status = CONFIRMED và\nhasGuestDeclaration = true', small: true,
+        info: { t: 'Điều kiện nhận phòng', d: 'Phải đã xác nhận <b>và</b> đã khai báo lưu trú (theo Nghị định 145). Thiếu một trong hai trả 422.' } });
+    n(10);
+    d.edge({ k: 'err', pts: [[370, n(30)], [100, y]], lb: 'chưa khai báo lưu trú', lp: [245, y - 9] });
+    d.node('er', { shape: 'round', x: 100, y, w: 180, h: 50, t: '422 "Chưa khai báo\nlưu trú"', cls: 'err', small: true });
+    n(16);
+    msg('svc', 'db', n(36), 'UPDATE rooms SET status=OCCUPIED');
+    msg('svc', 'db', n(), 'UPDATE bookings SET status=CHECKED_IN,\ncheckin_at=now()');
+    msg('db', 'svc', n(), 'OK', 'ret');
+    msg('svc', 'ctrl', n(), 'booking (CHECKED_IN)', 'ret');
+    msg('ctrl', 'lt', n(), '200 · tên khách · số phòng', 'ret');
+    return d.mount();
+}
+
+// Dat hang COD: so do tuan tu Browser → Laravel (Sweet Cake) (Sequence)
+function scOrderSeq(svg, opts) {
+    const H = 740;
+    const d = Sketch(svg, Object.assign({ w: 1080, h: H, seed: 48 }, opts));
+    const { msg } = seqKit(d, [
+        { id: 'br',   x:  90, w: 160, t: 'Trình duyệt\n(React / Inertia)' },
+        { id: 'ctrl', x: 340, w: 230, t: 'CartController\n@storeCOD',     cls: 'sys' },
+        { id: 'svc',  x: 660, w: 240, t: 'OrderPlacement\nService',       cls: 'sys' },
+        { id: 'db',   x: 960, w: 140, t: 'MySQL',                         cls: 'soft' },
+    ], H);
+    let y = 112; const n = (dy = 36) => (y += dy);
+    msg('br', 'ctrl', y, 'POST /checkout/cod · address_id, promo_code');
+    msg('ctrl', 'svc', n(), "placeFromCart(user, 'cod', addressId, code)");
+    msg('svc', 'db', n(), 'SELECT cart_items WHERE user_id=?');
+    msg('db', 'svc', n(), 'cart_items', 'ret');
+    msg('svc', 'db', n(), 'SELECT products … FOR UPDATE');
+    n(10);
+    d.node('vl', { shape: 'note', x: 450, y: n(30), w: 400, h: 58, t: 'Validate từng item: còn bán, stock ≥ qty;\ntính subtotal · áp mã KM trong giao dịch', small: true,
+        info: { t: 'Validate trong DB::transaction', d: 'Khóa dòng sản phẩm trước khi validate: nếu stock vừa bị hạ bởi giao dịch khác, lỗi được phát hiện ngay trong cùng transaction.' } });
+    msg('svc', 'db', n(52), 'INSERT order + order_items\nUPDATE products.stock\nDELETE cart_items');
+    msg('db', 'svc', n(44), 'order (ORD-…)', 'ret');
+    msg('svc', 'ctrl', n(), 'order', 'ret');
+    n(10);
+    d.node('em', { shape: 'note', x: 170, y: n(30), w: 340, h: 44, t: 'Dispatch OrderPlacedEvent\n→ email xác nhận (queue, async)', small: true });
+    msg('ctrl', 'br', n(44), 'Inertia::redirect /dashboard\n"Đặt hàng thành công!"', 'ret');
+    return d.mount();
+}
+
+// Dat phong walk-in tai quay le tan (Activity)
+function hmWalkIn(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1080, h: 920, seed: 53, number: true }, opts));
+    lanes(d, [[290, 'Lễ tân'], [470, 'AdminWalkInController'], [320, 'MySQL']]);
+    d.node('s', { shape: 'start', x: 145, y: 92 });
+    d.edge({ from: 's', to: 'k1' });
+    d.node('k1', { shape: 'round', x: 145, y: 165, w: 250, h: 56, t: 'Tìm phòng trống', s: 'chọn ngày nhận / trả phòng' });
+    d.edge({ from: 'k1', to: 'c1', pts: [[270, 165], [525, 165], [525, 198]] });
+    d.node('c1', { shape: 'round', x: 525, y: 255, w: 360, h: 56, t: 'Query phòng trống', s: 'không có đơn CONFIRMED/CHECKED_IN trùng ngày', cls: 'sys' });
+    d.edge({ from: 'c1', to: 'db1', k: 'dash' });
+    d.node('db1', { shape: 'cyl', x: 930, y: 255, w: 220, h: 60, t: 'SELECT available rooms' });
+    d.edge({ from: 'c1', to: 'k2', pts: [[525, 283], [525, 330], [145, 330], [145, 342]] });
+    d.node('k2', { shape: 'round', x: 145, y: 370, w: 250, h: 64, t: 'Chọn phòng + combo\nnhập thông tin khách', s: 'tên, SĐT, email, CCCD' });
+    d.edge({ from: 'k2', to: 'c2', pts: [[270, 370], [525, 370], [525, 403]] });
+    d.node('c2', { shape: 'round', x: 525, y: 460, w: 360, h: 56, t: 'createWalkInBooking()', cls: 'sys',
+        info: { t: 'Walk-in: tạo thẳng CONFIRMED', d: 'Đơn walk-in bỏ qua PENDING và không yêu cầu cọc — lễ tân có mặt nên xác nhận trực tiếp.', r: HM + 'service/BookingService.java · createWalkInBooking()' } });
+    d.edge({ from: 'c2', to: 'q1' });
+    d.node('q1', { shape: 'diamond', x: 525, y: 568, w: 220, h: 88, t: 'Phòng còn\ntrống?' });
+    d.edge({ from: 'q1', to: 'eq1', k: 'err', lb: 'vừa bị đặt', lp: [645, 559] });
+    d.node('eq1', { shape: 'round', x: 850, y: 568, w: 220, h: 50, t: '409 Phòng vừa có khách', cls: 'err', small: true });
+    d.edge({ from: 'q1', to: 'c3', lb: 'còn', lp: [535, 625, 'start'] });
+    d.node('c3', { shape: 'round', x: 525, y: 678, w: 360, h: 60, t: 'INSERT booking CONFIRMED\n+ booking_guests (khai báo lưu trú)', cls: 'sys' });
+    d.edge({ from: 'c3', to: 'db2', k: 'dash' });
+    d.node('db2', { shape: 'cyl', x: 930, y: 678, w: 220, h: 60, t: 'INSERT bookings\nstatus = CONFIRMED' });
+    d.edge({ from: 'c3', to: 'em' });
+    d.node('em', { shape: 'round', x: 525, y: 790, w: 300, h: 52, t: 'Gửi email xác nhận (async)', s: 'EmailService.deliverAfterCommit()', cls: 'soft' });
+    d.edge({ from: 'em', to: 'k3', pts: [[525, 816], [525, 850], [145, 850], [145, 860]] });
+    d.node('k3', { shape: 'round', x: 145, y: 882, w: 250, h: 48, t: 'Hiển thị đơn đã xác nhận', cls: 'sys', small: true });
+    d.edge({ from: 'k3', to: 'e', pts: [[145, 906]] });
+    d.node('e', { shape: 'end', x: 145, y: 916 });
+    return d.mount();
+}
+
+// Check-out & thanh toan phong (Activity)
+function hmCheckout(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1080, h: 920, seed: 54, number: true }, opts));
+    lanes(d, [[290, 'Lễ tân'], [460, 'PaymentService'], [330, 'MySQL']]);
+    d.node('s', { shape: 'start', x: 145, y: 92 });
+    d.edge({ from: 's', to: 'k1' });
+    d.node('k1', { shape: 'round', x: 145, y: 165, w: 250, h: 56, t: 'Mở đơn CHECKED_IN', s: 'xem amountDue = tổng − đã cọc' });
+    d.edge({ from: 'k1', to: 'k2' });
+    d.node('k2', { shape: 'round', x: 145, y: 265, w: 250, h: 56, t: '(Tuỳ chọn) Thêm phụ phí', s: 'BookingCharge: minibar, hư hại, trả muộn' });
+    d.edge({ from: 'k2', to: 'c1', pts: [[270, 265], [520, 265], [520, 298]] });
+    d.node('c1', { shape: 'round', x: 520, y: 355, w: 340, h: 56, t: 'Tính amountDue', s: 'grandTotal − depositPaidAmount', cls: 'sys',
+        info: { t: 'amountDue', d: '<code>grandTotal</code> = giá phòng + combo + phụ phí. <code>amountDue = grandTotal − depositPaidAmount</code>. Có thể = 0 nếu cọc đủ.', r: HM + 'service/PaymentService.java' } });
+    d.edge({ from: 'c1', to: 'gwp' });
+    d.node('gwp', { shape: 'diamond', x: 520, y: 462, w: 230, h: 90, t: 'Phương thức\nthanh toán?' });
+    d.edge({ from: 'gwp', to: 'ca', lb: 'tiền mặt', lp: [400, 453] });
+    d.node('ca', { shape: 'round', x: 145, y: 462, w: 230, h: 56, t: 'Thu tiền · xác nhận\namountDue đã thu' });
+    d.edge({ from: 'ca', to: 'cp', pts: [[145, 490], [145, 558], [390, 558]] });
+    d.edge({ from: 'gwp', to: 'bt', lb: 'chuyển khoản', lp: [641, 453] });
+    d.node('bt', { shape: 'round', x: 820, y: 462, w: 210, h: 56, t: 'Chờ tiền vào tài khoản', s: 'lễ tân bấm "Đã nhận"', cls: 'warm' });
+    d.edge({ from: 'bt', to: 'cp', pts: [[820, 490], [820, 558], [650, 558]] });
+    d.node('cp', { shape: 'round', x: 520, y: 590, w: 340, h: 56, t: 'recordPayment() · PaymentStatus = PAID', cls: 'sys' });
+    d.edge({ from: 'cp', to: 'db1', k: 'dash' });
+    d.node('db1', { shape: 'cyl', x: 920, y: 590, w: 200, h: 60, t: 'UPDATE payments\nstatus = PAID' });
+    d.edge({ from: 'cp', to: 'co' });
+    d.node('co', { shape: 'round', x: 520, y: 695, w: 340, h: 56, t: 'checkOut() · BookingStatus = CHECKED_OUT', cls: 'sys' });
+    d.edge({ from: 'co', to: 'db2', k: 'dash' });
+    d.node('db2', { shape: 'cyl', x: 920, y: 695, w: 200, h: 60, t: 'UPDATE bookings\nstatus = CHECKED_OUT' });
+    d.edge({ from: 'co', to: 'em' });
+    d.node('em', { shape: 'round', x: 520, y: 800, w: 300, h: 52, t: 'Gửi hóa đơn email (async)', s: 'EmailService.deliverAfterCommit()', cls: 'soft' });
+    d.edge({ from: 'em', to: 'k3', pts: [[520, 826], [520, 862], [145, 862], [145, 870]] });
+    d.node('k3', { shape: 'round', x: 145, y: 890, w: 250, h: 44, t: 'Hiển thị hóa đơn đã thanh toán', cls: 'sys', small: true });
+    d.edge({ from: 'k3', to: 'e', pts: [[145, 912]] });
+    d.node('e', { shape: 'end', x: 145, y: 920 });
+    return d.mount();
+}
+
+// Quen mat khau / Dat lai mat khau (Homestay May) (Activity)
+function hmForgotPassword(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1000, h: 900, seed: 55, number: true }, opts));
+    d.node('s', { shape: 'start', x: 420, y: 60 });
+    d.edge({ from: 's', to: 'a1' });
+    d.node('a1', { shape: 'round', x: 420, y: 130, w: 340, h: 56, t: 'POST /forgot-password', s: 'nhập địa chỉ email' });
+    d.edge({ from: 'a1', to: 'q1' });
+    d.node('q1', { shape: 'diamond', x: 420, y: 240, w: 230, h: 88, t: 'Email tồn tại\ntrong hệ thống?' });
+    d.edge({ from: 'q1', to: 'ok1', lb: 'không', lp: [545, 231], k: 'err' });
+    d.node('ok1', { shape: 'round', x: 790, y: 240, w: 280, h: 50, t: 'Vẫn trả 200 (không lộ email)', cls: 'soft', small: true,
+        info: { t: 'Không lộ thông tin có tài khoản không', d: 'Dù email không tồn tại, hệ thống trả HTTP 200 để tránh enumeration attack.' } });
+    d.edge({ from: 'q1', to: 'a2', lb: 'có', lp: [430, 296, 'start'] });
+    d.node('a2', { shape: 'round', x: 420, y: 365, w: 380, h: 60, t: 'createPasswordResetToken()', s: 'SecureRandom 32 byte → URLEncoder · hạn 30 phút', cls: 'sys',
+        info: { c: `String token = URLEncoder.encode(
+    Base64.getUrlEncoder().encodeToString(bytes), UTF_8);
+user.setPasswordResetToken(token);
+user.setPasswordResetExpiry(now().plusMinutes(30));`, r: HM + 'controller/AuthController.java' } });
+    d.edge({ from: 'a2', to: 'a3' });
+    d.node('a3', { shape: 'round', x: 420, y: 475, w: 340, h: 56, t: 'sendPasswordReset() — gửi đồng bộ', s: 'link chứa token · hạn 30 phút', cls: 'soft' });
+    d.edge({ from: 'a3', to: 'k1', pts: [[420, 503], [420, 545], [200, 545], [200, 555]] });
+    d.node('k1', { shape: 'round', x: 200, y: 575, w: 280, h: 50, t: '"Nếu email tồn tại,\nbạn sẽ nhận được thư."', cls: 'sys', small: true });
+    d.edge({ from: 'a3', to: 'a4', pts: [[420, 503], [420, 615]] });
+    d.node('a4', { shape: 'round', x: 420, y: 645, w: 340, h: 56, t: 'Người dùng nhấn link\nGET /reset-password?token=…' });
+    d.edge({ from: 'a4', to: 'q2' });
+    d.node('q2', { shape: 'diamond', x: 420, y: 754, w: 230, h: 88, t: 'Token hợp lệ\nvà chưa hết hạn?' });
+    d.edge({ from: 'q2', to: 'exp', lb: 'hết hạn / sai', lp: [545, 745], k: 'err' });
+    d.node('exp', { shape: 'round', x: 790, y: 754, w: 250, h: 50, t: 'Trang "Link đã hết hạn"', cls: 'err', small: true });
+    d.edge({ from: 'q2', to: 'a5', lb: 'hợp lệ', lp: [430, 810, 'start'] });
+    d.node('a5', { shape: 'round', x: 420, y: 840, w: 360, h: 52, t: 'resetPassword() · token = null · redirect /login', cls: 'sys', small: true });
+    d.edge({ from: 'a5', to: 'e', pts: [[420, 866]] });
+    d.node('e', { shape: 'end', x: 420, y: 878 });
+    return d.mount();
+}
+
+// Vong doi PaymentStatus (Homestay May) (State)
+function hmPaymentState(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1020, h: 380, seed: 56 }, opts));
+    const st = (id, x, y, t, s, cls, info) => d.node(id, { shape: 'pill', x, y, w: 200, h: 62, t, s, cls, info });
+    d.node('s', { shape: 'start', x: 70, y: 80 });
+    d.edge({ from: 's', to: 'U', lb: 'tạo đơn', lp: [85, 150, 'start'] });
+    st('U', 70, 200, 'CHƯA THANH TOÁN', 'UNPAID', 'warm',
+        { t: 'UNPAID', d: 'Trạng thái ban đầu khi đơn được tạo. Đơn chưa thu đủ tiền, kể cả đã đặt cọc.' });
+    d.edge({ from: 'U', to: 'P', lb: 'check-out · thu đủ tiền', lp: [276, 191] });
+    st('P', 370, 200, 'ĐÃ THANH TOÁN', 'PAID', 'sys',
+        { t: 'PAID', d: 'Toàn bộ amountDue đã thu. Kích hoạt gửi hóa đơn email sau commit.' });
+    d.edge({ from: 'P', to: 'R', lb: 'đơn bị hủy sau khi đã thanh toán', lp: [576, 191] });
+    st('R', 670, 200, 'ĐÃ HOÀN TIỀN', 'REFUNDED', 'gone',
+        { t: 'REFUNDED', d: 'Admin xử lý hoàn tiền thủ công khi đơn hủy sau khi đã thanh toán hoặc đặt cọc.' });
+    d.edge({ from: 'R', to: 'e', pts: [[670, 231], [670, 308], [900, 308]] });
+    d.node('e', { shape: 'end', x: 910, y: 322 });
+    d.edge({ from: 'U', to: 'e', pts: [[70, 231], [70, 318], [900, 318]], lb: 'đơn hủy trước khi thanh toán', lp: [400, 327] });
+    d.node('n', { shape: 'note', x: 520, y: 80, w: 300, h: 64, t: 'PaymentStatus là cột riêng;\nkhông tự thay đổi khi BookingStatus\nthay đổi — phải cập nhật riêng.', small: true });
+    return d.mount();
+}
+
+// Gui email bat dong bo sau commit (Homestay May) (Sequence)
+function hmAsyncEmail(svg, opts) {
+    const H = 680;
+    const d = Sketch(svg, Object.assign({ w: 1060, h: H, seed: 57 }, opts));
+    const { msg } = seqKit(d, [
+        { id: 'caller', x:  90, w: 160, t: 'Service\n(caller)' },
+        { id: 'email',  x: 350, w: 230, t: 'EmailService',        cls: 'sys' },
+        { id: 'sync',   x: 660, w: 250, t: 'TransactionSync\n(afterCommit)', cls: 'warm' },
+        { id: 'exec',   x: 960, w: 150, t: 'MailExecutor\n(thread pool)',    cls: 'soft' },
+    ], H);
+    let y = 112; const n = (dy = 36) => (y += dy);
+    msg('caller', 'email', y, 'deliverAfterCommit(mail)');
+    n(10);
+    d.node('gw', { shape: 'note', x: 180, y: n(28), w: 360, h: 44, t: 'Có đang trong giao dịch (transaction) không?', small: true });
+    n(10);
+    d.edge({ k: 'dash', pts: [[240, n(28)], [660, y]], lb: 'có → registerSynchronization', lp: [450, y - 10] });
+    msg('sync', 'exec', n(48), 'submit(sendTask) — sau COMMIT', 'async');
+    n(10);
+    d.node('gw2', { shape: 'note', x: 180, y: n(28), w: 360, h: 44, t: 'Không trong giao dịch:', small: true,
+        info: { t: 'Gửi ngay nếu không có transaction', d: 'Kiểm tra <code>TransactionSynchronizationManager.isActualTransactionActive()</code>; false → gửi vào executor ngay.' } });
+    d.edge({ k: 'dash', pts: [[240, n(30)], [960, y]], lb: 'không → submit ngay', lp: [600, y - 10] });
+    n(20);
+    d.node('em', { shape: 'note', x: 660, y: n(28), w: 370, h: 50, t: 'JavaMailSender.send() trong luồng riêng\n— không chặn luồng HTTP chính', small: true });
+    msg('exec', 'caller', n(52), 'email đã gửi (hoặc lỗi → ghi log)', 'async');
+    d.node('note', { shape: 'note', x: 80, y: n(30), w: 740, h: 44, t: 'Tách luồng gửi email đảm bảo transaction commit xong mới gửi — không gửi email khi đơn chưa được lưu.', small: true });
+    return d.mount();
+}
+
+// Xac nhan don + nhan coc (Homestay May) (Sequence)
+function hmConfirmDeposit(svg, opts) {
+    const H = 700;
+    const d = Sketch(svg, Object.assign({ w: 1060, h: H, seed: 58 }, opts));
+    const { msg } = seqKit(d, [
+        { id: 'lt',   x:  90, w: 140, t: 'Lễ tân',                cls: 'warm' },
+        { id: 'ctrl', x: 330, w: 250, t: 'AdminBookingController', cls: 'sys' },
+        { id: 'svc',  x: 640, w: 230, t: 'BookingService',         cls: 'sys' },
+        { id: 'db',   x: 950, w: 140, t: 'MySQL',                  cls: 'soft' },
+    ], H);
+    let y = 112; const n = (dy = 36) => (y += dy);
+    msg('lt', 'ctrl', y, 'PUT /admin/bookings/{id}/confirm');
+    msg('ctrl', 'svc', n(), 'confirmBooking(bookingId)');
+    msg('svc', 'db', n(), 'SELECT room WHERE id=? FOR UPDATE');
+    msg('db', 'svc', n(), 'room (locked)', 'ret');
+    msg('svc', 'db', n(), 'SELECT bookings WHERE room overlaps · FOR UPDATE');
+    msg('db', 'svc', n(), 'bookings đang CONFIRMED / CHECKED_IN', 'ret');
+    n(10);
+    d.node('ck', { shape: 'note', x: 370, y: n(28), w: 420, h: 46, t: 'ensureNoConfirmedConflict(): nếu có đơn khác\ntrùng ngày → rollback + ném ConflictException', small: true,
+        info: { t: 'Chống xác nhận phòng đã có khách', d: 'Khóa dòng phòng trước khi kiểm tra chồng lịch, đảm bảo hai giao dịch đồng thời không thể cùng xác nhận một phòng cùng ngày.' } });
+    d.edge({ k: 'err', pts: [[370, n(42)], [90, y]], lb: 'trùng lịch → 409', lp: [230, y - 9] });
+    d.node('er', { shape: 'round', x: 90, y, w: 160, h: 50, t: '409 Trùng lịch', cls: 'err', small: true });
+    n(14);
+    msg('svc', 'db', n(40), 'UPDATE bookings SET status=CONFIRMED,\ndepositReceived=true');
+    msg('db', 'svc', n(), 'OK', 'ret');
+    msg('svc', 'ctrl', n(), 'booking (CONFIRMED)', 'ret');
+    msg('ctrl', 'lt', n(), '200 · đơn đã xác nhận', 'ret');
+    return d.mount();
+}
+
+// Dang ky tai khoan moi (Sweet Cake) (Activity)
+function scDangKy(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1000, h: 760, seed: 61, number: true }, opts));
+    const A = SC + 'app/Http/Controllers/Auth/RegisteredUserController.php';
+    d.node('s', { shape: 'start', x: 400, y: 60 });
+    d.edge({ from: 's', to: 'a1' });
+    d.node('a1', { shape: 'round', x: 400, y: 130, w: 360, h: 56, t: 'POST /register', s: 'name, email, password, password_confirmation' });
+    d.edge({ from: 'a1', to: 'q1' });
+    d.node('q1', { shape: 'diamond', x: 400, y: 240, w: 250, h: 90, t: 'Email chưa\ntồn tại?' });
+    d.edge({ from: 'q1', to: 'eq1', k: 'err', lb: 'đã tồn tại', lp: [530, 231] });
+    d.node('eq1', { shape: 'round', x: 800, y: 240, w: 280, h: 50, t: '"Email đã được sử dụng."', cls: 'err', small: true });
+    d.edge({ from: 'q1', to: 'a2', lb: 'chưa', lp: [410, 298, 'start'] });
+    d.node('a2', { shape: 'round', x: 400, y: 370, w: 380, h: 60, t: 'Tự sinh username từ email', s: 'strtolower(prefix@) + counter cho đến khi unique',
+        info: { t: 'Auto-generate username', d: 'Dùng phần trước dấu @ làm username gốc. Nếu đã tồn tại, thêm số đuôi (user1, user2 …) cho đến khi tìm được username chưa dùng.', r: A } });
+    d.edge({ from: 'a2', to: 'a3' });
+    d.node('a3', { shape: 'round', x: 400, y: 480, w: 360, h: 56, t: 'User::create()', s: "role='customer' · status='active' · Hash::make(password)", cls: 'sys',
+        info: { c: `User::create([
+    'name' => $request->name, 'email' => $request->email,
+    'username' => $username,  'role' => 'customer',
+    'status' => 'active', 'password' => Hash::make($request->password),
+]);`, r: A } });
+    d.edge({ from: 'a3', to: 'a4' });
+    d.node('a4', { shape: 'round', x: 400, y: 580, w: 360, h: 56, t: 'event(Registered) · Auth::login()', s: 'session regenerate · không cần xác minh email', cls: 'sys' });
+    d.edge({ from: 'a4', to: 'a5' });
+    d.node('a5', { shape: 'round', x: 400, y: 678, w: 300, h: 52, t: 'Inertia::redirect /dashboard', cls: 'sys', small: true });
+    d.edge({ from: 'a5', to: 'e', pts: [[400, 704]] });
+    d.node('e', { shape: 'end', x: 400, y: 716 });
+    d.node('n', { shape: 'note', x: 790, y: 480, w: 270, h: 64, t: 'Không yêu cầu xác minh email\n— đăng nhập ngay sau khi đăng ký,\nkhác với nhiều ứng dụng thương mại.', small: true });
+    return d.mount();
+}
+
+// Dat lai mat khau Sweet Cake (Sequence)
+function scForgotPassword(svg, opts) {
+    const H = 700;
+    const d = Sketch(svg, Object.assign({ w: 1060, h: H, seed: 62 }, opts));
+    const { msg } = seqKit(d, [
+        { id: 'br',   x:  90, w: 160, t: 'Trình duyệt\n(React)' },
+        { id: 'ctrl', x: 360, w: 290, t: 'PasswordReset\nController',  cls: 'sys' },
+        { id: 'db',   x: 730, w: 170, t: 'password_reset\n_tokens', cls: 'soft' },
+        { id: 'mail', x: 980, w: 130, t: 'SMTP', cls: 'warm' },
+    ], H);
+    let y = 112; const n = (dy = 36) => (y += dy);
+    msg('br', 'ctrl', y, 'POST /forgot-password { email }');
+    msg('ctrl', 'db', n(), 'DELETE token cũ · INSERT token mới (hashed)');
+    msg('db', 'ctrl', n(), 'OK', 'ret');
+    msg('ctrl', 'mail', n(), 'Mail::to($email)->send(ResetPasswordNotification)');
+    msg('mail', 'ctrl', n(), '(email đã xếp hàng)', 'ret');
+    msg('ctrl', 'br', n(), '200 "Liên kết đặt lại đã được gửi!"', 'ret');
+    n(20);
+    msg('br', 'ctrl', n(36), 'POST /reset-password { token, email, password }');
+    msg('ctrl', 'db', n(), 'SELECT token WHERE email = ?');
+    msg('db', 'ctrl', n(), 'hashed token', 'ret');
+    n(10);
+    d.node('ck', { shape: 'note', x: 200, y: n(28), w: 440, h: 46, t: 'Password::reset(): so hash_hmac token · kiểm tra hết hạn 60 phút', small: true });
+    d.edge({ k: 'err', pts: [[200, n(42)], [90, y]], lb: 'sai / hết hạn', lp: [140, y - 9] });
+    d.node('er', { shape: 'round', x: 90, y, w: 160, h: 50, t: '"Link hết hạn"', cls: 'err', small: true });
+    n(14);
+    msg('ctrl', 'db', n(38), 'UPDATE users SET password=Hash · DELETE token');
+    msg('db', 'ctrl', n(), 'OK', 'ret');
+    msg('ctrl', 'br', n(), 'redirect /login\n"Mật khẩu đã được đặt lại thành công."', 'ret');
+    return d.mount();
+}
+
+// Quan ly dia chi giao hang Sweet Cake (Activity)
+function scShippingAddr(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1060, h: 680, seed: 63, number: true }, opts));
+    const C = SC + 'app/Http/Controllers/ShippingAddressController.php';
+    d.node('s', { shape: 'start', x: 400, y: 60 });
+    d.edge({ from: 's', to: 'gw0' });
+    d.node('gw0', { shape: 'diamond', x: 400, y: 135, w: 210, h: 84, t: 'Thao tác?' });
+    d.edge({ from: 'gw0', to: 'ac', lb: 'thêm mới', lp: [298, 126] });
+    d.node('ac', { shape: 'round', x: 145, y: 135, w: 230, h: 56, t: 'POST /shipping-addresses', s: 'validate name, phone, address, city' });
+    d.edge({ from: 'ac', to: 'qd' });
+    d.node('qd', { shape: 'diamond', x: 145, y: 248, w: 220, h: 84, t: 'is_default\n= true?' });
+    d.edge({ from: 'qd', to: 'cd', lb: 'có', lp: [156, 310, 'start'] });
+    d.node('cd', { shape: 'round', x: 145, y: 370, w: 290, h: 58, t: 'UPDATE SET is_default=false\ncho tất cả địa chỉ của user', cls: 'sys' });
+    d.edge({ from: 'cd', to: 'cs' });
+    d.edge({ from: 'qd', to: 'cs', lb: 'không', lp: [255, 239] });
+    d.node('cs', { shape: 'round', x: 145, y: 480, w: 250, h: 56, t: 'ShippingAddress::create()', cls: 'sys' });
+    d.edge({ from: 'cs', to: 'e', pts: [[145, 508], [145, 610], [390, 610]] });
+    d.edge({ from: 'gw0', to: 'del', lb: 'xóa', lp: [505, 126] });
+    d.node('del', { shape: 'round', x: 660, y: 135, w: 240, h: 56, t: 'DELETE /shipping-addresses/{id}' });
+    d.edge({ from: 'del', to: 'qdef' });
+    d.node('qdef', { shape: 'diamond', x: 660, y: 248, w: 240, h: 90, t: 'Là địa chỉ\nmặc định?' });
+    d.edge({ from: 'qdef', to: 'edef', lb: 'có', k: 'err', lp: [800, 239] });
+    d.node('edef', { shape: 'round', x: 950, y: 248, w: 260, h: 50, t: '"Đặt mặc định khác\ntrước khi xóa."', cls: 'err', small: true });
+    d.edge({ from: 'qdef', to: 'ds', lb: 'không', lp: [670, 306, 'start'] });
+    d.node('ds', { shape: 'round', x: 660, y: 380, w: 240, h: 56, t: 'ShippingAddress::delete()', cls: 'sys' });
+    d.edge({ from: 'ds', to: 'e', pts: [[660, 408], [660, 610], [420, 610]] });
+    d.edge({ from: 'gw0', to: 'upd', lb: 'cập nhật', lp: [410, 177, 'start'] });
+    d.node('upd', { shape: 'round', x: 400, y: 290, w: 300, h: 56, t: 'PUT /shipping-addresses/{id}', s: 'cập nhật name, phone, address, city' });
+    d.edge({ from: 'upd', to: 'qu' });
+    d.node('qu', { shape: 'diamond', x: 400, y: 400, w: 240, h: 88, t: 'Đặt làm\nmặc định?' });
+    d.edge({ from: 'qu', to: 'cu', lb: 'có', lp: [410, 456, 'start'] });
+    d.node('cu', { shape: 'round', x: 400, y: 520, w: 350, h: 60, t: '1. save() địa chỉ này TRƯỚC\n2. reset is_default các địa chỉ khác', cls: 'sys',
+        info: { t: 'Thứ tự quan trọng!', d: 'Phải UPDATE địa chỉ này trước, rồi mới reset các địa chỉ khác. Ngược lại Eloquent không nhận thấy <code>is_default</code> thay đổi và bỏ qua save.', r: C } });
+    d.edge({ from: 'cu', to: 'e' });
+    d.edge({ from: 'qu', to: 'e', lb: 'không', lp: [400, 392] });
+    d.node('e', { shape: 'end', x: 400, y: 620 });
+    return d.mount();
+}
+
+// Wishlist toggle (Sweet Cake) (Activity)
+function scWishlist(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 900, h: 620, seed: 64, number: true }, opts));
+    d.node('s', { shape: 'start', x: 380, y: 60 });
+    d.edge({ from: 's', to: 'a1' });
+    d.node('a1', { shape: 'round', x: 380, y: 130, w: 340, h: 56, t: 'POST /wishlist/toggle', s: 'đăng nhập bắt buộc · { product_id }' });
+    d.edge({ from: 'a1', to: 'q1' });
+    d.node('q1', { shape: 'diamond', x: 380, y: 245, w: 230, h: 88, t: 'Sản phẩm\nđang bán?' });
+    d.edge({ from: 'q1', to: 'eq1', k: 'err', lb: 'không', lp: [510, 236] });
+    d.node('eq1', { shape: 'round', x: 760, y: 245, w: 260, h: 50, t: '404 Sản phẩm không tìm thấy', cls: 'err', small: true });
+    d.edge({ from: 'q1', to: 'q2', lb: 'có', lp: [390, 301, 'start'] });
+    d.node('q2', { shape: 'diamond', x: 380, y: 375, w: 230, h: 88, t: 'Đã có trong\ndanh sách?' });
+    d.edge({ from: 'q2', to: 'rm', lb: 'có', lp: [263, 366] });
+    d.node('rm', { shape: 'round', x: 130, y: 375, w: 230, h: 56, t: 'Wishlist::delete()', s: 'xóa bản ghi', cls: 'err' });
+    d.edge({ from: 'q2', to: 'add', lb: 'chưa', lp: [390, 431, 'start'] });
+    d.node('add', { shape: 'round', x: 380, y: 504, w: 230, h: 56, t: 'Wishlist::create()', s: 'thêm bản ghi', cls: 'sys' });
+    d.edge({ from: 'rm', to: 'res', pts: [[130, 403], [130, 572], [370, 572]] });
+    d.edge({ from: 'add', to: 'res' });
+    d.node('res', { shape: 'round', x: 380, y: 580, w: 310, h: 52, t: 'JSON { is_in_wishlist: bool }', cls: 'sys', small: true });
+    d.edge({ from: 'res', to: 'e', pts: [[380, 606]] });
+    d.node('e', { shape: 'end', x: 380, y: 618 });
+    return d.mount();
+}
+
+// Vong doi PaymentStatus don hang (Sweet Cake) (State)
+function scPaymentState(svg, opts) {
+    const d = Sketch(svg, Object.assign({ w: 1020, h: 360, seed: 65 }, opts));
+    const st = (id, x, y, t, s, cls, info) => d.node(id, { shape: 'pill', x, y, w: 200, h: 62, t, s, cls, info });
+    d.node('s', { shape: 'start', x: 70, y: 80 });
+    d.edge({ from: 's', to: 'U', lb: 'placeFromCart()', lp: [85, 150, 'start'] });
+    st('U', 70, 200, 'CHƯA THANH TOÁN', 'unpaid', 'warm',
+        { t: 'unpaid', d: 'Trạng thái ban đầu của mọi đơn, kể cả MoMo (trước khi IPN xác nhận).' });
+    d.edge({ from: 'U', to: 'P', lb: 'admin xác nhận COD\n/ MoMo IPN hợp lệ', lp: [276, 191] });
+    st('P', 370, 200, 'ĐÃ THANH TOÁN', 'paid', 'sys',
+        { t: 'paid', d: 'Admin bấm "Đã thu tiền" (COD) hoặc IPN MoMo xác thực HMAC-SHA256 thành công. Mỗi lần đổi đều ghi admin_logs.' });
+    d.edge({ from: 'P', to: 'R', lb: 'admin hoàn tiền', lp: [576, 191] });
+    st('R', 670, 200, 'ĐÃ HOÀN TIỀN', 'refunded', 'gone',
+        { t: 'refunded', d: 'Admin cập nhật thủ công khi hủy đơn đã thanh toán. Ghi admin_logs.' });
+    d.edge({ from: 'R', to: 'e', pts: [[670, 231], [670, 305], [900, 305]] });
+    d.node('e', { shape: 'end', x: 910, y: 320 });
+    d.node('n', { shape: 'note', x: 530, y: 80, w: 340, h: 64, t: 'PaymentStatus độc lập với OrderStatus;\nCOD hoàn tất chưa phải "đã thu tiền" —\nadmin phải xác nhận riêng cho doanh thu đúng.', small: true });
+    return d.mount();
+}
+
+// Admin cap nhat don hang + ghi admin_logs (Sweet Cake) (Sequence)
+function scAdminUpdateOrder(svg, opts) {
+    const H = 700;
+    const d = Sketch(svg, Object.assign({ w: 1060, h: H, seed: 66 }, opts));
+    const C = SC + 'app/Http/Controllers/Admin/OrderController.php';
+    const { msg } = seqKit(d, [
+        { id: 'adm',  x:  90, w: 150, t: 'Admin\n(trình duyệt)' },
+        { id: 'ctrl', x: 360, w: 270, t: 'Admin/OrderController', cls: 'sys' },
+        { id: 'db',   x: 720, w: 160, t: 'orders\n(MySQL)',       cls: 'soft' },
+        { id: 'log',  x: 980, w: 140, t: 'admin_logs\n(MySQL)',   cls: 'warm' },
+    ], H);
+    let y = 112; const n = (dy = 36) => (y += dy);
+    msg('adm', 'ctrl', y, "PATCH /admin/orders/{id}/status");
+    n(10);
+    d.node('vl', { shape: 'note', x: 190, y: n(28), w: 410, h: 46, t: "validate: order_status ∈ ORDER_STATUSES whitelist\n['pending','confirmed','processing','shipping','completed','cancelled']", small: true,
+        info: { c: `$validated = $request->validate([
+    'order_status' => ['required', Rule::in(Order::ORDER_STATUSES)],
+]);`, r: C + ':86' } });
+    msg('ctrl', 'db', n(44), 'UPDATE orders SET order_status=?');
+    msg('db', 'ctrl', n(), 'OK', 'ret');
+    msg('ctrl', 'log', n(), "AdminLog::create(action='update_status',\nold_value, new_value, ip, user_agent)");
+    msg('log', 'ctrl', n(), 'OK', 'ret');
+    msg('ctrl', 'adm', n(), '200 "Trạng thái đơn đã cập nhật"', 'ret');
+    n(24);
+    msg('adm', 'ctrl', n(30), "PATCH /admin/orders/{id}/payment-status");
+    msg('ctrl', 'db', n(), 'UPDATE orders SET payment_status=?');
+    msg('ctrl', 'log', n(), "AdminLog::create(action='update_payment_status', …)");
+    msg('ctrl', 'adm', n(), '200 · hai hành động → hai dòng trong admin_logs', 'ret');
+    d.node('note', { shape: 'note', x: 80, y: n(28), w: 760, h: 44, t: 'OrderStatus và PaymentStatus là hai endpoint riêng — mỗi thay đổi đều ghi admin_logs với IP và user_agent.', small: true });
+    return d.mount();
+}
+
+window.FLOWS = { hmDiscount, hmModify, hmScheduler, hmLogin, scAddCart, scCartSync, scOrder, scMomo, scPromotion, scCancel, scOrderState, scAdminLogin, scMessage, hmChatbot, scDanhGia, hmDepositState, scReviewState, hmCheckinSeq, scOrderSeq, hmWalkIn, hmCheckout, hmForgotPassword, hmPaymentState, hmAsyncEmail, hmConfirmDeposit, scDangKy, scForgotPassword, scShippingAddr, scWishlist, scPaymentState, scAdminUpdateOrder };
 })();
