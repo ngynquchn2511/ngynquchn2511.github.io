@@ -91,5 +91,5 @@ function bpmn(svg = $('ba-bpmn'), opts = P) {
 }
 
 window.BAD = { useCase, bpmn };
-useCase(); bpmn();
+if (!window.BAD_NO_AUTO) { useCase(); bpmn(); }
 })();

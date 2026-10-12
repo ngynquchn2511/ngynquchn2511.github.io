@@ -1,7 +1,7 @@
 /* Trang so-do/luong-dat-phong.html: sidebar accordion 2 cap (san pham → loai → bieu do) */
 (function () {
 'use strict';
-const H = window.HMD, F = window.FLOWS, SC = window.SCD;
+const H = window.HMD, F = window.FLOWS, SC = window.SCD, BA = window.BAD;
 const GROUPS = [
     { name: 'Homestay Mây', sub: 'Spring Boot', icon: 'bi-house-heart', cls: '', items: [
         { id: 'dat-phong',   t: 'Đặt phòng trực tuyến',        k: 'Hoạt động · kịch bản', icon: 'bi-play-circle' },
@@ -21,6 +21,8 @@ const GROUPS = [
             d: 'Chờ xác nhận, đã xác nhận, đã nhận phòng, đã trả phòng, kèm nhánh hủy. Mỗi lần chuyển trạng thái đều có điều kiện bắt buộc.' },
         { id: 'trang-thai-phong', t: 'Trạng thái phòng',        k: 'Trạng thái',           icon: 'bi-door-closed',      fn: H.roomState,
             d: 'AVAILABLE → OCCUPIED → NOT_READY → AVAILABLE, cùng MAINTENANCE; lịch trống luôn tính từ đơn chứ không từ trạng thái phòng.' },
+        { id: 'uc-hm',           t: 'Use Case (18 UC)',          k: 'Use Case',             icon: 'bi-person-circle',    fn: BA.useCase,
+            d: '18 use case của hệ thống đặt phòng: khách vãng lai và khách hàng (kế thừa), lễ tân, quản trị viên và bộ hẹn giờ. Mối quan hệ kế thừa giữa các actor được thể hiện rõ.' },
         { id: 'kien-truc-hm',    t: 'Kiến trúc hệ thống',       k: 'Kiến trúc',            icon: 'bi-diagram-2',        fn: H.architecture,
             d: 'Caddy → Spring Boot: hai <code>SecurityFilterChain</code>, Controller → Service (20 lớp) → JPA → MySQL 8; gửi email bất đồng bộ sau commit; <code>@Scheduled</code> tự hủy đơn quá hạn.' },
         { id: 'erd-hm',          t: 'Mô hình dữ liệu (15 bảng)', k: 'Dữ liệu',             icon: 'bi-table',            fn: H.erd,
@@ -45,6 +47,8 @@ const GROUPS = [
             d: 'Đăng nhập kiểm vai trò và tài khoản bị khóa, tạo lại session; <code>AdminMiddleware</code> kiểm lại ở mọi request.' },
         { id: 'sc-tin-nhan',  t: 'Hỏi đáp & admin trả lời',    k: 'Hoạt động',            icon: 'bi-chat-left-text',   fn: F.scMessage,
             d: 'API công khai giới hạn 10 lần/phút/IP; khách vãng lai phải để lại tên + email; admin trả lời thì khách nhận email.' },
+        { id: 'uc-sc',           t: 'Use Case (18 UC)',          k: 'Use Case',             icon: 'bi-person-circle',    fn: SC.scUseCase,
+            d: '18 use case của Sweet Cake: khách vãng lai (giỏ, đặt hàng, MoMo, hỏi đáp), khách hàng (lịch sử, hủy, đánh giá) và quản trị viên (sản phẩm, đơn hàng, khuyến mãi, banner).' },
         { id: 'kien-truc-sc',    t: 'Kiến trúc hệ thống',       k: 'Kiến trúc',            icon: 'bi-diagram-2',        fn: SC.architecture,
             d: 'Trình duyệt React (Inertia.js) → Laravel 12: Routes → Middleware (auth, admin, throttle) → Controllers → OrderPlacementService → Eloquent (16 model) → MySQL; tích hợp MoMo HMAC-SHA256.' },
         { id: 'erd-sc',          t: 'Mô hình dữ liệu (16 bảng)', k: 'Dữ liệu',             icon: 'bi-table',            fn: SC.erd,
@@ -68,6 +72,7 @@ const TYPE_ICON = {
     'Tác vụ định kỳ': 'bi-alarm',
     'Kiến trúc':      'bi-buildings',
     'Dữ liệu':        'bi-table',
+    'Use Case':       'bi-person-circle',
 };
 const mainType = k => k.split(' · ')[0];
 

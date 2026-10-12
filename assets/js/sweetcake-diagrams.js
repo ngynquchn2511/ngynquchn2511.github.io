@@ -92,6 +92,50 @@ function architecture(svg = $('sc-arch'), opts = P) {
     return d.mount();
 }
 
-window.SCD = { erd, architecture };
+function scUseCase(svg = $('sc-uc'), opts = P) {
+    if (!svg) return;
+    const d = Sketch(svg, Object.assign({ w: 1200, h: 820, seed: 44 }, opts));
+    d.node('sys', { shape: 'box', x: 560, y: 410, w: 640, h: 730, t: 'Hệ thống Sweet Cake' });
+
+    const actor = (id, x, y, t, info) => d.node(id, { shape: 'actor', x, y, t, info });
+    actor('kvl', 100, 200, 'Khách vãng lai', { t: 'Khách vãng lai', d: 'Người dùng chưa đăng nhập. Xem sản phẩm, thêm vào giỏ, đặt hàng COD và gửi tin nhắn được mà không cần tài khoản.' });
+    actor('kh',  100, 590, 'Khách hàng',    { t: 'Khách hàng',    d: 'Đã đăng nhập và xác minh email (<code>auth + verified</code> middleware). Kế thừa toàn bộ chức năng của khách vãng lai, thêm lịch sử đơn, hủy đơn và đánh giá.' });
+    actor('qt', 1100, 400, 'Quản trị viên', { t: 'Quản trị viên', d: 'Quản lý nội dung và đơn hàng. <code>AdminMiddleware</code> kiểm tra vai trò và tài khoản bị khóa ở mọi request; mọi thao tác được ghi vào <code>admin_logs</code>.' });
+
+    /* noi actor → use case (ve truoc de nam duoi node) */
+    const lys_kvl = [90, 160, 230, 300, 370, 440, 510];
+    const lys_kh  = [580, 650, 720];
+    const rys_qt  = [110, 200, 280, 360, 440, 520, 600, 680];
+    lys_kvl.forEach(y => d.edge({ k: 'line', pts: [[124, 200], [275, y]] }));
+    lys_kh.forEach(y  => d.edge({ k: 'line', pts: [[124, 590], [275, y]] }));
+    rys_qt.forEach(y  => d.edge({ k: 'line', pts: [[1076, 400], [845, y]] }));
+
+    const U = (id, x, y, t, info) => d.node(id, { shape: 'ellipse', x, y, w: 250, h: 50, t, small: true, info });
+    /* cot trai — khach */
+    U('u1',  400,  90, 'UC-01 Xem & tìm sản phẩm',         { t: 'UC-01', d: 'Duyệt theo danh mục, tìm kiếm theo tên; sản phẩm ngừng bán ẩn khỏi trang khách.' });
+    U('u2',  400, 160, 'UC-02 Thêm vào giỏ hàng',           { t: 'UC-02', d: 'Kiểm tra còn bán và tồn kho đủ cho tổng sau khi cộng dồn; tăng số lượng hoặc thêm món mới vào giỏ.' });
+    U('u3',  400, 230, 'UC-03 Mở giỏ: đồng bộ kho & giá',  { t: 'UC-03', d: 'Trước khi hiển thị giỏ: bỏ sản phẩm ngừng bán, giảm số lượng vượt tồn kho, cập nhật giá mới nhất.' });
+    U('u4',  400, 300, 'UC-04 Đặt hàng (COD)',               { t: 'UC-04', d: '<code>OrderPlacementService::placeFromCart()</code> dùng chung cho COD, API và MoMo: kiểm tra kho, áp mã, tạo đơn, trừ kho trong cùng một giao dịch.' });
+    U('u5',  400, 370, 'UC-05 Thanh toán MoMo',              { t: 'UC-05', d: 'Hệ thống tạo đơn trước, chuyển sang cổng MoMo; IPN và redirect đều được xác thực chữ ký HMAC-SHA256 trước khi ghi nhận.' });
+    U('u6',  400, 440, 'UC-06 Kiểm tra mã khuyến mãi',      { t: 'UC-06', d: 'Chuỗi kiểm tra: tồn tại, đang bật, trong hạn, còn lượt, đạt đơn tối thiểu, rồi tính giảm có trần.' });
+    U('u7',  400, 510, 'UC-07 Gửi tin nhắn hỏi đáp',        { t: 'UC-07', d: 'API công khai giới hạn 10 lần/phút/IP. Khách vãng lai để lại tên + email; khách đăng nhập được gắn tài khoản.' });
+    U('u8',  400, 580, 'UC-08 Xem lịch sử đơn hàng');
+    U('u9',  400, 650, 'UC-09 Hủy đơn',                     { t: 'UC-09', d: 'Chỉ hủy đơn của chính mình khi còn pending / confirmed; tồn kho cộng lại trong cùng giao dịch.' });
+    U('u10', 400, 720, 'UC-10 Đánh giá sản phẩm',           { t: 'UC-10', d: 'Chỉ đánh giá sản phẩm thuộc đơn đã hoàn tất của chính mình; đánh giá mới ở trạng thái chờ duyệt.' });
+    /* cot phai — quan tri */
+    U('u11', 720, 110, 'UC-11 Quản lý sản phẩm & danh mục');
+    U('u12', 720, 200, 'UC-12 Quản lý & cập nhật đơn hàng');
+    U('u13', 720, 280, 'UC-13 Quản lý mã khuyến mãi');
+    U('u14', 720, 360, 'UC-14 Trả lời tin nhắn khách');
+    U('u15', 720, 440, 'UC-15 Xem doanh thu & thống kê');
+    U('u16', 720, 520, 'UC-16 Quản lý banner trang chủ');
+    U('u17', 720, 600, 'UC-17 Duyệt & ẩn đánh giá');
+    U('u18', 720, 680, 'UC-18 Quản lý tài khoản khách');
+
+    d.edge({ k: 'inherit', pts: [d.A('kh', 't'), d.A('kvl', 'b')] });
+    return d.mount();
+}
+
+window.SCD = { erd, architecture, scUseCase };
 if (!window.SCD_NO_AUTO) { erd(); architecture(); }
 })();
