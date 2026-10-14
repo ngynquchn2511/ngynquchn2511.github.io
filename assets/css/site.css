@@ -121,7 +121,7 @@ pre.code .s { color: var(--mint); }
 .tabs button { font: inherit; font-size: .88rem; font-weight: 700; padding: .45rem .9rem; border: var(--line); border-radius: 10px; background: var(--paper);
     color: var(--ink); cursor: pointer; box-shadow: 3px 3px 0 var(--baby); transition: transform .12s, box-shadow .12s, background .15s; }
 .tabs button:hover { background: var(--baby-soft); }
-.tabs button[aria-selected="true"] { background: var(--sun); box-shadow: 3px 3px 0 var(--ink); }
+.tabs button[aria-selected="true"] { background: var(--baby); box-shadow: 3px 3px 0 var(--ink); }
 [role="tabpanel"][hidden] { display: none; }
 
 /* ---------- Lightbox ---------- */
